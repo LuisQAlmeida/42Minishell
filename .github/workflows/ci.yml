@@ -1,0 +1,23 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build (if Makefile exists)
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -f Makefile ]; then
+            make
+          else
+            echo "No Makefile yet, skipping build."
+          fi
