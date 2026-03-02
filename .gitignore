@@ -1,0 +1,89 @@
+# Ubuntu-specific
+*~                     # Backup files (e.g., vim, emacs)
+*.bak                  # Backup files
+
+# Vim
+*.swp                  # Vim swap files
+*.swo                  # Vim swap files
+*.un~                  # Vim undo files
+.vim/
+
+# Emacs
+*~                     # Emacs backup files
+# Auto-save files
+# These are created by Emacs when editing a file, and usually start with # and end with #
+.#*                    # Emacs auto-save files
+*.elc                  # Compiled Emacs Lisp files
+.emacs.d/              # Emacs configuration directory
+
+# VSCode
+.vscode/               # VSCode workspace settings
+*.code-workspace
+
+# macOS and Windows (for cross-platform compatibility)
+.DS_Store
+Thumbs.db
+
+# Node (if using node.js tools)
+node_modules/
+
+# Logs and temp files
+*.log
+*.tmp
+
+# Obsidian (if using for notes)
+.obsidian/
+
+# C
+## Prerequisites
+*.d
+
+## Object files
+*.o
+*.ko
+*.obj
+*.elf
+
+## Linker output
+*.ilk
+*.map
+*.exp
+
+## Precompiled Headers
+*.gch
+*.pch
+
+## Libraries
+*.lib
+*.a
+*.la
+*.lo
+
+## Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+*.dylib
+
+## Executables
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+
+## Debug files
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+## Kernel Module Compile Results
+*.mod*
+*.cmd
+.tmp_versions/
+modules.order
+Module.symvers
+Mkfile.old
+dkms.conf
