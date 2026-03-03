@@ -1,3 +1,15 @@
+# Project outputs
+minishell
+obj/
+
+# Debug / crash dumps
+core
+core.*
+vgcore.*
+
+# Tooling
+compile_commands.json
+
 # Ubuntu-specific
 *~                     # Backup files (e.g., vim, emacs)
 *.bak                  # Backup files
