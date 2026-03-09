@@ -76,7 +76,7 @@ This keeps work small, reviewable, and easy to trace.
 Create `.github/CODEOWNERS`:
 
 ```txt
-* @LuisQAlmeida @JOAO_GITHUB_USERNAME
+* @LuisQAlmeida @xSilverWasHere
 ```
 
 Effect:
