@@ -1,14 +1,6 @@
 #include "../include/minishell.h"
 #include <ctype.h>
 
-// para testar:
-// cc -Wall -Wextra -Werror src/tokenize/token_utils.c tests/tokenizewords.c  -Iinclude -o tokentest ./tokentest
-// correr ./tokentest "escrever varias strings"
-// o output vai dizer o type de token (neste caso 0 porque na struct sera o primeiro) e o value dele(neste caso a palavra)
-// o output repete para todas as palavras
-// essencialmente, neste momento esta capaz de identificar palavras e ignorar spaces e \0
-// proximo passo = fazer o tokenizer identificar os restantes types.
-
 static int	ft_strlen(const char *str)
 {
 	int	i;
