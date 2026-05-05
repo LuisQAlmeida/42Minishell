@@ -22,8 +22,18 @@ typedef struct s_token
     struct s_token  *next;
 }   t_token;
 
+typedef enum e_err
+{
+    ERR_NONE,
+    ERR_MALLOC,
+    ERR_UNCLOSED_QUOTE
+}   t_err;
+
+t_token *tokenize_line(const char *line, t_err *err);
 t_token *token_new(t_toktype type, char *value);
 void    token_add_back(t_token **lst, t_token *new_tok);
 void    free_tokens(t_token *lst);
+int     ft_strlen(const char *str);
+char    *ft_substr(char const *s, unsigned int start, size_t len);
 
 #endif
