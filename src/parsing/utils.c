@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include <string.h>
 
 int	ft_strlen(const char *str)
 {
@@ -10,14 +11,24 @@ int	ft_strlen(const char *str)
 	return (i);
 }
 
+static void	ft_strncpy(char *dest, const char *src, size_t len)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < len)
+	{
+		dest[i] = src[i];
+		i++;
+	}
+}
+
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	size_t			i;
-	char			*sub;
-	unsigned int	slen;
+	size_t	slen;
+	char	*sub;
 
 	slen = ft_strlen(s);
-	sub = 0;
 	if (start >= slen)
 	{
 		sub = malloc(1);
@@ -27,15 +38,30 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	}
 	if (len > slen - start)
 		len = slen - start;
-	sub = malloc((len + 1) * sizeof(char));
+	sub = malloc(len + 1);
 	if (!sub)
 		return (NULL);
-	i = 0;
-	while (i < len)
-	{
-		sub[i] = s[start + i];
-		i++;
-	}
-	sub[i] = '\0';
+	ft_strncpy(sub, s + start, len);
+	sub[len] = '\0';
 	return (sub);
+}
+
+char	*ms_strjoin_free(char *s1, char *s2)
+{
+	size_t	len1;
+	size_t	len2;
+	char	*res;
+
+	len1 = s1 ? ft_strlen(s1) : 0;
+	len2 = s2 ? ft_strlen(s2) : 0;
+	res = malloc(len1 + len2 + 1);
+	if (!res)
+		return (NULL);
+	if (len1)
+		memcpy(res, s1, len1);
+	if (len2)
+		memcpy(res + len1, s2, len2);
+	res[len1 + len2] = '\0';
+	free(s1);
+	return (res);
 }

@@ -48,3 +48,19 @@ void    free_tokens(t_token *lst)
         lst = next;
     }
 }
+
+int	try_add_token(t_token **head, char *word, t_err *err)
+{
+	t_token	*new_tok;
+
+	new_tok = token_new(TOK_WORD, word);
+	if (!new_tok)
+	{
+		free(word);
+		free_tokens(*head);
+		*err = ERR_MALLOC;
+		return (0);
+	}
+	token_add_back(head, new_tok);
+	return (1);
+}
