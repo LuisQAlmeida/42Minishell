@@ -1,33 +1,57 @@
 #include "minishell.h"
 
-static void print_tokens(t_token *list)
+static void	print_tokens(t_token *list)
 {
-    while (list)
-    {
-        printf("type=%d value=%s\n",
-            list->type,
-            list->value ? list->value : "(null)");
-        list = list->next;
-    }
+	const char	*val;
+
+	while (list)
+	{
+		val = list->value;
+		if (!val)
+			val = "(null)";
+		printf("type=%d value=%s\n", list->type, val);
+		list = list->next;
+	}
 }
 
-int main(int ac, char **av)
+static int	print_err(const char *msg)
 {
-    t_token *list;
-    t_err    err;
+	printf("%s\n", msg);
+	return (1);
+}
 
-    if (ac != 2)
-    {
-        printf("Usage: %s \"command line\"\n", av[0]);
-        return (1);
-    }
-    list = tokenize_line(av[1], &err);
-    if (!list && err == ERR_UNCLOSED_QUOTE)
-        printf("minishell: syntax error: unclosed quote\n");
-    else if (!list && err == ERR_MALLOC)
-        printf("minishell: error: malloc failed\n");
-    else
-        print_tokens(list);
-    free_tokens(list);
-    return (0);
+static int	run_once(const char *line, char **envp)
+{
+	t_token	*list;
+	t_cmd	*cmd;
+	t_err	err;
+	int		status;
+
+	list = tokenize_line(line, &err);
+	if (!list && err == ERR_UNCLOSED_QUOTE)
+		return (print_err("minishell: syntax error: unclosed quote"));
+	if (!list && err == ERR_MALLOC)
+		return (print_err("minishell: error: malloc failed"));
+	cmd = parse_simple_cmd(list, &err);
+	if (!cmd && err == ERR_MALLOC)
+	{
+		free_tokens(list);
+		return (print_err("minishell: error: malloc failed"));
+	}
+	print_tokens(list);
+	status = exec_simple_cmd(cmd, envp);
+	printf("exit status = %d\n", status);
+	free_cmd(cmd);
+	free_tokens(list);
+	return (status);
+}
+
+int	main(int ac, char **av, char **envp)
+{
+	if (ac != 2)
+	{
+		printf("Usage: %s \"command line\"\n", av[0]);
+		return (1);
+	}
+	return (run_once(av[1], envp));
 }
