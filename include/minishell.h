@@ -33,7 +33,10 @@ t_token *tokenize_line(const char *line, t_err *err);
 t_token *token_new(t_toktype type, char *value);
 void    token_add_back(t_token **lst, t_token *new_tok);
 void    free_tokens(t_token *lst);
+int     try_add_token(t_token **head, char *word, t_err *err);
+
 int     ft_strlen(const char *str);
 char    *ft_substr(char const *s, unsigned int start, size_t len);
+char    *ms_strjoin_free(char *s1, char *s2);
 
 #endif
