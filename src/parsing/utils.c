@@ -46,22 +46,26 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (sub);
 }
 
-char	*ms_strjoin_free(char *s1, char *s2)
+char    *ms_strjoin_free(char *s1, char *s2)
 {
-	size_t	len1;
-	size_t	len2;
-	char	*res;
+    size_t  len1;
+    size_t  len2;
+    char    *res;
 
-	len1 = s1 ? ft_strlen(s1) : 0;
-	len2 = s2 ? ft_strlen(s2) : 0;
-	res = malloc(len1 + len2 + 1);
-	if (!res)
-		return (NULL);
-	if (len1)
-		memcpy(res, s1, len1);
-	if (len2)
-		memcpy(res + len1, s2, len2);
-	res[len1 + len2] = '\0';
-	free(s1);
-	return (res);
+    len1 = 0;
+    if (s1)
+        len1 = ft_strlen(s1);
+    len2 = 0;
+    if (s2)
+        len2 = ft_strlen(s2);
+    res = malloc(len1 + len2 + 1);
+    if (!res)
+        return (NULL);
+    if (len1)
+        memcpy(res, s1, len1);
+    if (len2)
+        memcpy(res + len1, s2, len2);
+    res[len1 + len2] = '\0';
+    free(s1);
+    return (res);
 }

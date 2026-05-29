@@ -4,6 +4,16 @@
 
 NAME = minishell
 
+VAL_NAME = minishell_val
+
+VAL_SRCS = $(SRC_DIR)/tests/token_parser_test.c \
+           $(SRC_DIR)/parsing/tokenize_line.c \
+           $(SRC_DIR)/parsing/token_utils.c \
+           $(SRC_DIR)/parsing/utils.c \
+           $(SRC_DIR)/parsing/cmd.c
+
+VAL_OBJS = $(VAL_SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 RM = rm -f
@@ -15,7 +25,9 @@ OBJ_DIR = obj
 SRCS = $(SRC_DIR)/main.c \
        $(SRC_DIR)/parsing/tokenize_line.c \
        $(SRC_DIR)/parsing/token_utils.c \
-       $(SRC_DIR)/parsing/utils.c
+       $(SRC_DIR)/parsing/utils.c \
+       $(SRC_DIR)/parsing/cmd.c \
+       $(SRC_DIR)/exec/exec_simple.c
 
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
@@ -37,6 +49,9 @@ clean:
 fclean: clean
 	$(RM) $(NAME)
 	$(RM) -rf $(OBJ_DIR)
+
+valgrind_test: $(VAL_OBJS)
+	$(CC) $(CFLAGS) $(VAL_OBJS) -I$(INC_DIR) -o $(VAL_NAME)
 
 re: fclean all
 
