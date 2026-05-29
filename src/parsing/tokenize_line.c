@@ -65,7 +65,7 @@ static char	*read_plain_segment(const char *line, size_t *i, t_err *err)
 	return (seg);
 }
 
-static char *read_word(const char *line, size_t *i, t_err *err)
+static char	*read_word(const char *line, size_t *i, t_err *err)
 {
     char    *word;
     char    *seg;
