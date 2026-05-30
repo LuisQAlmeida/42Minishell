@@ -1,5 +1,4 @@
-#include "../include/minishell.h"
-#include <ctype.h>
+#include "minishell.h"
 
 t_token *tokenize_words_only(const char *line)
 {
@@ -13,12 +12,12 @@ t_token *tokenize_words_only(const char *line)
     
     while (line[i])
     {
-        while (isspace(line[i]))
+        while (ms_isspace(line[i]))
             i++;
         if (line[i] == '\0')
             break ;
         start = i;
-        while (!isspace(line[i]) && line[i] != '\0')
+        while (!ms_isspace(line[i]) && line[i] != '\0')
             i++;
         word = ft_substr(line, start, i - start);
         token_add_back(&head, token_new(TOK_WORD, word));
