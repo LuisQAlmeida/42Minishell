@@ -3,10 +3,9 @@
 
 # include <stdlib.h>
 # include <stdio.h>
-# include <string.h>
-# include <ctype.h>
 # include <unistd.h>
 # include <sys/wait.h>
+# include "libft.h"
 
 typedef enum e_toktype
 {
@@ -49,9 +48,12 @@ t_cmd	*parse_simple_cmd(t_token *tokens, t_err *err);
 void	free_cmd(t_cmd *cmd);
 
 int		exec_simple_cmd(t_cmd *cmd, char **envp);
+char	*find_in_path(const char *cmd, char **envp);
+int		ms_is_path(const char *cmd);
 
-int		ft_strlen(const char *str);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
+int		ms_isspace(char c);
 char	*ms_strjoin_free(char *s1, char *s2);
+char	*read_single_quoted(const char *line, size_t *i, t_err *err);
+char	*read_double_quoted(const char *line, size_t *i, t_err *err);
 
 #endif

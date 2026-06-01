@@ -1,5 +1,4 @@
 #include "minishell.h"
-#include <stdlib.h>
 
 t_token	*token_new(t_toktype type, char *value)
 {
@@ -34,19 +33,6 @@ void	token_add_back(t_token **lst, t_token *new_tok)
 	}
 	last = last_token(*lst);
 	last->next = new_tok;
-}
-
-void	free_tokens(t_token *lst)
-{
-	t_token	*next;
-
-	while (lst)
-	{
-		next = lst->next;
-		free(lst->value);
-		free(lst);
-		lst = next;
-	}
 }
 
 int	try_add_token(t_token **head, char *word, t_err *err)
