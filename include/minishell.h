@@ -9,12 +9,12 @@
 
 typedef enum e_toktype
 {
-	TOK_WORD, // 0
-	TOK_PIPE, // 1
-	TOK_REDIR_IN, // 2
-	TOK_REDIR_OUT, // 3
-	TOK_HEREDOC, // 4
-	TOK_APPEND // 5
+	TOK_WORD,
+	TOK_PIPE,
+	TOK_REDIR_IN,
+	TOK_REDIR_OUT,
+	TOK_HEREDOC,
+	TOK_APPEND
 }	t_toktype;
 
 typedef struct s_token
@@ -46,6 +46,9 @@ int		add_op_token(t_token **head, t_toktype type, t_err *err);
 
 t_cmd	*parse_simple_cmd(t_token *tokens, t_err *err);
 void	free_cmd(t_cmd *cmd);
+
+int		main_loop(char **envp);
+int		run_once(const char *line, char **envp);
 
 int		exec_simple_cmd(t_cmd *cmd, char **envp);
 char	*find_in_path(const char *cmd, char **envp);
