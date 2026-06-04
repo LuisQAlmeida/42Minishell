@@ -1,4 +1,5 @@
 #include <readline/readline.h>
+#include <readline/history.h>
 #include "minishell.h"
 
 static int	is_blank_line(const char *line)
@@ -27,8 +28,10 @@ int	main_loop(char **envp)
 			free(line);
 			continue ;
 		}
+		add_history(line);
 		status = run_once(line, envp);
 		free(line);
 	}
+	rl_clear_history();
 	return (status);
 }
