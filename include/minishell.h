@@ -5,6 +5,7 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <sys/wait.h>
+# include <signal.h>
 # include "libft.h"
 
 typedef enum e_toktype
@@ -47,6 +48,9 @@ int		add_op_token(t_token **head, t_toktype type, t_err *err);
 t_cmd	*parse_simple_cmd(t_token *tokens, t_err *err);
 void	free_cmd(t_cmd *cmd);
 
+extern volatile sig_atomic_t	g_signal;
+
+void	setup_interactive_signals(void);
 int		main_loop(char **envp);
 int		run_once(const char *line, char **envp);
 

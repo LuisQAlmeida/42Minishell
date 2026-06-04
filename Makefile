@@ -22,6 +22,7 @@ INCLUDES = -I$(INC_DIR) -I$(LIBFT_DIR)
 SRCS = $(SRC_DIR)/main.c \
 	$(SRC_DIR)/shell/main_loop.c \
 	$(SRC_DIR)/shell/run_once.c \
+	$(SRC_DIR)/signals/signals.c \
 	$(SRC_DIR)/parsing/tokenize_line.c \
 	$(SRC_DIR)/parsing/token_quoted.c \
 	$(SRC_DIR)/parsing/token_utils.c \

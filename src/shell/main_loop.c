@@ -17,6 +17,7 @@ int	main_loop(char **envp)
 	int		status;
 
 	status = 0;
+	setup_interactive_signals();
 	while (1)
 	{
 		line = readline("minishell$ ");
