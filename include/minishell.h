@@ -67,7 +67,8 @@ int		ms_is_path(const char *cmd);
 int		ms_isspace(char c);
 char	*ms_strjoin_free(char *s1, char *s2);
 char	*read_single_quoted(const char *line, size_t *i, t_err *err);
-char	*read_double_quoted(const char *line, size_t *i, t_err *err);
+char	*read_double_quoted(const char *line, size_t *i,
+			t_shell *shell, t_err *err);
 
 int		ms_is_var_start(char c);
 int		ms_is_var_char(char c);

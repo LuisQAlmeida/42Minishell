@@ -43,7 +43,7 @@ static char	*read_word(const char *line, size_t *i,
 		if (line[*i] == '\'')
 			seg = read_single_quoted(line, i, err);
 		else if (line[*i] == '\"')
-			seg = read_double_quoted(line, i, err);
+			seg = read_double_quoted(line, i, shell, err);
 		else
 			seg = read_plain_segment(line, i, shell, err);
 		if (!seg || *err != ERR_NONE)
