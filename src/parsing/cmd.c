@@ -47,17 +47,28 @@ static char	**build_argv(t_token *tok, int argc, t_err *err)
 		{
 			argv[i] = ft_substr(tok->value, 0, ft_strlen(tok->value));
 			if (!argv[i])
-			{
-				*err = ERR_MALLOC;
-				free_argv(argv, i);
-				return (NULL);
-			}
+				return (free_argv(argv, i), *err = ERR_MALLOC, NULL);
 			i++;
 		}
 		tok = tok->next;
 	}
 	argv[i] = NULL;
 	return (argv);
+}
+
+static t_cmd	*cmd_new(int argc, t_err *err)
+{
+	t_cmd	*cmd;
+
+	cmd = malloc(sizeof(t_cmd));
+	if (!cmd)
+	{
+		*err = ERR_MALLOC;
+		return (NULL);
+	}
+	cmd->argc = argc;
+	cmd->argv = NULL;
+	return (cmd);
 }
 
 t_cmd	*parse_simple_cmd(t_token *tokens, t_err *err)
@@ -71,34 +82,11 @@ t_cmd	*parse_simple_cmd(t_token *tokens, t_err *err)
 	argc = count_args(tokens);
 	if (argc == 0)
 		return (NULL);
-	cmd = malloc(sizeof(t_cmd));
+	cmd = cmd_new(argc, err);
 	if (!cmd)
-	{
-		*err = ERR_MALLOC;
 		return (NULL);
-	}
-	cmd->argc = argc;
 	cmd->argv = build_argv(tokens, argc, err);
 	if (!cmd->argv)
-	{
-		free(cmd);
-		return (NULL);
-	}
+		return (free(cmd), NULL);
 	return (cmd);
-}
-
-void	free_cmd(t_cmd *cmd)
-{
-	int	i;
-
-	if (!cmd)
-		return ;
-	i = 0;
-	while (cmd->argv && i < cmd->argc)
-	{
-		free(cmd->argv[i]);
-		i++;
-	}
-	free(cmd->argv);
-	free(cmd);
 }

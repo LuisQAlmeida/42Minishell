@@ -26,11 +26,13 @@ SRCS = $(SRC_DIR)/main.c \
 	$(SRC_DIR)/expansion/expand_utils.c \
 	$(SRC_DIR)/signals/signals.c \
 	$(SRC_DIR)/parsing/tokenize_line.c \
+	$(SRC_DIR)/parsing/read_word.c \
 	$(SRC_DIR)/parsing/token_quoted.c \
 	$(SRC_DIR)/parsing/token_utils.c \
 	$(SRC_DIR)/parsing/token_free.c \
 	$(SRC_DIR)/parsing/utils.c \
 	$(SRC_DIR)/parsing/cmd.c \
+	$(SRC_DIR)/parsing/cmd_free.c \
 	$(SRC_DIR)/exec/exec_simple.c \
 	$(SRC_DIR)/exec/exec_path.c \
 	$(SRC_DIR)/utils/ms_ctype.c
@@ -39,11 +41,13 @@ OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 VAL_OBJS = $(OBJ_DIR)/tests/parsing/token_parser_test.o \
 	$(OBJ_DIR)/parsing/tokenize_line.o \
+	$(OBJ_DIR)/parsing/read_word.o \
 	$(OBJ_DIR)/parsing/token_quoted.o \
 	$(OBJ_DIR)/parsing/token_utils.o \
 	$(OBJ_DIR)/parsing/token_free.o \
 	$(OBJ_DIR)/parsing/utils.o \
 	$(OBJ_DIR)/parsing/cmd.o \
+	$(OBJ_DIR)/parsing/cmd_free.o \
 	$(OBJ_DIR)/utils/ms_ctype.o
 
 all: $(NAME)
