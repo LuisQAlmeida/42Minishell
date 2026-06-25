@@ -1,15 +1,17 @@
 #include "minishell.h"
 
-static char	*copy_env_value(char *name, t_shell *shell, t_err *err)
+static char	*expand_last_status(const char *str, size_t *i,
+		t_shell *shell, t_err *err)
 {
-	char	*value;
-	char	*copy;
+	char	*part;
 
-	value = ms_getenv_value(name, shell->envp);
-	copy = ft_substr(value, 0, ft_strlen(value));
-	if (!copy)
+	if (str[*i] != '?')
+		return (NULL);
+	(*i)++;
+	part = ft_itoa(shell->last_status);
+	if (!part)
 		*err = ERR_MALLOC;
-	return (copy);
+	return (part);
 }
 
 static char	*expand_dollar(const char *str, size_t *i,
@@ -20,6 +22,9 @@ static char	*expand_dollar(const char *str, size_t *i,
 	char	*part;
 
 	(*i)++;
+	part = expand_last_status(str, i, shell, err);
+	if (part || *err != ERR_NONE)
+		return (part);
 	if (!ms_is_var_start(str[*i]))
 		return (ft_substr("$", 0, 1));
 	start = *i;

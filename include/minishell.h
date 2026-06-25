@@ -72,6 +72,7 @@ char	*read_double_quoted(const char *line, size_t *i, t_err *err);
 int		ms_is_var_start(char c);
 int		ms_is_var_char(char c);
 char	*ms_getenv_value(const char *name, char **envp);
+char	*copy_env_value(char *name, t_shell *shell, t_err *err);
 char	*expand_env_vars(const char *str, t_shell *shell, t_err *err);
 
 #endif
