@@ -58,6 +58,52 @@ Single-quoted segments are read separately and intentionally do not call expansi
 | `echo $THIS_VAR_DOES_NOT_EXISTafter`  | Looks for `THIS_VAR_DOES_NOT_EXISTafter` and expands to empty |
 | `echo "$USERhello"`                   | Looks for `USERhello` and expands to empty if missing         |
 
+## MSH-52 - Final Manual Validation
+
+Final validation completed for mandatory expansion behavior.
+
+Checks performed:
+
+* clean build with `make fclean && make`
+* unquoted variable expansion
+* double quote variable expansion
+* single quote literal preservation
+* last exit status expansion with `$?`
+* missing variable expansion to empty string
+* literal `$` behavior
+* unclosed quote syntax errors
+* shell continuity after syntax errors
+* basic Valgrind pass
+
+Validated behavior:
+
+* `$USER` expands outside quotes.
+* `$USER` expands inside double quotes.
+* `$USER` stays literal inside single quotes.
+* `$HOME` expands outside quotes.
+* `$HOME` expands inside double quotes.
+* `$HOME` stays literal inside single quotes.
+* `$?` expands outside quotes.
+* `$?` expands inside double quotes.
+* `$?` stays literal inside single quotes.
+* Missing variables expand to an empty string.
+* `$USERhello` is parsed as variable `USERhello`.
+* `$` alone stays literal.
+* Unclosed quotes return a syntax error and the shell stays interactive.
+* Concatenated quoted and unquoted segments still form one word when appropriate.
+
+Valgrind summary:
+
+* no definitely lost leaks
+* no indirectly lost leaks
+* no possibly lost leaks
+* no Valgrind error summary entries
+
+Known notes:
+
+* `still reachable` blocks are expected from `readline`/`libtinfo`.
+* Child-process Valgrind output may show inherited reachable memory when external command execution exits through `_exit()`.
+
 ## Notes
 
 `$USERhello` is parsed as variable `USERhello`, not as `$USER` followed by `hello`.
