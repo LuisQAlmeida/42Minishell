@@ -38,6 +38,12 @@ typedef struct s_cmd
 	int		argc;
 }	t_cmd;
 
+typedef struct s_shell
+{
+	char	**envp;
+	int		last_status;
+}	t_shell;
+
 t_token	*tokenize_line(const char *line, t_err *err);
 t_token	*token_new(t_toktype type, char *value);
 void	token_add_back(t_token **lst, t_token *new_tok);
@@ -52,7 +58,7 @@ extern volatile sig_atomic_t	g_signal;
 
 void	setup_interactive_signals(void);
 int		main_loop(char **envp);
-int		run_once(const char *line, char **envp);
+int		run_once(const char *line, t_shell *shell);
 
 int		exec_simple_cmd(t_cmd *cmd, char **envp);
 char	*find_in_path(const char *cmd, char **envp);
