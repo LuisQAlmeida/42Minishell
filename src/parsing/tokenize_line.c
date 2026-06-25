@@ -1,9 +1,11 @@
 #include "minishell.h"
 
-static char	*read_plain_segment(const char *line, size_t *i, t_err *err)
+static char	*read_plain_segment(const char *line, size_t *i,
+		t_shell *shell, t_err *err)
 {
 	size_t	start;
 	char	*seg;
+	char	*expanded;
 
 	start = *i;
 	while (line[*i]
@@ -16,11 +18,17 @@ static char	*read_plain_segment(const char *line, size_t *i, t_err *err)
 		(*i)++;
 	seg = ft_substr(line, start, *i - start);
 	if (!seg)
+	{
 		*err = ERR_MALLOC;
-	return (seg);
+		return (NULL);
+	}
+	expanded = expand_env_vars(seg, shell, err);
+	free(seg);
+	return (expanded);
 }
 
-static char	*read_word(const char *line, size_t *i, t_err *err)
+static char	*read_word(const char *line, size_t *i,
+		t_shell *shell, t_err *err)
 {
 	char	*word;
 	char	*seg;
@@ -37,7 +45,7 @@ static char	*read_word(const char *line, size_t *i, t_err *err)
 		else if (line[*i] == '\"')
 			seg = read_double_quoted(line, i, err);
 		else
-			seg = read_plain_segment(line, i, err);
+			seg = read_plain_segment(line, i, shell, err);
 		if (!seg || *err != ERR_NONE)
 			return (word);
 		word = ms_strjoin_free(word, seg);
@@ -83,7 +91,7 @@ static int	add_operator_token(const char *line, size_t *i,
 	return (1);
 }
 
-t_token	*tokenize_line(const char *line, t_err *err)
+t_token	*tokenize_line(const char *line, t_shell *shell, t_err *err)
 {
 	t_token	*head;
 	char	*word;
@@ -104,7 +112,7 @@ t_token	*tokenize_line(const char *line, t_err *err)
 				return (NULL);
 			continue ;
 		}
-		word = read_word(line, &i, err);
+		word = read_word(line, &i, shell, err);
 		if (!word || *err != ERR_NONE)
 		{
 			if (word)

@@ -44,7 +44,7 @@ typedef struct s_shell
 	int		last_status;
 }	t_shell;
 
-t_token	*tokenize_line(const char *line, t_err *err);
+t_token	*tokenize_line(const char *line, t_shell *shell, t_err *err);
 t_token	*token_new(t_toktype type, char *value);
 void	token_add_back(t_token **lst, t_token *new_tok);
 void	free_tokens(t_token *lst);
@@ -68,5 +68,10 @@ int		ms_isspace(char c);
 char	*ms_strjoin_free(char *s1, char *s2);
 char	*read_single_quoted(const char *line, size_t *i, t_err *err);
 char	*read_double_quoted(const char *line, size_t *i, t_err *err);
+
+int		ms_is_var_start(char c);
+int		ms_is_var_char(char c);
+char	*ms_getenv_value(const char *name, char **envp);
+char	*expand_env_vars(const char *str, t_shell *shell, t_err *err);
 
 #endif

@@ -26,7 +26,7 @@ int	run_once(const char *line, t_shell *shell)
 	t_cmd	*cmd;
 	t_err	err;
 
-	list = tokenize_line(line, &err);
+	list = tokenize_line(line, shell, &err);
 	if (!list && err == ERR_UNCLOSED_QUOTE)
 		return (print_err("minishell: syntax error: unclosed quote"));
 	if (!list && err == ERR_MALLOC)
