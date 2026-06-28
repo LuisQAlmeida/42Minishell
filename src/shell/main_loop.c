@@ -14,10 +14,11 @@ static int	is_blank_line(const char *line)
 
 int	main_loop(char **envp)
 {
+	t_shell	shell;
 	char	*line;
-	int		status;
 
-	status = 0;
+	shell.envp = envp;
+	shell.last_status = 0;
 	setup_interactive_signals();
 	while (1)
 	{
@@ -30,9 +31,9 @@ int	main_loop(char **envp)
 			continue ;
 		}
 		add_history(line);
-		status = run_once(line, envp);
+		shell.last_status = run_once(line, &shell);
 		free(line);
 	}
 	rl_clear_history();
-	return (status);
+	return (shell.last_status);
 }
