@@ -144,9 +144,16 @@ int		ms_is_path(const char *cmd);
 
 int		is_builtin(const char *cmd);
 int		exec_builtin(t_cmd *cmd, t_shell *shell);
+int		exec_builtin_parent(t_cmd *cmd, t_shell *shell);
 int		builtin_echo(t_cmd *cmd);
 int		builtin_pwd(void);
 int		builtin_env(t_shell *shell);
+
+/* ************************************************************************** */
+/*                              ENVIRONMENT                                   */
+/* ************************************************************************** */
+
+char	**env_dup(char **envp);
 
 /* ************************************************************************** */
 /*                                EXPANSION                                   */
