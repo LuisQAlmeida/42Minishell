@@ -30,7 +30,7 @@ static void	exec_from_path(t_cmd *cmd, char **envp)
 	_exit(126);
 }
 
-static void	exec_child(t_cmd *cmd, char **envp)
+static void	exec_child(t_cmd *cmd, t_shell *shell)
 {
 	int	status;
 
@@ -39,13 +39,15 @@ static void	exec_child(t_cmd *cmd, char **envp)
 		_exit(status);
 	if (cmd->argc == 0)
 		_exit(0);
+	if (is_builtin(cmd->argv[0]))
+		_exit(exec_builtin(cmd, shell));
 	if (ms_is_path(cmd->argv[0]))
-		exec_path_cmd(cmd, envp);
+		exec_path_cmd(cmd, shell->envp);
 	else
-		exec_from_path(cmd, envp);
+		exec_from_path(cmd, shell->envp);
 }
 
-int	exec_simple_cmd(t_cmd *cmd, char **envp)
+int	exec_simple_cmd(t_cmd *cmd, t_shell *shell)
 {
 	pid_t	pid;
 	int		status;
@@ -63,7 +65,7 @@ int	exec_simple_cmd(t_cmd *cmd, char **envp)
 	if (pid == 0)
 	{
 		setup_child_signals();
-		exec_child(cmd, envp);
+		exec_child(cmd, shell);
 	}
 	return (wait_child(pid));
 }

@@ -22,6 +22,10 @@ INCLUDES = -I$(INC_DIR) -I$(LIBFT_DIR)
 SRCS = $(SRC_DIR)/main.c \
 	$(SRC_DIR)/shell/main_loop.c \
 	$(SRC_DIR)/shell/run_once.c \
+	$(SRC_DIR)/builtins/builtin_dispatch.c \
+	$(SRC_DIR)/builtins/builtin_echo.c \
+	$(SRC_DIR)/builtins/builtin_pwd.c \
+	$(SRC_DIR)/builtins/builtin_env.c \
 	$(SRC_DIR)/expansion/expand_env.c \
 	$(SRC_DIR)/expansion/expand_utils.c \
 	$(SRC_DIR)/signals/signals.c \

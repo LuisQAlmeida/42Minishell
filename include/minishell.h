@@ -125,7 +125,7 @@ void	setup_child_signals(void);
 /*                               EXECUTION                                    */
 /* ************************************************************************** */
 
-int		exec_simple_cmd(t_cmd *cmd, char **envp);
+int		exec_simple_cmd(t_cmd *cmd, t_shell *shell);
 int		exec_redir_only(t_cmd *cmd);
 int		wait_child(pid_t pid);
 int		apply_redirs(t_cmd *cmd, int *status);
@@ -137,6 +137,16 @@ int		prepare_redirs(t_cmd *cmd, int *status);
 int		setup_heredoc(const char *delim, int *fd, int *status);
 char	*find_in_path(const char *cmd, char **envp);
 int		ms_is_path(const char *cmd);
+
+/* ************************************************************************** */
+/*                                BUILTINS                                    */
+/* ************************************************************************** */
+
+int		is_builtin(const char *cmd);
+int		exec_builtin(t_cmd *cmd, t_shell *shell);
+int		builtin_echo(t_cmd *cmd);
+int		builtin_pwd(void);
+int		builtin_env(t_shell *shell);
 
 /* ************************************************************************** */
 /*                                EXPANSION                                   */

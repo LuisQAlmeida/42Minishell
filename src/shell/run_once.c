@@ -30,7 +30,7 @@ int	run_once(const char *line, t_shell *shell)
 	cmd = parse_simple_cmd(list, &err);
 	if (!cmd)
 		return (handle_parse_error(list, err));
-	shell->last_status = exec_simple_cmd(cmd, shell->envp);
+	shell->last_status = exec_simple_cmd(cmd, shell);
 	free_cmd(cmd);
 	free_tokens(list);
 	return (shell->last_status);
