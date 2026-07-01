@@ -25,6 +25,7 @@ SRCS = $(SRC_DIR)/main.c \
 	$(SRC_DIR)/expansion/expand_env.c \
 	$(SRC_DIR)/expansion/expand_utils.c \
 	$(SRC_DIR)/signals/signals.c \
+	$(SRC_DIR)/signals/signals_exec.c \
 	$(SRC_DIR)/parsing/tokenize_line.c \
 	$(SRC_DIR)/parsing/read_word.c \
 	$(SRC_DIR)/parsing/token_quoted.c \
@@ -33,8 +34,15 @@ SRCS = $(SRC_DIR)/main.c \
 	$(SRC_DIR)/parsing/utils.c \
 	$(SRC_DIR)/parsing/cmd.c \
 	$(SRC_DIR)/parsing/cmd_free.c \
+	$(SRC_DIR)/parsing/cmd_redir.c \
 	$(SRC_DIR)/exec/exec_simple.c \
 	$(SRC_DIR)/exec/exec_path.c \
+	$(SRC_DIR)/exec/exec_wait.c \
+	$(SRC_DIR)/exec/exec_redirs.c \
+	$(SRC_DIR)/exec/exec_redir_one.c \
+	$(SRC_DIR)/exec/exec_redir_only.c \
+	$(SRC_DIR)/exec/exec_heredoc.c \
+	$(SRC_DIR)/exec/exec_redir_prepare.c \
 	$(SRC_DIR)/utils/ms_ctype.c
 
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
