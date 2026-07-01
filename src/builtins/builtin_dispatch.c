@@ -23,6 +23,8 @@ int	exec_builtin(t_cmd *cmd, t_shell *shell)
 		return (builtin_pwd());
 	if (ft_strncmp(cmd->argv[0], "env", 4) == 0)
 		return (builtin_env(shell));
+	if (ft_strncmp(cmd->argv[0], "export", 7) == 0)
+		return (builtin_export(cmd, shell));
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd(cmd->argv[0], STDERR_FILENO);
 	ft_putendl_fd(": builtin not implemented yet", STDERR_FILENO);

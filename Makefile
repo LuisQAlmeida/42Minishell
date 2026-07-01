@@ -27,7 +27,10 @@ SRCS = $(SRC_DIR)/main.c \
 	$(SRC_DIR)/builtins/builtin_echo.c \
 	$(SRC_DIR)/builtins/builtin_pwd.c \
 	$(SRC_DIR)/builtins/builtin_env.c \
+	$(SRC_DIR)/builtins/builtin_export.c \
 	$(SRC_DIR)/env/env_copy.c \
+	$(SRC_DIR)/env/env_utils.c \
+	$(SRC_DIR)/env/env_set.c \
 	$(SRC_DIR)/expansion/expand_env.c \
 	$(SRC_DIR)/expansion/expand_utils.c \
 	$(SRC_DIR)/signals/signals.c \
