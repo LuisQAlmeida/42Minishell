@@ -29,7 +29,9 @@ SRCS = $(SRC_DIR)/main.c \
 	$(SRC_DIR)/builtins/builtin_env.c \
 	$(SRC_DIR)/builtins/builtin_export.c \
 	$(SRC_DIR)/builtins/builtin_unset.c \
+	$(SRC_DIR)/builtins/builtin_cd.c \
 	$(SRC_DIR)/env/env_copy.c \
+	$(SRC_DIR)/env/env_entry.c \
 	$(SRC_DIR)/env/env_utils.c \
 	$(SRC_DIR)/env/env_set.c \
 	$(SRC_DIR)/env/env_unset.c \
