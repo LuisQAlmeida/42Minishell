@@ -65,6 +65,7 @@ typedef struct s_shell
 {
 	char	**envp;
 	int		last_status;
+	int		should_exit;
 }	t_shell;
 
 typedef struct s_tokctx
@@ -143,6 +144,7 @@ int		ms_is_path(const char *cmd);
 /* ************************************************************************** */
 
 int		is_builtin(const char *cmd);
+int		parse_exit_number(const char *str, long long *value);
 int		exec_builtin(t_cmd *cmd, t_shell *shell);
 int		exec_builtin_parent(t_cmd *cmd, t_shell *shell);
 int		builtin_echo(t_cmd *cmd);
@@ -151,6 +153,7 @@ int		builtin_env(t_shell *shell);
 int		builtin_export(t_cmd *cmd, t_shell *shell);
 int		builtin_unset(t_cmd *cmd, t_shell *shell);
 int		builtin_cd(t_cmd *cmd, t_shell *shell);
+int		builtin_exit(t_cmd *cmd, t_shell *shell);
 
 /* ************************************************************************** */
 /*                              ENVIRONMENT                                   */

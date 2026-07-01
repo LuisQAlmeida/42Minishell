@@ -21,6 +21,7 @@ static int	init_shell(t_shell *shell, char **envp)
 		return (0);
 	}
 	shell->last_status = 0;
+	shell->should_exit = 0;
 	setup_interactive_signals();
 	return (1);
 }
@@ -51,6 +52,8 @@ int	main_loop(char **envp)
 		add_history(line);
 		shell.last_status = run_once(line, &shell);
 		free(line);
+		if (shell.should_exit)
+			break ;
 	}
 	cleanup_shell(&shell);
 	return (shell.last_status);
