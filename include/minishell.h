@@ -149,6 +149,7 @@ int		builtin_echo(t_cmd *cmd);
 int		builtin_pwd(void);
 int		builtin_env(t_shell *shell);
 int		builtin_export(t_cmd *cmd, t_shell *shell);
+int		builtin_unset(t_cmd *cmd, t_shell *shell);
 
 /* ************************************************************************** */
 /*                              ENVIRONMENT                                   */
@@ -157,6 +158,7 @@ int		builtin_export(t_cmd *cmd, t_shell *shell);
 char	**env_dup(char **envp);
 int		env_find_index(char **envp, const char *name);
 int		env_set_entry(t_shell *shell, const char *entry);
+int		env_unset_entry(t_shell *shell, const char *name);
 
 /* ************************************************************************** */
 /*                                EXPANSION                                   */
