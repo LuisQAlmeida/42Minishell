@@ -3,6 +3,7 @@
 
 # include <stdlib.h>
 # include <stdio.h>
+# include <fcntl.h>
 # include <unistd.h>
 # include <sys/wait.h>
 # include <signal.h>
@@ -32,10 +33,18 @@ typedef enum e_err
 	ERR_UNCLOSED_QUOTE
 }	t_err;
 
+typedef struct s_redir
+{
+	t_toktype		type;
+	char			*target;
+	struct s_redir	*next;
+}	t_redir;
+
 typedef struct s_cmd
 {
 	char	**argv;
 	int		argc;
+	t_redir	*redirs;
 }	t_cmd;
 
 typedef struct s_shell
@@ -57,6 +66,7 @@ t_token	*tokenize_line(const char *line, t_shell *shell, t_err *err);
 t_token	*token_new(t_toktype type, char *value);
 void	token_add_back(t_token **lst, t_token *new_tok);
 void	free_tokens(t_token *lst);
+void	free_redirs(t_redir *list);
 int		try_add_token(t_token **head, char *word, t_err *err);
 int		add_op_token(t_token **head, t_toktype type, t_err *err);
 

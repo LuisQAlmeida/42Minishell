@@ -13,5 +13,6 @@ void	free_cmd(t_cmd *cmd)
 		i++;
 	}
 	free(cmd->argv);
+	free_redirs(cmd->redirs);
 	free(cmd);
 }
