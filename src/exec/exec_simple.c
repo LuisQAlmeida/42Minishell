@@ -59,6 +59,8 @@ int	exec_simple_cmd(t_cmd *cmd, t_shell *shell)
 		return (status);
 	if (cmd->argc == 0)
 		return (exec_redir_only(cmd));
+	if (is_builtin(cmd->argv[0]))
+		return (exec_builtin_parent(cmd, shell));
 	pid = fork();
 	if (pid < 0)
 		return (1);
