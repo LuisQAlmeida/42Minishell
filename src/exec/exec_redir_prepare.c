@@ -68,3 +68,29 @@ int	prepare_redirs(t_cmd *cmd, int *status)
 		setup_interactive_signals();
 	return (0);
 }
+
+int	prepare_heredocs(t_cmd *cmd, int *status)
+{
+	t_redir	*r;
+	int		fd;
+
+	r = cmd->redirs;
+	while (r)
+	{
+		fd = -1;
+		if (r->type == TOK_HEREDOC)
+		{
+			if (setup_heredoc(r->target, &fd, status))
+			{
+				setup_interactive_signals();
+				return (1);
+			}
+			if (r->fd != -1)
+				close(r->fd);
+			r->fd = fd;
+		}
+		r = r->next;
+	}
+	setup_interactive_signals();
+	return (0);
+}

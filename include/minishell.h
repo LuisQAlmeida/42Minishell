@@ -162,6 +162,7 @@ int		apply_one_redir(t_redir *r, int *in_fd,
 int		dup_and_close(int fd, int std_fd, int *status);
 void	close_redir_fds(int in_fd, int out_fd);
 int		prepare_redirs(t_cmd *cmd, int *status);
+int		prepare_heredocs(t_cmd *cmd, int *status);
 int		setup_heredoc(const char *delim, int *fd, int *status);
 char	*find_in_path(const char *cmd, char **envp);
 int		ms_is_path(const char *cmd);

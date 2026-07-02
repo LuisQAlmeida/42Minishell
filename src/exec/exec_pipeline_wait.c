@@ -35,7 +35,7 @@ int	prepare_pipeline_redirs(t_cmd *cmds, int *status)
 	cur = cmds;
 	while (cur)
 	{
-		if (prepare_redirs(cur, status))
+		if (prepare_heredocs(cur, status))
 			return (1);
 		cur = cur->next;
 	}
