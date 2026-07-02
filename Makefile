@@ -48,9 +48,11 @@ SRCS = $(SRC_DIR)/main.c \
 	$(SRC_DIR)/parsing/token_free.c \
 	$(SRC_DIR)/parsing/utils.c \
 	$(SRC_DIR)/parsing/cmd.c \
+	$(SRC_DIR)/parsing/cmd_pipeline.c \
 	$(SRC_DIR)/parsing/cmd_free.c \
 	$(SRC_DIR)/parsing/cmd_redir.c \
 	$(SRC_DIR)/exec/exec_simple.c \
+	$(SRC_DIR)/exec/exec_pipeline.c \
 	$(SRC_DIR)/exec/exec_path.c \
 	$(SRC_DIR)/exec/exec_wait.c \
 	$(SRC_DIR)/exec/exec_redirs.c \

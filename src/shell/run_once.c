@@ -16,6 +16,13 @@ static int	handle_parse_error(t_token *list, t_err err)
 	return (1);
 }
 
+static int	exec_cmd_list(t_cmd *cmd, t_shell *shell)
+{
+	if (cmd_count(cmd) == 1)
+		return (exec_simple_cmd(cmd, shell));
+	return (exec_pipeline(cmd, shell));
+}
+
 int	run_once(const char *line, t_shell *shell)
 {
 	t_token	*list;
@@ -27,10 +34,10 @@ int	run_once(const char *line, t_shell *shell)
 		return (print_err("minishell: syntax error: unclosed quote"));
 	if (!list && err == ERR_MALLOC)
 		return (print_err("minishell: error: malloc failed"));
-	cmd = parse_simple_cmd(list, &err);
+	cmd = parse_pipeline(list, &err);
 	if (!cmd)
 		return (handle_parse_error(list, err));
-	shell->last_status = exec_simple_cmd(cmd, shell);
+	shell->last_status = exec_cmd_list(cmd, shell);
 	free_cmd(cmd);
 	free_tokens(list);
 	return (shell->last_status);

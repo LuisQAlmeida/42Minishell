@@ -32,9 +32,14 @@ void	free_redirs(t_redir *list)
 
 void	free_cmd(t_cmd *cmd)
 {
-	if (!cmd)
-		return ;
-	free_argv(cmd->argv);
-	free_redirs(cmd->redirs);
-	free(cmd);
+	t_cmd	*next;
+
+	while (cmd)
+	{
+		next = cmd->next;
+		free_argv(cmd->argv);
+		free_redirs(cmd->redirs);
+		free(cmd);
+		cmd = next;
+	}
 }

@@ -56,9 +56,10 @@ typedef struct s_redir
 
 typedef struct s_cmd
 {
-	char	**argv;
-	int		argc;
-	t_redir	*redirs;
+	char			**argv;
+	int				argc;
+	t_redir			*redirs;
+	struct s_cmd	*next;
 }	t_cmd;
 
 typedef struct s_shell
@@ -93,6 +94,8 @@ int		add_op_token(t_token **head, t_toktype type, t_err *err);
 /* ************************************************************************** */
 
 t_cmd	*parse_simple_cmd(t_token *tokens, t_err *err);
+t_cmd	*parse_pipeline(t_token *tokens, t_err *err);
+int		cmd_count(t_cmd *cmd);
 void	free_argv(char **argv);
 void	free_cmd(t_cmd *cmd);
 
@@ -127,6 +130,7 @@ void	setup_child_signals(void);
 /* ************************************************************************** */
 
 int		exec_simple_cmd(t_cmd *cmd, t_shell *shell);
+int		exec_pipeline(t_cmd *cmds, t_shell *shell);
 int		exec_redir_only(t_cmd *cmd);
 int		wait_child(pid_t pid);
 int		apply_redirs(t_cmd *cmd, int *status);

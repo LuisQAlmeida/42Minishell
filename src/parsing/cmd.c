@@ -5,7 +5,7 @@ static int	count_args(t_token *tok)
 	int	count;
 
 	count = 0;
-	while (tok)
+	while (tok && tok->type != TOK_PIPE)
 	{
 		if (is_redir_type(tok->type))
 		{
@@ -43,7 +43,7 @@ static int	fill_argv_and_redirs(t_cmd *cmd, t_token *tok, t_err *err)
 		return (0);
 	}
 	i = 0;
-	while (tok)
+	while (tok && tok->type != TOK_PIPE)
 	{
 		if (tok->type == TOK_WORD)
 		{
@@ -74,6 +74,7 @@ static t_cmd	*cmd_new(t_token *tokens, t_err *err)
 	cmd->argv = NULL;
 	cmd->argc = count_args(tokens);
 	cmd->redirs = NULL;
+	cmd->next = NULL;
 	return (cmd);
 }
 
@@ -81,8 +82,11 @@ t_cmd	*parse_simple_cmd(t_token *tokens, t_err *err)
 {
 	t_cmd	*cmd;
 
-	if (!tokens)
+	if (!tokens || tokens->type == TOK_PIPE)
+	{
+		*err = ERR_SYNTAX;
 		return (NULL);
+	}
 	*err = ERR_NONE;
 	cmd = cmd_new(tokens, err);
 	if (!cmd)
