@@ -1,82 +1,66 @@
 #include "minishell.h"
 
-static int	close_pipe(int pipefd[2], int status)
+static void	init_pipeline_state(t_pipe_state *state)
 {
-	close(pipefd[0]);
-	close(pipefd[1]);
-	return (status);
+	state->prev_fd = -1;
+	state->pipefd[0] = -1;
+	state->pipefd[1] = -1;
+	state->last_pid = -1;
 }
 
-static int	setup_pipe_end(int pipefd[2], int is_first)
+static int	open_next_pipe(t_cmd *cmd, t_pipe_state *state)
 {
-	int	pipe_end;
-	int	std_fd;
-
-	pipe_end = 0;
-	std_fd = STDIN_FILENO;
-	if (is_first)
+	state->pipefd[0] = -1;
+	state->pipefd[1] = -1;
+	if (!cmd->next)
+		return (0);
+	if (pipe(state->pipefd) < 0)
 	{
-		pipe_end = 1;
-		std_fd = STDOUT_FILENO;
-	}
-	if (dup2(pipefd[pipe_end], std_fd) < 0)
-	{
-		perror("dup2");
+		perror("pipe");
 		return (1);
 	}
 	return (0);
 }
 
-static void	pipeline_child(t_cmd *cmd, t_child_ctx *ctx,
-	int pipefd[2], int is_first)
+static void	update_parent_fds(t_cmd *cmd, t_pipe_state *state)
 {
-	setup_child_signals();
-	if (setup_pipe_end(pipefd, is_first))
+	if (state->prev_fd != -1)
+		close(state->prev_fd);
+	if (cmd->next)
 	{
-		close_pipe(pipefd, 0);
-		child_exit(ctx, 1);
+		close(state->pipefd[1]);
+		state->prev_fd = state->pipefd[0];
 	}
-	close_pipe(pipefd, 0);
-	exec_child_cmd(cmd, ctx);
+	else
+		state->prev_fd = -1;
+	state->pipefd[0] = -1;
+	state->pipefd[1] = -1;
 }
 
-static pid_t	fork_pipe_child(t_cmd *cmd, t_child_ctx *ctx,
-	int pipefd[2], int is_first)
+static int	pipeline_fail(t_pipe_state *state)
 {
-	pid_t	pid;
-
-	pid = fork();
-	if (pid < 0)
-	{
-		perror("fork");
-		return (-1);
-	}
-	if (pid == 0)
-		pipeline_child(cmd, ctx, pipefd, is_first);
-	return (pid);
+	close_pipeline_fds(state);
+	if (state->last_pid != -1)
+		wait_pipeline(state->last_pid);
+	return (1);
 }
 
-int	exec_two_cmds(t_cmd *cmds, t_child_ctx *ctx)
+int	exec_pipeline_chain(t_cmd *cmds, t_child_ctx *ctx)
 {
-	int		pipefd[2];
-	pid_t	first;
-	pid_t	second;
+	t_pipe_state	state;
+	pid_t			pid;
 
-	if (pipe(pipefd) < 0)
+	init_pipeline_state(&state);
+	while (cmds)
 	{
-		perror("pipe");
-		return (1);
+		if (open_next_pipe(cmds, &state))
+			return (pipeline_fail(&state));
+		pid = fork_pipeline_cmd(cmds, ctx, &state);
+		if (pid < 0)
+			return (pipeline_fail(&state));
+		state.last_pid = pid;
+		update_parent_fds(cmds, &state);
+		cmds = cmds->next;
 	}
-	first = fork_pipe_child(cmds, ctx, pipefd, 1);
-	if (first < 0)
-		return (close_pipe(pipefd, 1));
-	second = fork_pipe_child(cmds->next, ctx, pipefd, 0);
-	if (second < 0)
-	{
-		close_pipe(pipefd, 0);
-		waitpid(first, NULL, 0);
-		return (1);
-	}
-	close_pipe(pipefd, 0);
-	return (wait_pipeline(first, second));
+	return (wait_pipeline(state.last_pid));
 }

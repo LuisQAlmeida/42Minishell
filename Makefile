@@ -54,6 +54,7 @@ SRCS = $(SRC_DIR)/main.c \
 	$(SRC_DIR)/exec/exec_simple.c \
 	$(SRC_DIR)/exec/exec_child.c \
 	$(SRC_DIR)/exec/exec_pipeline.c \
+	$(SRC_DIR)/exec/exec_pipeline_child.c \
 	$(SRC_DIR)/exec/exec_pipeline_wait.c \
 	$(SRC_DIR)/exec/exec_path.c \
 	$(SRC_DIR)/exec/exec_wait.c \

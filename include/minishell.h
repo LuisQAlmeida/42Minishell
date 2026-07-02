@@ -85,6 +85,13 @@ typedef struct s_child_ctx
 	t_shell	*shell;
 }	t_child_ctx;
 
+typedef struct s_pipe_state
+{
+	int		prev_fd;
+	int		pipefd[2];
+	pid_t	last_pid;
+}	t_pipe_state;
+
 /* ************************************************************************** */
 /*                            TOKENIZATION                                    */
 /* ************************************************************************** */
@@ -140,8 +147,11 @@ int		exec_simple_cmd(t_cmd *cmd, t_shell *shell, t_token *tokens);
 int		exec_pipeline(t_cmd *cmds, t_shell *shell, t_token *tokens);
 void	exec_child_cmd(t_cmd *cmd, t_child_ctx *ctx);
 void	child_exit(t_child_ctx *ctx, int status);
-int		exec_two_cmds(t_cmd *cmds, t_child_ctx *ctx);
-int		wait_pipeline(pid_t first, pid_t second);
+int		exec_pipeline_chain(t_cmd *cmds, t_child_ctx *ctx);
+pid_t	fork_pipeline_cmd(t_cmd *cmd, t_child_ctx *ctx,
+			t_pipe_state *state);
+void	close_pipeline_fds(t_pipe_state *state);
+int		wait_pipeline(pid_t last_pid);
 int		prepare_pipeline_redirs(t_cmd *cmds, int *status);
 int		exec_redir_only(t_cmd *cmd);
 int		wait_child(pid_t pid);
