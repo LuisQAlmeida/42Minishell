@@ -21,9 +21,15 @@ static void	print_cmd_error(const char *cmd, const char *msg)
 
 static void	exec_path_cmd(t_cmd *cmd, t_child_ctx *ctx)
 {
+	int	status;
+
 	execve(cmd->argv[0], cmd->argv, ctx->shell->envp);
-	perror("minishell");
-	child_exit(ctx, 1);
+	status = 126;
+	if (errno == ENOENT || errno == ENOTDIR)
+		status = 127;
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	perror(cmd->argv[0]);
+	child_exit(ctx, status);
 }
 
 static void	exec_from_path(t_cmd *cmd, t_child_ctx *ctx)
