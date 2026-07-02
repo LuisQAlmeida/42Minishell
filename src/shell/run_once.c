@@ -16,11 +16,11 @@ static int	handle_parse_error(t_token *list, t_err err)
 	return (1);
 }
 
-static int	exec_cmd_list(t_cmd *cmd, t_shell *shell)
+static int	exec_cmd_list(t_cmd *cmd, t_shell *shell, t_token *tokens)
 {
 	if (cmd_count(cmd) == 1)
-		return (exec_simple_cmd(cmd, shell));
-	return (exec_pipeline(cmd, shell));
+		return (exec_simple_cmd(cmd, shell, tokens));
+	return (exec_pipeline(cmd, shell, tokens));
 }
 
 int	run_once(const char *line, t_shell *shell)
@@ -37,7 +37,7 @@ int	run_once(const char *line, t_shell *shell)
 	cmd = parse_pipeline(list, &err);
 	if (!cmd)
 		return (handle_parse_error(list, err));
-	shell->last_status = exec_cmd_list(cmd, shell);
+	shell->last_status = exec_cmd_list(cmd, shell, list);
 	free_cmd(cmd);
 	free_tokens(list);
 	return (shell->last_status);
