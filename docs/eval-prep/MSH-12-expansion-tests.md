@@ -102,7 +102,7 @@ Valgrind summary:
 Known notes:
 
 * `still reachable` blocks are expected from `readline`/`libtinfo`.
-* Child-process Valgrind output may show inherited reachable memory when external command execution exits through `_exit()`.
+* Child-process Valgrind output may show inherited reachable memory when external command execution exits through `exit()`.
 
 ## Notes
 

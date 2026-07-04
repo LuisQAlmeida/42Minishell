@@ -9,7 +9,7 @@ void	child_exit(t_child_ctx *ctx, int status)
 		if (ctx->shell)
 			free_argv(ctx->shell->envp);
 	}
-	_exit(status);
+	exit(status);
 }
 
 static void	print_cmd_error(const char *cmd, const char *msg)

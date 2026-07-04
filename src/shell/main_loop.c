@@ -32,6 +32,15 @@ static void	cleanup_shell(t_shell *shell)
 	free_argv(shell->envp);
 }
 
+static void	handle_prompt_signal(t_shell *shell)
+{
+	if (g_signal == SIGINT)
+	{
+		shell->last_status = 130;
+		g_signal = 0;
+	}
+}
+
 int	main_loop(char **envp)
 {
 	t_shell	shell;
@@ -42,6 +51,7 @@ int	main_loop(char **envp)
 	while (1)
 	{
 		line = readline("minishell$ ");
+		handle_prompt_signal(&shell);
 		if (!line)
 			break ;
 		if (is_blank_line(line))
