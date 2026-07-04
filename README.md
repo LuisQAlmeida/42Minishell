@@ -101,7 +101,6 @@ Classic references used during the project:
 - 42 Minishell subject
 - Bash manual
 - Linux manual pages for:
-  - `printf`
   - `malloc`
   - `free`
   - `write`
