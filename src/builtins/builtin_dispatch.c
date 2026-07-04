@@ -1,35 +1,38 @@
 #include "minishell.h"
 
-static int	str_eq(const char *s1, const char *s2)
+static int	builtin_name_matches(const char *cmd, const char *name)
 {
-	return (ft_strncmp(s1, s2, ft_strlen(s2) + 1) == 0);
+	return (ft_strncmp(cmd, name, ft_strlen(name) + 1) == 0);
 }
 
 int	is_builtin(const char *cmd)
 {
 	if (!cmd)
 		return (0);
-	return (str_eq(cmd, "echo") || str_eq(cmd, "pwd")
-		|| str_eq(cmd, "env") || str_eq(cmd, "cd")
-		|| str_eq(cmd, "export") || str_eq(cmd, "unset")
-		|| str_eq(cmd, "exit"));
+	return (builtin_name_matches(cmd, "echo")
+		|| builtin_name_matches(cmd, "pwd")
+		|| builtin_name_matches(cmd, "env")
+		|| builtin_name_matches(cmd, "cd")
+		|| builtin_name_matches(cmd, "export")
+		|| builtin_name_matches(cmd, "unset")
+		|| builtin_name_matches(cmd, "exit"));
 }
 
 int	exec_builtin(t_cmd *cmd, t_shell *shell)
 {
-	if (ft_strncmp(cmd->argv[0], "echo", 5) == 0)
+	if (builtin_name_matches(cmd->argv[0], "echo"))
 		return (builtin_echo(cmd));
-	if (ft_strncmp(cmd->argv[0], "pwd", 4) == 0)
+	if (builtin_name_matches(cmd->argv[0], "pwd"))
 		return (builtin_pwd());
-	if (ft_strncmp(cmd->argv[0], "env", 4) == 0)
+	if (builtin_name_matches(cmd->argv[0], "env"))
 		return (builtin_env(shell));
-	if (ft_strncmp(cmd->argv[0], "export", 7) == 0)
+	if (builtin_name_matches(cmd->argv[0], "export"))
 		return (builtin_export(cmd, shell));
-	if (ft_strncmp(cmd->argv[0], "unset", 6) == 0)
+	if (builtin_name_matches(cmd->argv[0], "unset"))
 		return (builtin_unset(cmd, shell));
-	if (ft_strncmp(cmd->argv[0], "cd", 3) == 0)
+	if (builtin_name_matches(cmd->argv[0], "cd"))
 		return (builtin_cd(cmd, shell));
-	if (ft_strncmp(cmd->argv[0], "exit", 5) == 0)
+	if (builtin_name_matches(cmd->argv[0], "exit"))
 		return (builtin_exit(cmd, shell));
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd(cmd->argv[0], STDERR_FILENO);

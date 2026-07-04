@@ -1,43 +1,50 @@
 #include "minishell.h"
 
-static int	is_delim(const char *line, const char *delim)
-{
-	size_t	len;
-
-	len = ft_strlen(delim);
-	if (ft_strlen(line) != len)
-		return (0);
-	return (ft_strncmp(line, delim, len) == 0);
-}
-
 static char	*append_char(char *line, char c)
 {
 	char	buf[2];
-	char	*tmp;
 
 	buf[0] = c;
 	buf[1] = '\0';
-	tmp = ms_strjoin_free(line, buf);
-	return (tmp);
+	return (ms_strjoin_free(line, buf));
 }
 
-static char	*read_heredoc_line(void)
+static int	read_heredoc_char(char **line, int *eof)
 {
-	char	*line;
 	char	c;
 	int		ret;
 
+	ret = read(STDIN_FILENO, &c, 1);
+	if (ret == 0 && (*line)[0] == '\0')
+		return (*eof = 1, 1);
+	if (ret == 0)
+		return (0);
+	if (ret < 0)
+		return (-1);
+	if (c == '\n')
+		return (1);
+	*line = append_char(*line, c);
+	if (!*line)
+		return (-1);
+	return (0);
+}
+
+static char	*read_heredoc_line(int *eof)
+{
+	char	*line;
+	int		state;
+
+	*eof = 0;
 	line = ft_calloc(1, sizeof(char));
 	if (!line)
 		return (NULL);
 	while (g_signal != SIGINT)
 	{
-		ret = read(STDIN_FILENO, &c, 1);
-		if (ret <= 0 || c == '\n')
+		state = read_heredoc_char(&line, eof);
+		if (state < 0)
+			return (free(line), NULL);
+		if (state > 0)
 			break ;
-		line = append_char(line, c);
-		if (!line)
-			return (NULL);
 	}
 	return (line);
 }
@@ -45,20 +52,19 @@ static char	*read_heredoc_line(void)
 static int	read_heredoc_lines(int write_fd, const char *delim)
 {
 	char	*line;
+	int		eof;
 
 	while (g_signal != SIGINT)
 	{
-		write(STDOUT_FILENO, "> ", 2);
-		line = read_heredoc_line();
+		ft_putstr_fd("> ", STDOUT_FILENO);
+		line = read_heredoc_line(&eof);
 		if (!line)
 			break ;
-		if (is_delim(line, delim))
-		{
-			free(line);
-			break ;
-		}
-		write(write_fd, line, ft_strlen(line));
-		write(write_fd, "\n", 1);
+		if (eof && line[0] == '\0')
+			return (free(line), ft_putchar_fd('\n', STDOUT_FILENO), 0);
+		if (ft_strncmp(line, delim, ft_strlen(delim) + 1) == 0)
+			return (free(line), 0);
+		ft_putendl_fd(line, write_fd);
 		free(line);
 	}
 	return (g_signal == SIGINT);
