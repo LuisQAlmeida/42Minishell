@@ -1,15 +1,5 @@
 #include "minishell.h"
 
-static int	env_count(char **envp)
-{
-	int	count;
-
-	count = 0;
-	while (envp && envp[count])
-		count++;
-	return (count);
-}
-
 static char	**env_without_index(char **envp, int remove_index)
 {
 	char	**new_env;

@@ -49,7 +49,7 @@ int	add_redir_from_token(t_cmd *cmd, t_token *tok, t_err *err)
 		*err = ERR_SYNTAX;
 		return (0);
 	}
-	target = ft_substr(tok->next->value, 0, ft_strlen(tok->next->value));
+	target = ft_strdup(tok->next->value);
 	if (!target)
 	{
 		*err = ERR_MALLOC;

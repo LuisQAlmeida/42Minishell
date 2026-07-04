@@ -1,15 +1,5 @@
 #include "minishell.h"
 
-static int	env_count(char **envp)
-{
-	int	count;
-
-	count = 0;
-	while (envp && envp[count])
-		count++;
-	return (count);
-}
-
 char	**env_dup(char **envp)
 {
 	char	**copy;
@@ -23,7 +13,7 @@ char	**env_dup(char **envp)
 	i = 0;
 	while (i < count)
 	{
-		copy[i] = ft_substr(envp[i], 0, ft_strlen(envp[i]));
+		copy[i] = ft_strdup(envp[i]);
 		if (!copy[i])
 		{
 			free_argv(copy);

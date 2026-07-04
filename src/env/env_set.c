@@ -1,34 +1,15 @@
 #include "minishell.h"
 
-static int	env_count(char **envp)
-{
-	int	count;
-
-	count = 0;
-	while (envp && envp[count])
-		count++;
-	return (count);
-}
-
 static int	has_equal(const char *entry)
 {
-	int	i;
-
-	i = 0;
-	while (entry[i])
-	{
-		if (entry[i] == '=')
-			return (1);
-		i++;
-	}
-	return (0);
+	return (ft_strchr(entry, '=') != NULL);
 }
 
 static int	env_replace(char **envp, int index, const char *entry)
 {
 	char	*copy;
 
-	copy = ft_substr(entry, 0, ft_strlen(entry));
+	copy = ft_strdup(entry);
 	if (!copy)
 		return (1);
 	free(envp[index]);
@@ -52,7 +33,7 @@ static char	**env_new_with_entry(char **envp, const char *entry)
 		new_env[i] = envp[i];
 		i++;
 	}
-	new_env[i] = ft_substr(entry, 0, ft_strlen(entry));
+	new_env[i] = ft_strdup(entry);
 	if (!new_env[i])
 	{
 		free(new_env);

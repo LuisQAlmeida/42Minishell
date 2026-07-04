@@ -26,7 +26,7 @@ static char	*expand_dollar(const char *str, size_t *i,
 	if (part || *err != ERR_NONE)
 		return (part);
 	if (!ms_is_var_start(str[*i]))
-		return (ft_substr("$", 0, 1));
+		return (ft_strdup("$"));
 	start = *i;
 	while (ms_is_var_char(str[*i]))
 		(*i)++;
@@ -74,7 +74,7 @@ char	*expand_env_vars(const char *str, t_shell *shell, t_err *err)
 	char	*part;
 	size_t	i;
 
-	result = ft_substr("", 0, 0);
+	result = ft_strdup("");
 	if (!result)
 	{
 		*err = ERR_MALLOC;

@@ -1,21 +1,5 @@
 #include "minishell.h"
 
-static char	*get_env_value(char **envp, const char *name)
-{
-	size_t	len;
-	int		i;
-
-	len = ft_strlen(name);
-	i = 0;
-	while (envp && envp[i])
-	{
-		if (ft_strncmp(envp[i], name, len) == 0 && envp[i][len] == '=')
-			return (envp[i] + len + 1);
-		i++;
-	}
-	return (NULL);
-}
-
 static char	*join_path_cmd(const char *dir, const char *cmd)
 {
 	char	*tmp;
@@ -33,21 +17,6 @@ static char	*join_path_cmd(const char *dir, const char *cmd)
 	return (res);
 }
 
-static void	free_split(char **split)
-{
-	int	i;
-
-	if (!split)
-		return ;
-	i = 0;
-	while (split[i])
-	{
-		free(split[i]);
-		i++;
-	}
-	free(split);
-}
-
 char	*find_in_path(const char *cmd, char **envp)
 {
 	char	*path;
@@ -55,8 +24,8 @@ char	*find_in_path(const char *cmd, char **envp)
 	char	*full;
 	int		i;
 
-	path = get_env_value(envp, "PATH");
-	if (!path)
+	path = ms_getenv_value("PATH", envp);
+	if (!path || path[0] == '\0')
 		return (NULL);
 	dirs = ft_split(path, ':');
 	if (!dirs)
@@ -66,26 +35,19 @@ char	*find_in_path(const char *cmd, char **envp)
 	{
 		full = join_path_cmd(dirs[i], cmd);
 		if (!full)
-			return (free_split(dirs), NULL);
+			return (free_argv(dirs), NULL);
 		if (access(full, X_OK) == 0)
-			return (free_split(dirs), full);
+			return (free_argv(dirs), full);
 		free(full);
 		i++;
 	}
-	free_split(dirs);
+	free_argv(dirs);
 	return (NULL);
 }
 
 int	ms_is_path(const char *cmd)
 {
-	int	i;
-
-	i = 0;
-	while (cmd[i])
-	{
-		if (cmd[i] == '/')
-			return (1);
-		i++;
-	}
-	return (0);
+	if (!cmd)
+		return (0);
+	return (ft_strchr(cmd, '/') != NULL);
 }

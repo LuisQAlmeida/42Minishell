@@ -34,7 +34,7 @@ char	*copy_env_value(char *name, t_shell *shell, t_err *err)
 	char	*copy;
 
 	value = ms_getenv_value(name, shell->envp);
-	copy = ft_substr(value, 0, ft_strlen(value));
+	copy = ft_strdup(value);
 	if (!copy)
 		*err = ERR_MALLOC;
 	return (copy);

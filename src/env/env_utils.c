@@ -10,6 +10,16 @@ static size_t	env_name_len(const char *entry)
 	return (i);
 }
 
+int	env_count(char **envp)
+{
+	int	count;
+
+	count = 0;
+	while (envp && envp[count])
+		count++;
+	return (count);
+}
+
 int	env_find_index(char **envp, const char *name)
 {
 	size_t	name_len;

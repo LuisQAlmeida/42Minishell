@@ -189,6 +189,7 @@ int		builtin_exit(t_cmd *cmd, t_shell *shell);
 
 char	**env_dup(char **envp);
 char	*env_make_entry(const char *key, const char *value);
+int		env_count(char **envp);
 int		env_find_index(char **envp, const char *name);
 int		env_set_entry(t_shell *shell, const char *entry);
 int		env_unset_entry(t_shell *shell, const char *name);
