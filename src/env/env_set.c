@@ -35,10 +35,7 @@ static char	**env_new_with_entry(char **envp, const char *entry)
 	}
 	new_env[i] = ft_strdup(entry);
 	if (!new_env[i])
-	{
-		free(new_env);
-		return (NULL);
-	}
+		return (free(new_env), NULL);
 	return (new_env);
 }
 

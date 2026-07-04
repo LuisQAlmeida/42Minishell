@@ -21,7 +21,7 @@ static int	count_args(t_token *tok)
 
 static int	add_word_arg(char **argv, int *i, t_token *tok, t_err *err)
 {
-	argv[*i] = ft_substr(tok->value, 0, ft_strlen(tok->value));
+	argv[*i] = ft_strdup(tok->value);
 	if (!argv[*i])
 	{
 		*err = ERR_MALLOC;

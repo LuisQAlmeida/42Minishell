@@ -15,10 +15,7 @@ char	**env_dup(char **envp)
 	{
 		copy[i] = ft_strdup(envp[i]);
 		if (!copy[i])
-		{
-			free_argv(copy);
-			return (NULL);
-		}
+			return (free_argv(copy), NULL);
 		i++;
 	}
 	return (copy);

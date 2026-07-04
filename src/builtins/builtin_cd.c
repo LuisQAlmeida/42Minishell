@@ -8,12 +8,8 @@ static int	set_pwd_entry(t_shell *shell, char *key, char *value)
 	if (!entry)
 		return (1);
 	if (env_set_entry(shell, entry))
-	{
-		free(entry);
-		return (1);
-	}
-	free(entry);
-	return (0);
+		return (free(entry), 1);
+	return (free(entry), 0);
 }
 
 static int	update_pwd_vars(t_shell *shell, char *old_pwd)
@@ -25,12 +21,8 @@ static int	update_pwd_vars(t_shell *shell, char *old_pwd)
 		return (1);
 	if (set_pwd_entry(shell, "OLDPWD", old_pwd)
 		|| set_pwd_entry(shell, "PWD", new_pwd))
-	{
-		free(new_pwd);
-		return (1);
-	}
-	free(new_pwd);
-	return (0);
+		return (free(new_pwd), 1);
+	return (free(new_pwd), 0);
 }
 
 static char	*get_cd_target(t_cmd *cmd, t_shell *shell)
@@ -81,10 +73,6 @@ int	builtin_cd(t_cmd *cmd, t_shell *shell)
 	if (change_dir(target, &old_pwd))
 		return (1);
 	if (update_pwd_vars(shell, old_pwd))
-	{
-		free(old_pwd);
-		return (1);
-	}
-	free(old_pwd);
-	return (0);
+		return (free(old_pwd), 1);
+	return (free(old_pwd), 0);
 }
