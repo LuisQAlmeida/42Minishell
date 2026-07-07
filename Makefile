@@ -4,74 +4,111 @@
 
 NAME = minishell
 
-VAL_NAME = minishell_val
-
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 RM = rm -f
 
-INC_DIR = include
 SRC_DIR = src
 OBJ_DIR = obj
+INC_DIR = include
 LIBFT_DIR = libft
-TEST_DIR = tests
-LIBFT = $(LIBFT_DIR)/libft.a
 
+LIBFT = $(LIBFT_DIR)/libft.a
 INCLUDES = -I$(INC_DIR) -I$(LIBFT_DIR)
 
-SRCS = $(SRC_DIR)/main.c \
-	$(SRC_DIR)/shell/main_loop.c \
-	$(SRC_DIR)/shell/run_once.c \
-	$(SRC_DIR)/builtins/builtin_dispatch.c \
-	$(SRC_DIR)/builtins/builtin_parent.c \
-	$(SRC_DIR)/builtins/builtin_echo.c \
-	$(SRC_DIR)/builtins/builtin_pwd.c \
-	$(SRC_DIR)/builtins/builtin_env.c \
-	$(SRC_DIR)/builtins/builtin_export.c \
-	$(SRC_DIR)/builtins/builtin_unset.c \
-	$(SRC_DIR)/builtins/builtin_cd.c \
-	$(SRC_DIR)/builtins/builtin_exit.c \
-	$(SRC_DIR)/builtins/builtin_exit_utils.c \
-	$(SRC_DIR)/env/env_copy.c \
-	$(SRC_DIR)/env/env_entry.c \
-	$(SRC_DIR)/env/env_utils.c \
-	$(SRC_DIR)/env/env_set.c \
-	$(SRC_DIR)/env/env_unset.c \
-	$(SRC_DIR)/expansion/expand_env.c \
-	$(SRC_DIR)/expansion/expand_utils.c \
-	$(SRC_DIR)/signals/signals.c \
-	$(SRC_DIR)/signals/signals_exec.c \
-	$(SRC_DIR)/parsing/tokenize_line.c \
-	$(SRC_DIR)/parsing/read_word.c \
-	$(SRC_DIR)/parsing/token_quoted.c \
-	$(SRC_DIR)/parsing/token_utils.c \
-	$(SRC_DIR)/parsing/token_free.c \
-	$(SRC_DIR)/parsing/utils.c \
-	$(SRC_DIR)/parsing/cmd.c \
-	$(SRC_DIR)/parsing/cmd_free.c \
-	$(SRC_DIR)/parsing/cmd_redir.c \
-	$(SRC_DIR)/exec/exec_simple.c \
-	$(SRC_DIR)/exec/exec_path.c \
-	$(SRC_DIR)/exec/exec_wait.c \
-	$(SRC_DIR)/exec/exec_redirs.c \
-	$(SRC_DIR)/exec/exec_redir_one.c \
-	$(SRC_DIR)/exec/exec_redir_only.c \
-	$(SRC_DIR)/exec/exec_heredoc.c \
-	$(SRC_DIR)/exec/exec_redir_prepare.c \
-	$(SRC_DIR)/utils/ms_ctype.c
+SESSION_DIR = $(SRC_DIR)/session
+SCAN_DIR = $(SRC_DIR)/scan
+GRAMMAR_DIR = $(SRC_DIR)/grammar
+EXPAND_DIR = $(SRC_DIR)/expand
+EXEC_DIR = $(SRC_DIR)/exec
+BUILTINS_DIR = $(SRC_DIR)/builtins
+STATE_DIR = $(SRC_DIR)/state
+SIGNALS_DIR = $(SRC_DIR)/signals
+SUPPORT_DIR = $(SRC_DIR)/support
+
+MAIN_FILES = \
+	main.c
+
+SESSION_FILES = \
+	prompt_loop.c \
+	line_execution.c
+
+SCAN_FILES = \
+	line_scan.c \
+	word_scan.c \
+	quote_scan.c \
+	token_emit.c \
+	token_list.c \
+	token_memory.c
+
+GRAMMAR_FILES = \
+	command_chain.c \
+	command_build.c \
+	redirection_build.c \
+	command_memory.c
+
+EXPAND_FILES = \
+	variables.c \
+	variable_name.c \
+	variable_value.c
+
+EXEC_FILES = \
+	command_simple.c \
+	pipeline_wait.c \
+	pipeline.c \
+	pipeline_child.c \
+	child_command.c \
+	wait_child.c \
+	redir_prepare.c \
+	redir_apply.c \
+	redir_open.c \
+	redir_only.c \
+	heredoc.c \
+	heredoc_read.c \
+	heredoc_terminal.c \
+	path_lookup.c \
+	stdio_backup.c
+
+BUILTINS_FILES = \
+	dispatch.c \
+	parent.c \
+	echo.c \
+	pwd.c \
+	env.c \
+	export.c \
+	unset.c \
+	cd.c \
+	exit.c \
+	exit_parse.c \
+	identifier.c
+
+STATE_FILES = \
+	env_copy.c \
+	env_entry.c \
+	env_lookup.c \
+	env_set.c \
+	env_unset.c
+
+SIGNALS_FILES = \
+	input_signals.c \
+	process_signals.c
+
+SUPPORT_FILES = \
+	shell_support.c
+
+SRCS = \
+	$(addprefix $(SRC_DIR)/,$(MAIN_FILES)) \
+	$(addprefix $(SESSION_DIR)/,$(SESSION_FILES)) \
+	$(addprefix $(SCAN_DIR)/,$(SCAN_FILES)) \
+	$(addprefix $(GRAMMAR_DIR)/,$(GRAMMAR_FILES)) \
+	$(addprefix $(EXPAND_DIR)/,$(EXPAND_FILES)) \
+	$(addprefix $(EXEC_DIR)/,$(EXEC_FILES)) \
+	$(addprefix $(BUILTINS_DIR)/,$(BUILTINS_FILES)) \
+	$(addprefix $(STATE_DIR)/,$(STATE_FILES)) \
+	$(addprefix $(SIGNALS_DIR)/,$(SIGNALS_FILES)) \
+	$(addprefix $(SUPPORT_DIR)/,$(SUPPORT_FILES))
 
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
-
-VAL_OBJS = $(OBJ_DIR)/tests/parsing/token_parser_test.o \
-	$(OBJ_DIR)/parsing/tokenize_line.o \
-	$(OBJ_DIR)/parsing/read_word.o \
-	$(OBJ_DIR)/parsing/token_quoted.o \
-	$(OBJ_DIR)/parsing/token_utils.o \
-	$(OBJ_DIR)/parsing/token_free.o \
-	$(OBJ_DIR)/parsing/utils.o \
-	$(OBJ_DIR)/parsing/cmd.o \
-	$(OBJ_DIR)/parsing/cmd_free.o \
-	$(OBJ_DIR)/utils/ms_ctype.o
 
 all: $(NAME)
 
@@ -85,13 +122,6 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-$(OBJ_DIR)/tests/%.o: $(TEST_DIR)/%.c
-	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
-
-valgrind_test: $(LIBFT) $(VAL_OBJS)
-	$(CC) $(CFLAGS) $(VAL_OBJS) $(LIBFT) -o $(VAL_NAME)
-
 clean:
 	$(MAKE) -C $(LIBFT_DIR) clean
 	$(RM) -rf $(OBJ_DIR)
@@ -99,8 +129,7 @@ clean:
 fclean: clean
 	$(MAKE) -C $(LIBFT_DIR) fclean
 	$(RM) $(NAME)
-	$(RM) $(VAL_NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re valgrind_test
+.PHONY: all clean fclean re

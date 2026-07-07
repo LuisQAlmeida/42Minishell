@@ -1,12 +1,9 @@
 #include "minishell.h"
 
-int	main(int ac, char **av, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
-	(void)av;
-	if (ac != 1)
-	{
-		printf("Usage: ./minishell\n");
-		return (1);
-	}
-	return (main_loop(envp));
+	(void)argv;
+	if (argc != 1)
+		return (ft_putendl_fd("Usage: ./minishell", STDOUT_FILENO), 1);
+	return (ses_loop(envp));
 }
