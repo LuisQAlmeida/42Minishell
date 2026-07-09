@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jpedro-g <jpedro-g@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/07/09 15:58:14 by jpedro-g          #+#    #+#             */
+/*   Updated: 2026/07/09 15:58:14 by jpedro-g         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -10,6 +22,7 @@
 # include <fcntl.h>
 # include <unistd.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include <signal.h>
 # include <errno.h>
 # include <termios.h>
@@ -145,6 +158,7 @@ char	*exp_env_value(char *name, t_shell *shell, t_err *err);
 int		exe_simple(t_cmd *cmd, t_shell *shell, t_token *tokens);
 int		exe_pipeline(t_cmd *cmds, t_shell *shell, t_token *tokens);
 void	exe_child(t_cmd *cmd, t_child_ctx *ctx);
+int		exe_notfound_muted(t_cmd *cmd, t_child_ctx *ctx);
 void	exe_child_exit(t_child_ctx *ctx, int status);
 int		exe_wait_child(pid_t pid);
 int		exe_pipe_chain(t_cmd *cmds, t_child_ctx *ctx);

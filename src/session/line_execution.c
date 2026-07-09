@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   line_execution.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jpedro-g <jpedro-g@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/07/09 15:55:32 by jpedro-g          #+#    #+#             */
+/*   Updated: 2026/07/09 15:55:32 by jpedro-g         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	print_error(const char *msg)
@@ -34,6 +46,8 @@ int	ses_execute_line(const char *line, t_shell *shell)
 		return (print_error("minishell: syntax error: unclosed quote"));
 	if (!list && err == ERR_MALLOC)
 		return (print_error("minishell: error: malloc failed"));
+	if (!list && err == ERR_NONE)
+		return (0);
 	cmd = grm_pipeline(list, &err);
 	if (!cmd)
 		return (report_parse_error(list, err));

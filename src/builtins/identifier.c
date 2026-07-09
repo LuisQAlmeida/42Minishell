@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   identifier.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jpedro-g <jpedro-g@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/07/09 15:54:09 by jpedro-g          #+#    #+#             */
+/*   Updated: 2026/07/09 15:54:10 by jpedro-g         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	blt_valid_identifier(const char *arg, int allow_assignment)
@@ -10,6 +22,8 @@ int	blt_valid_identifier(const char *arg, int allow_assignment)
 	while (arg[i])
 	{
 		if (arg[i] == '=' && allow_assignment)
+			return (1);
+		if (arg[i] == '+' && arg[i + 1] == '=' && allow_assignment)
 			return (1);
 		if (!ft_isalnum(arg[i]) && arg[i] != '_')
 			return (0);
