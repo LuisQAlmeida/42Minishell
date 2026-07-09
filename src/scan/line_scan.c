@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   line_scan.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jpedro-g <jpedro-g@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/07/09 15:55:16 by jpedro-g          #+#    #+#             */
+/*   Updated: 2026/07/09 15:55:16 by jpedro-g         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	scan_input_operator(t_tokctx *ctx)
@@ -39,7 +51,9 @@ static int	scan_operator_token(t_tokctx *ctx)
 static int	scan_word_token(t_tokctx *ctx)
 {
 	char	*word;
+	size_t	start;
 
+	start = ctx->i;
 	word = scn_word(ctx->line, &ctx->i, ctx->shell, ctx->err);
 	if (!word || *ctx->err != ERR_NONE)
 	{
@@ -48,6 +62,11 @@ static int	scan_word_token(t_tokctx *ctx)
 		scn_token_clear(ctx->head);
 		return (0);
 	}
+	while (start < ctx->i && ctx->line[start] != '\''
+		&& ctx->line[start] != '\"')
+		start++;
+	if (word[0] == '\0' && start == ctx->i)
+		return (free(word), 1);
 	if (!scn_emit_word(&ctx->head, word, ctx->err))
 		return (0);
 	return (1);

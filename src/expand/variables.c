@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   variables.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jpedro-g <jpedro-g@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/07/09 15:55:04 by jpedro-g          #+#    #+#             */
+/*   Updated: 2026/07/09 15:55:04 by jpedro-g         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static char	*expand_status_value(const char *str, size_t *i,
@@ -43,14 +55,17 @@ static char	*expand_dollar_value(const char *str, size_t *i,
 static char	*expand_next_part(const char *str, size_t *i,
 		t_shell *shell, t_err *err)
 {
+	size_t	start;
 	char	*part;
 
 	if (str[*i] == '$')
 		return (expand_dollar_value(str, i, shell, err));
-	part = ft_substr(str, *i, 1);
+	start = *i;
+	while (str[*i] && str[*i] != '$')
+		(*i)++;
+	part = ft_substr(str, start, *i - start);
 	if (!part)
 		*err = ERR_MALLOC;
-	(*i)++;
 	return (part);
 }
 

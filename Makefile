@@ -58,6 +58,7 @@ EXEC_FILES = \
 	pipeline.c \
 	pipeline_child.c \
 	child_command.c \
+	command_notfound.c \
 	wait_child.c \
 	redir_prepare.c \
 	redir_apply.c \
