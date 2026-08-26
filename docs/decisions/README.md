@@ -238,7 +238,7 @@ the final implementation and preserved design material.
 | [ADR-0002](ADR-0002-use-linked-command-pipelines.md) | Represent pipelines as linked command chains | Accepted |
 | [ADR-0003](ADR-0003-run-standalone-builtins-in-parent.md) | Execute standalone builtins in the parent shell | Accepted |
 | [ADR-0004](ADR-0004-use-rolling-pipeline-state.md) | Manage pipelines with rolling descriptor state | Accepted |
-| ADR-0005 | Prepare pipeline heredocs before launching command children | Planned |
+| [ADR-0005](ADR-0005-prepare-pipeline-heredocs-before-launch.md) | Prepare pipeline heredocs before launching command children | Accepted |
 | ADR-0006 | Maintain an owned mutable environment in shell state | Planned |
 
 `Planned` in this table describes documentation progress, not architectural
