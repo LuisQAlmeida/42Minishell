@@ -130,9 +130,12 @@ A pull request should:
 The repository runs a CI build workflow for pull requests. Contributors should
 ensure that applicable validation passes before merge.
 
-The repository's GitHub configuration and pull-request templates may evolve
-through separate modernization workstreams. The detailed development guide
-documents the maintained workflow independently of historical template text.
+The repository provides maintained GitHub Issue Forms and a pull-request
+template under `.github/`.
+
+These templates support the current GitHub Issues workflow while the detailed
+development guide remains the authoritative description of repository
+maintenance practice.
 
 ## Merge Policy
 

@@ -1,0 +1,64 @@
+name: Bug report
+description: Report incorrect or unexpected behaviour in the maintained repository.
+title: ""
+labels: []
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a problem.
+
+        Describe the maintained repository as it behaves now. Historical 42 project
+        material should only be referenced when it is relevant to the problem.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What is behaving incorrectly?
+      placeholder: Describe the observed behaviour and why it is a problem.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction or evidence
+      description: Provide the smallest useful reproduction, command sequence, logs or other evidence.
+      placeholder: |
+        Example:
+        1. Build with ...
+        2. Run ...
+        3. Observe ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+      description: What should happen instead?
+    validations:
+      required: true
+
+  - type: input
+    id: area
+    attributes:
+      label: Affected area
+      description: Optional subsystem, documentation area or repository component.
+      placeholder: "Example: heredoc signals, pipeline execution, docs/development"
+
+  - type: textarea
+    id: validation
+    attributes:
+      label: Validation considerations
+      description: Tests, edge cases or checks that would demonstrate the fix.
+      placeholder: Describe useful validation if known.
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: Add any other relevant information, screenshots or links.

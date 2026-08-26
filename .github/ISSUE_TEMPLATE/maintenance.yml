@@ -1,0 +1,74 @@
+name: Maintenance
+description: Track documentation, testing, refactoring, CI or repository-maintenance work.
+title: ""
+labels: []
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for repository work that is neither a user-facing bug report
+        nor a new feature.
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Maintenance category
+      options:
+        - Documentation
+        - Testing
+        - Refactoring
+        - CI / automation
+        - Repository configuration
+        - Dependency or tooling maintenance
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Why is this maintenance work needed?
+    validations:
+      required: true
+
+  - type: textarea
+    id: objective
+    attributes:
+      label: Objective
+      description: What outcome should this work produce?
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: What belongs in this change?
+    validations:
+      required: true
+
+  - type: textarea
+    id: out_of_scope
+    attributes:
+      label: Out of scope
+      description: Record boundaries that help keep the work focused.
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: What conditions indicate that the maintenance work is complete?
+      placeholder: |
+        - [ ] ...
+        - [ ] ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: validation
+    attributes:
+      label: Validation
+      description: What checks should be run or evidence reviewed?
