@@ -1,0 +1,69 @@
+name: Enhancement
+description: Propose a new capability or deliberate improvement.
+title: ""
+labels: []
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for new functionality or a meaningful improvement to the
+        maintained repository.
+
+        Later portfolio work should remain distinguishable from the original 42
+        project baseline.
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      description: What problem, limitation or opportunity motivates this change?
+    validations:
+      required: true
+
+  - type: textarea
+    id: objective
+    attributes:
+      label: Objective
+      description: What should be true when this enhancement is complete?
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: What work belongs in this issue?
+      placeholder: List the expected implementation or documentation scope.
+    validations:
+      required: true
+
+  - type: textarea
+    id: out_of_scope
+    attributes:
+      label: Out of scope
+      description: What should deliberately not be included?
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: Describe concrete conditions for considering the work complete.
+      placeholder: |
+        - [ ] ...
+        - [ ] ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: validation
+    attributes:
+      label: Validation considerations
+      description: Tests, checks or evidence that should accompany the change.
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: Add relevant design notes, links, screenshots or dependencies.
