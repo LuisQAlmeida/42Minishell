@@ -239,7 +239,7 @@ the final implementation and preserved design material.
 | [ADR-0003](ADR-0003-run-standalone-builtins-in-parent.md) | Execute standalone builtins in the parent shell | Accepted |
 | [ADR-0004](ADR-0004-use-rolling-pipeline-state.md) | Manage pipelines with rolling descriptor state | Accepted |
 | [ADR-0005](ADR-0005-prepare-pipeline-heredocs-before-launch.md) | Prepare pipeline heredocs before launching command children | Accepted |
-| ADR-0006 | Maintain an owned mutable environment in shell state | Planned |
+| [ADR-0006](ADR-0006-own-mutable-shell-environment.md) | Maintain an owned mutable environment in shell state | Accepted |
 
 `Planned` in this table describes documentation progress, not architectural
 status.
