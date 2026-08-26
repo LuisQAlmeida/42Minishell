@@ -52,6 +52,7 @@ The detailed workflow covers:
 - commit-message conventions;
 - local validation;
 - pull-request expectations;
+- maintained GitHub Issue Forms and pull-request templates;
 - CI and review;
 - `CODEOWNERS`;
 - protected `main` behaviour;

@@ -143,6 +143,32 @@ docs/35-contribution-git-workflow
 Small corrections that do not justify separate tracking may still use a
 focused maintenance branch without a dedicated issue.
 
+### Current issue templates
+
+The repository provides maintained GitHub Issue Forms under
+[`.github/ISSUE_TEMPLATE/`](../../.github/ISSUE_TEMPLATE/).
+
+The current forms are:
+
+| Form | Intended use |
+| --- | --- |
+| [`bug-report.yml`](../../.github/ISSUE_TEMPLATE/bug-report.yml) | Incorrect or unexpected maintained behaviour |
+| [`enhancement.yml`](../../.github/ISSUE_TEMPLATE/enhancement.yml) | New capability or deliberate improvement |
+| [`maintenance.yml`](../../.github/ISSUE_TEMPLATE/maintenance.yml) | Documentation, testing, refactoring, CI or repository maintenance |
+
+The forms collect structured engineering context without requiring historical
+Jira terminology.
+
+They intentionally do not assign labels or assignees automatically.
+
+The issue chooser also allows blank issues through
+[`config.yml`](../../.github/ISSUE_TEMPLATE/config.yml), so work that does not
+fit the maintained forms can still be recorded without forcing it into the
+wrong category.
+
+Issue Forms support the workflow; they do not replace the need to keep an issue
+focused and give it a clear objective and scope.
+
 ## 2. Synchronize `main`
 
 Before creating a branch, synchronize the local stable branch with the remote:
@@ -398,16 +424,28 @@ Keep the pull request focused on one primary unit of work.
 
 ### Current pull-request template
 
-The repository currently contains
-[`.github/PULL_REQUEST_TEMPLATE.md`](../../.github/PULL_REQUEST_TEMPLATE.md).
+The repository provides a maintained pull-request template at:
 
-That template originated from the historical Jira-based development workflow
-and still contains project-era terminology.
+[`.github/PULL_REQUEST_TEMPLATE.md`](../../.github/PULL_REQUEST_TEMPLATE.md)
 
-Its modernization belongs to the dedicated GitHub template workstream.
+The template follows the current GitHub Issues workflow and captures:
 
-Until that work is completed, maintained workflow documentation takes
-precedence over historical Jira-specific wording in the template.
+- the linked issue;
+- a concise summary;
+- motivation;
+- included and excluded scope;
+- validation actually performed;
+- review notes when useful;
+- a final merge checklist.
+
+It deliberately avoids historical Jira `MSH-*` keys, Mandatory / Bonus
+classification and teammate-specific approval language.
+
+Validation remains proportional to the change. A documentation-only pull
+request, for example, should not claim runtime testing that was not performed.
+
+The template supports consistent pull requests, while this document remains
+the authoritative description of the full repository workflow.
 
 ## 9. CI and Validation on GitHub
 
