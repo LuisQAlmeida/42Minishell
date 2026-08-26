@@ -232,7 +232,7 @@ than manufacturing a comparison.
 The following decisions were selected for the initial ADR set after reviewing
 the final implementation and preserved design material.
 
-| ADR | Decision | Record state |
+| ADR | Decision | Status |
 | --- | --- | --- |
 | [ADR-0001](ADR-0001-expand-while-scanning.md) | Perform variable expansion while quote context is available | Accepted |
 | [ADR-0002](ADR-0002-use-linked-command-pipelines.md) | Represent pipelines as linked command chains | Accepted |
@@ -240,11 +240,6 @@ the final implementation and preserved design material.
 | [ADR-0004](ADR-0004-use-rolling-pipeline-state.md) | Manage pipelines with rolling descriptor state | Accepted |
 | [ADR-0005](ADR-0005-prepare-pipeline-heredocs-before-launch.md) | Prepare pipeline heredocs before launching command children | Accepted |
 | [ADR-0006](ADR-0006-own-mutable-shell-environment.md) | Maintain an owned mutable environment in shell state | Accepted |
-
-`Planned` in this table describes documentation progress, not architectural
-status.
-
-Once recorded, each entry will link to its ADR and show its ADR status.
 
 ## Initial Evidence Classification
 
