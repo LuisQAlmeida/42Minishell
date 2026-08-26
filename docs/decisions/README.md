@@ -236,7 +236,7 @@ the final implementation and preserved design material.
 | --- | --- | --- |
 | [ADR-0001](ADR-0001-expand-while-scanning.md) | Perform variable expansion while quote context is available | Accepted |
 | [ADR-0002](ADR-0002-use-linked-command-pipelines.md) | Represent pipelines as linked command chains | Accepted |
-| ADR-0003 | Execute standalone builtins in the parent shell | Planned |
+| [ADR-0003](ADR-0003-run-standalone-builtins-in-parent.md) | Execute standalone builtins in the parent shell | Accepted |
 | ADR-0004 | Manage pipelines with rolling descriptor state | Planned |
 | ADR-0005 | Prepare pipeline heredocs before launching command children | Planned |
 | ADR-0006 | Maintain an owned mutable environment in shell state | Planned |
