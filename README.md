@@ -492,6 +492,19 @@ intended design rather than every detail of the final implementation. They are
 being reconciled with the final code as part of the repository modernization
 initiative.
 
+## Contributing
+
+Current contribution and repository-maintenance guidance is available in
+[`CONTRIBUTING.md`](CONTRIBUTING.md).
+
+The detailed issue, branch, commit, validation, pull-request, squash-merge and
+cleanup workflow is documented in
+[`docs/development/git-workflow.md`](docs/development/git-workflow.md).
+
+The maintained workflow uses GitHub Issues for current work tracking while
+preserving the original Jira-based team workflow separately as project
+history.
+
 ## Project History
 
 This project was originally developed collaboratively by a two-person team
