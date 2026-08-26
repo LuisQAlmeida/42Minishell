@@ -234,7 +234,7 @@ the final implementation and preserved design material.
 
 | ADR | Decision | Record state |
 | --- | --- | --- |
-| ADR-0001 | Perform variable expansion while quote context is available | Planned |
+| [ADR-0001](ADR-0001-expand-while-scanning.md) | Perform variable expansion while quote context is available | Accepted |
 | ADR-0002 | Represent pipelines as linked command chains | Planned |
 | ADR-0003 | Execute standalone builtins in the parent shell | Planned |
 | ADR-0004 | Manage pipelines with rolling descriptor state | Planned |
