@@ -7,8 +7,8 @@ It focuses on system boundaries, subsystem responsibilities, the core runtime
 data model and the distinction between persistent shell state and
 per-command execution state.
 
-For the detailed command lifecycle, see `runtime-flow.md` once that document is
-available.
+For the detailed command lifecycle, see
+[`runtime-flow.md`](runtime-flow.md).
 
 ## Architectural Overview
 
@@ -101,7 +101,8 @@ flowchart TD
 The diagram shows logical dependencies rather than ownership of every
 individual allocation or file descriptor.
 
-Resource ownership is documented separately in `resource-ownership.md`.
+Resource ownership is documented separately in
+[`resource-ownership.md`](resource-ownership.md).
 
 ## Session Boundary
 
@@ -422,7 +423,7 @@ The implementation distinguishes policies for:
 - heredoc input.
 
 Detailed process and signal behaviour is documented in
-`process-and-signals.md`.
+[`process-and-signals.md`](process-and-signals.md).
 
 ## Architecture Constraints
 
