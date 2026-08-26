@@ -105,17 +105,22 @@ Documentation in this repository should be:
 Documentation structure should grow when information needs a durable home, not
 to imitate organizational complexity that the project does not require.
 
-## Planned Documentation Work
+## Documentation Evolution
 
-The repository modernization initiative will develop the active domains
-incrementally, including:
+The repository modernization initiative develops the active documentation
+domains incrementally.
+
+The maintained repository now includes:
 
 - current architecture and runtime-flow documentation;
 - engineering decision records;
-- contribution and Git workflow documentation;
+- contribution and Git workflow documentation.
+
+Further work is tracked separately for areas including:
+
 - maintained testing and validation strategy;
 - automated quality and CI documentation;
 - API documentation where it adds value.
 
-Until those workstreams are completed, historical material remains available
-under [`history/`](history/) as evidence and context.
+Historical material remains available under [`history/`](history/) as evidence
+and context while current documentation evolves independently.
