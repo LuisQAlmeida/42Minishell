@@ -425,7 +425,8 @@ execution state.
 
 ## Testing
 
-The repository contains a manual mandatory test matrix covering:
+The repository preserves the original mandatory manual test matrix used during
+project validation, covering:
 
 - prompt and history behaviour;
 - quoting;
@@ -440,10 +441,11 @@ The repository contains a manual mandatory test matrix covering:
 
 See:
 
-[`docs/eval-prep/mandatory-test-matrix.md`](docs/eval-prep/mandatory-test-matrix.md)
+[`docs/history/validation/mandatory-test-matrix.md`](docs/history/validation/mandatory-test-matrix.md)
 
-Automated CI and additional quality gates are planned as part of the repository
-modernization work.
+The repository currently runs a CI build check on pull requests. Additional
+automated testing, static analysis and quality gates are planned as part of the
+repository modernization work.
 
 ## Current Scope and Limitations
 
