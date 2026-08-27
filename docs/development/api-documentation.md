@@ -250,6 +250,50 @@ The repository should contain:
 The generated HTML or other output should remain local unless a later
 workstream deliberately introduces hosted documentation.
 
+## Local Generation
+
+The maintained API reference requires Doxygen.
+
+On Ubuntu, the required package can be installed with:
+
+    sudo apt install doxygen
+
+The configuration is stored in the repository root as:
+
+    Doxyfile
+
+Generate the documentation from the repository root with:
+
+    mkdir -p build/docs/doxygen
+    doxygen Doxyfile
+
+Doxygen writes the HTML reference to:
+
+    build/docs/doxygen/html/
+
+The entry point is:
+
+    build/docs/doxygen/html/index.html
+
+The repository already ignores `build/`, so generated documentation remains a
+local build artefact and must not be committed.
+
+The output directory is created explicitly because the audited Doxygen 1.9.8
+installation does not create the complete nested `build/docs/doxygen`
+directory hierarchy when its parent directories do not yet exist.
+
+The maintained configuration deliberately uses:
+
+    EXTRACT_ALL = NO
+    EXTRACT_STATIC = NO
+
+This keeps generated documentation aligned with the selective API boundary
+rather than automatically treating implementation details as public
+interfaces.
+
+Documentation generation is independent from the historical project Makefile.
+No `make docs` target is required by the current baseline.
+
 ## Relationship to Architecture Documentation
 
 Generated API documentation answers questions such as:
