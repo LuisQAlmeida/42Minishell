@@ -462,23 +462,38 @@ The workflow runs:
 - for pull requests;
 - for pushes to `main`.
 
-The current `CI / build` job uses Ubuntu 24.04, installs the Readline
-development dependency and validates:
+The current workflow contains two maintained jobs.
 
-- a clean `make fclean && make` build;
+`CI / build` uses Ubuntu 24.04 and validates:
+
+- a clean `make fclean && make` reference build;
 - creation of the executable `./minishell`;
 - no unnecessary relink when `make` is immediately repeated.
 
-The workflow uses explicit read-only repository permissions, a job timeout and
+`CI / quality` uses the same runner baseline and validates:
+
+- a clean `make fclean && make CC=clang` compiler-diversity build;
+- creation of the executable `./minishell`;
+- no unnecessary relink when `make CC=clang` is immediately repeated.
+
+The workflow uses explicit read-only repository permissions, job timeouts and
 pull-request concurrency cancellation for superseded runs.
 
-A successful `CI / build` result is evidence that these build-integration
-requirements passed.
+A successful `CI / build` result is evidence that the reference
+build-integration requirements passed.
 
-It is not evidence of complete behavioural correctness.
+A successful `CI / quality` result is evidence that the project also compiles
+cleanly through the maintained Clang quality check.
 
-Automated regression tests, static analysis, Valgrind, FD checks and broader
-quality automation belong to separate modernization workstreams.
+Neither result is evidence of complete behavioural correctness, memory safety,
+file-descriptor safety or general static-analysis coverage.
+
+The quality-tool evaluation and current selection rationale are documented in:
+
+[`static-analysis.md`](static-analysis.md)
+
+Automated regression tests, Valgrind, FD checks and additional analyzer gates
+remain separate concerns.
 
 Before merge, confirm that the available checks have completed successfully.
 

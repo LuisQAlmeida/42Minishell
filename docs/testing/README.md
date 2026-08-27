@@ -16,7 +16,8 @@ The maintained repository currently has:
 | Capability | Current state |
 | --- | --- |
 | Local build validation | Available through `make` |
-| Pull-request build validation | Automated through GitHub Actions |
+| Pull-request reference build validation | Automated through `CI / build` |
+| Compiler-diversity quality validation | Automated through `CI / quality` with Clang |
 | Manual behavioural validation | Maintained practice |
 | Memory validation | Manual, using Valgrind where relevant |
 | File-descriptor validation | Manual, using Valgrind `--track-fds=yes` where relevant |
@@ -25,9 +26,10 @@ The maintained repository currently has:
 | Static-analysis automation | Not implemented |
 | Coverage reporting | Not implemented |
 
-A successful CI run currently demonstrates that the project builds in the CI
+A successful CI run currently demonstrates that the project passes the
+reference build and maintained Clang compiler-diversity checks in the CI
 environment. It does not demonstrate complete behavioural correctness,
-resource safety or regression coverage.
+resource safety, static-analysis cleanliness or regression coverage.
 
 ## Maintained Documentation
 

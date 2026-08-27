@@ -3,8 +3,9 @@
 This document describes the maintained continuous-integration baseline for the
 repository.
 
-The current GitHub Actions workflow provides build integration checks. It is
-deliberately narrower than a complete quality gate.
+The current GitHub Actions workflow provides reference build integration and
+compiler-diversity quality checks. It remains deliberately narrower than a
+complete behavioural, resource-safety or static-analysis gate.
 
 The authoritative workflow configuration is:
 
@@ -14,13 +15,15 @@ The authoritative workflow configuration is:
 
 The CI baseline answers a focused question:
 
-> Can the repository be checked out in the maintained CI environment and
-> produce the expected Minishell executable through a clean, stable build?
+> Can the repository be checked out in the maintained CI environment,
+> produce the expected Minishell executable through the reference build and
+> also compile cleanly through the selected independent compiler check?
 
-The workflow also checks one important Makefile invariant: rebuilding an
+Both maintained jobs check one important Makefile invariant: rebuilding an
 unchanged tree must not relink the final executable.
 
-The workflow does not currently claim behavioural test coverage.
+The workflow does not currently claim behavioural test coverage or a general
+static-analysis guarantee.
 
 ## When CI Runs
 
@@ -29,26 +32,27 @@ The workflow is triggered by:
 - pull requests;
 - pushes to `main`.
 
-A normal feature-branch push does not run this workflow by itself.
+An ordinary push to a feature branch does not trigger this workflow until a
+pull request exists.
 
-For the maintained contribution lifecycle, this means:
+The maintained flow is:
 
-```text
-feature branch push
-        |
-        v
-no CI run required yet
+    feature branch push
+            |
+            v
+    no CI run required yet
 
-pull request opened or updated
-        |
-        v
-CI / build
+    pull request opened or updated
+            |
+            v
+    CI / build
+    CI / quality
 
-squash merge to main
-        |
-        v
-CI / build
-```
+    squash merge to main
+            |
+            v
+    CI / build
+    CI / quality
 
 Pull-request runs that are superseded by newer commits are cancelled.
 
@@ -56,25 +60,27 @@ Push runs on `main` are not cancelled by that pull-request policy.
 
 ## Execution Environment
 
-The build job currently uses:
+Both maintained jobs use:
 
-```text
-ubuntu-24.04
-```
+    ubuntu-24.04
 
-The runner version is explicit rather than using `ubuntu-latest`.
+Using an explicit runner version avoids silently following the moving
+`ubuntu-latest` alias.
 
-This reduces accidental changes to the CI environment when GitHub advances the
-meaning of its `latest` runner alias.
+Ubuntu 24.04 is the maintained CI reference environment. It is not a claim
+that Minishell can only compile or run on Ubuntu 24.04.
 
-The workflow has a job timeout of:
+The reference `build` job uses the compiler selected by the repository
+Makefile through:
 
-```text
-10 minutes
-```
+    CC = cc
 
-A build that exceeds that limit fails rather than occupying a runner
-indefinitely.
+The `quality` job installs Clang and overrides the Make variable only for that
+CI invocation:
+
+    make CC=clang
+
+This does not modify the Makefile or replace the original compiler interface.
 
 ## Workflow Permissions
 
@@ -99,119 +105,100 @@ These settings keep the build workflow read-only at the repository level.
 
 ## Build Dependency
 
-The external system dependency required by the maintained build is:
+The reference build requires the Readline development package:
 
-```text
-libreadline-dev
-```
+    libreadline-dev
 
-The workflow installs it with:
+The quality job requires:
 
-```bash
-sudo apt-get update
-sudo apt-get install -y --no-install-recommends libreadline-dev
-```
+    clang
+    libreadline-dev
 
-GNU Readline is linked by the project Makefile through:
+The workflow installs these dependencies through the Ubuntu package manager
+with `--no-install-recommends`.
 
-```text
--lreadline
-```
+The project links against Readline through the existing Makefile.
 
-The repository's own `libft` is built from the checked-out source tree rather
-than installed as a system dependency.
+The local `libft` is built from repository source and is not installed as an
+external package.
 
 ## Build Pipeline
 
-The current `build` job performs the following checks.
+The workflow contains two independent jobs.
 
-### 1. Checkout Repository
+### Reference Build
 
-The repository is checked out using:
+`CI / build`:
 
-```text
-actions/checkout@v4
-```
+1. checks out the repository without persisting credentials;
+2. installs `libreadline-dev`;
+3. runs `make fclean`;
+4. runs the normal `make` reference build;
+5. verifies that `./minishell` exists and is executable;
+6. runs `make` again and verifies that the executable timestamp does not
+   change.
 
-No persisted Git credentials are required after checkout.
+The normal Makefile remains authoritative for the reference build.
 
-### 2. Install Build Dependencies
+### Compiler-Diversity Quality Build
 
-The workflow installs the GNU Readline development package required to compile
-and link Minishell.
+`CI / quality`:
 
-### 3. Clean Build
+1. checks out the repository without persisting credentials;
+2. installs Clang and `libreadline-dev`;
+3. runs `make fclean`;
+4. runs `make CC=clang`;
+5. verifies that `./minishell` exists and is executable;
+6. runs `make CC=clang` again and verifies that the executable timestamp does
+   not change.
 
-The workflow executes:
+The `CC=clang` value is a command-line Make override.
 
-```bash
-make fclean
-make
-```
+It does not change the repository's:
 
-Starting from `make fclean` makes the build check explicit even though GitHub
-Actions already provides a fresh checkout for each job.
+    CC = cc
 
-The build therefore validates that the project can be rebuilt from its own
-clean state rather than succeeding only because generated objects already
-exist.
+setting.
 
-### 4. Verify the Build Artifact
+Both jobs therefore exercise the same source tree and Makefile while using
+independent compiler paths.
 
-After compilation, the workflow checks:
-
-```bash
-test -x ./minishell
-```
-
-A successful compiler exit alone is not treated as sufficient if the expected
-executable is missing or is not executable.
-
-### 5. Verify No Relink
-
-The workflow records the modification timestamp of `./minishell`, executes:
-
-```bash
-make
-```
-
-again and compares the timestamp afterward.
-
-If the timestamp changes, CI fails.
-
-This checks that an unchanged repository does not unnecessarily relink the
-final executable.
-
-The local discovery audit for the CI workstream confirmed that the current
-Makefile already satisfies this property:
-
-```text
-make: Nothing to be done for 'all'.
-```
-
-The workflow therefore validates an existing Makefile invariant. It does not
-modify the Makefile to create one.
+The second build in each job validates the existing no-relink Makefile
+invariant.
 
 ## Failure Semantics
 
-A failed `CI / build` check means that at least one maintained build-integration
-requirement was not satisfied.
+A failed `CI / build` check means that at least one reference
+build-integration requirement was not satisfied.
 
 Examples include:
 
-- the dependency installation failed;
-- `make fclean` failed;
-- the clean build failed;
-- the expected `minishell` executable was not produced;
-- the executable was not executable;
-- an unchanged second `make` relinked the executable;
-- the build exceeded the configured timeout;
-- another workflow step terminated unsuccessfully.
+- dependency installation failure;
+- `make fclean` failure;
+- reference compilation failure;
+- failure to produce an executable `./minishell`;
+- unexpected relinking during the second `make`;
+- job timeout;
+- another unsuccessful workflow step.
 
-A failed build check does not identify every possible runtime defect.
+A failed `CI / quality` check means that at least one maintained
+compiler-diversity requirement was not satisfied.
 
-Conversely, a successful build check does not prove complete Minishell
-correctness.
+Examples include:
+
+- Clang installation failure;
+- `make fclean` failure;
+- compilation failure under `make CC=clang`;
+- a Clang diagnostic promoted to an error by `-Werror`;
+- failure to produce an executable `./minishell`;
+- unexpected relinking during the second `make CC=clang`;
+- job timeout;
+- another unsuccessful workflow step.
+
+Neither failed check identifies every possible runtime defect.
+
+Likewise, successful checks do not imply behavioural correctness, resource
+safety or general static-analysis cleanliness.
 
 ## Concurrency Behaviour
 
@@ -237,18 +224,28 @@ condition is false.
 
 ## What CI Currently Guarantees
 
-A successful current CI run provides evidence that:
+A successful current CI run provides two complementary build signals.
 
-- the repository can be checked out by GitHub Actions;
-- the declared build dependency can be installed;
-- the project can complete a clean build on Ubuntu 24.04;
-- the expected `minishell` executable is produced;
-- the executable is marked executable;
-- an unchanged second `make` does not relink the executable.
+`CI / build` confirms that:
 
-These are build-integration guarantees only.
+- the repository can perform a clean reference build through `CC = cc`;
+- the expected Minishell executable is produced;
+- an unchanged second build does not relink the executable.
 
-## What CI Does Not Currently Guarantee
+`CI / quality` confirms that:
+
+- the same repository and Makefile compile cleanly through Clang;
+- the existing `-Wall -Wextra -Werror` diagnostics remain clean under that
+  compiler;
+- the expected Minishell executable is produced;
+- an unchanged second Clang build does not relink the executable.
+
+These are build-integration and compiler-diversity guarantees.
+
+They are deliberately narrower than behavioural testing, resource validation
+or general static analysis.
+
+## What the CI Baseline Does Not Guarantee
 
 The current workflow does not run:
 
@@ -258,10 +255,19 @@ The current workflow does not run:
 - Norminette;
 - Valgrind;
 - file-descriptor leak checks;
-- static analysis;
+- GCC `-fanalyzer`;
+- the Clang Static Analyzer;
+- `cppcheck`;
+- `clang-tidy`;
 - code-coverage reporting.
 
-Those capabilities must not be inferred from a green `CI / build` result.
+Those capabilities must not be inferred from a green `CI / build` or
+`CI / quality` result.
+
+The maintained compiler-quality and static-analysis evaluation is documented
+in:
+
+[`static-analysis.md`](static-analysis.md)
 
 The maintained testing model is documented under:
 
@@ -274,32 +280,44 @@ In particular:
 - [`../testing/manual-validation.md`](../testing/manual-validation.md)
   defines reproducible manual validation procedures.
 
-## Relationship to Future Quality Automation
+## Relationship to Quality Automation
 
-This CI baseline intentionally provides a stable foundation rather than
-collecting every future quality check into one workstream.
+The CI baseline now contains two maintained jobs:
 
-Separate modernization work can later introduce:
+    CI / build
+    CI / quality
 
-- automated regression testing;
-- static analysis and other quality checks;
-- additional CI jobs where they provide demonstrated value.
+`CI / build` preserves the reference Makefile build through `CC = cc`.
 
-When those capabilities are actually implemented, this document and the
-testing documentation should be updated to describe the expanded CI contract.
+`CI / quality` performs an independent Clang build through a command-line
+`CC=clang` override while preserving the same source and Makefile.
+
+The quality job provides compiler diversity. It is not the Clang Static
+Analyzer and must not be presented as general static-analysis coverage.
+
+The tooling evaluation and selection rationale are documented in:
+
+[`static-analysis.md`](static-analysis.md)
+
+Separate modernization work can still introduce automated regression testing,
+resource-oriented checks or additional analyzer gates where they provide
+demonstrated value.
 
 ## Relationship to Branch Protection
 
 The maintained repository uses pull requests and protected `main` governance.
 
-The workflow's stable identity remains:
+The reference build keeps the stable status-check identity:
 
-```text
-CI / build
-```
+    CI / build
 
-Keeping the workflow name `CI` and job identifier `build` avoids unnecessarily
-changing the status-check identity while the baseline itself is improved.
+The maintained compiler-diversity check adds:
+
+    CI / quality
+
+Keeping the workflow name `CI` and the existing `build` job identifier
+preserves the reference build identity while allowing quality checks to remain
+a distinct concern.
 
 Repository-governance details are documented in:
 
@@ -307,21 +325,29 @@ Repository-governance details are documented in:
 
 ## Local Equivalent
 
-The central build behaviour can be reproduced locally with:
+The reference build can be reproduced locally with:
 
-```bash
-make fclean
-make
+    make fclean
+    make
+    test -x ./minishell
 
-test -x ./minishell
+The compiler-diversity quality build can be reproduced with:
 
-before="$(stat -c '%y' ./minishell)"
-make
-after="$(stat -c '%y' ./minishell)"
+    make fclean
+    make CC=clang
+    test -x ./minishell
 
-test "$before" = "$after"
-```
+The no-relink property can be checked for the reference build by recording the
+executable timestamp, running `make` again and confirming that the timestamp
+does not change.
 
-The GitHub-specific parts, including runner selection, permissions,
-pull-request concurrency and status-check behaviour, require an actual GitHub
-Actions run for final validation.
+The equivalent quality check uses:
+
+    make CC=clang
+
+for the second build.
+
+Local reproduction validates the build logic.
+
+The actual GitHub Actions runner, workflow permissions, concurrency behaviour
+and status checks are validated by the pull-request workflow itself.
