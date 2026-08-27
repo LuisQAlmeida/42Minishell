@@ -331,6 +331,162 @@ are not cleanup targets merely because they increase source length.
 Comment cleanup should be justified by incorrect, stale, redundant or
 misleading content rather than cosmetic preference.
 
+## Resource and Error-Path Findings
+
+A focused review of parent execution, pipelines, heredocs, redirections,
+standard-stream backup and process waiting identified the following
+failure-path findings.
+
+### `Q48-R1`: pending redirection descriptor after failed input `dup2()`
+
+Classification:
+
+    DEFECT
+
+`exe_redir_apply()` first resolves ownership of the final input and output
+redirection descriptors.
+
+During that process, `exe_redir_one()` transfers descriptor ownership away
+from the corresponding `t_redir` node by setting:
+
+    r->fd = -1
+
+If both an input and an output descriptor are pending, input is applied first.
+
+If the input `dup2()` fails:
+
+- `exe_redir_dup()` closes the input descriptor;
+- `exe_redir_apply()` returns immediately;
+- the pending output descriptor remains open;
+- its original `t_redir` node no longer owns it.
+
+The pending output descriptor therefore has no remaining cleanup owner.
+
+This is especially relevant in persistent parent-process execution through:
+
+- `blt_execute_parent()`;
+- `exe_redir_only()`.
+
+A child-process descriptor leak would disappear when that child exits, while a
+descriptor leaked by the shell process can survive subsequent commands.
+
+Follow-up:
+
+    #49 Harden parent redirection recovery on dup2 failures
+
+No behaviour-changing fix is included in this audit workstream.
+
+### `Q48-R2`: `wait()` / `waitpid()` interruption handling
+
+Classification:
+
+    ACCEPTED_TRADEOFF
+
+The execution paths do not explicitly retry `wait()` or `waitpid()` after
+`EINTR`.
+
+Before normal child waiting, however, the parent calls `sig_set_waiting()`,
+which configures both `SIGINT` and `SIGQUIT` as ignored.
+
+These are the signals explicitly managed by the current shell execution model,
+and no maintained application handler was identified that demonstrates a
+normal execution path in which these waits are interrupted.
+
+An explicit `EINTR` retry loop could make the implementation more defensive,
+but the audit did not demonstrate a current runtime defect that justifies a
+behavioural change in this workstream.
+
+### `Q48-R3`: unrecoverable parent standard-stream restoration failure
+
+Classification:
+
+    DEFECT
+
+`exe_stdio_restore()` attempts to restore both saved standard streams through
+`dup2()` and then closes both saved descriptors regardless of whether either
+restore succeeded.
+
+If a restore operation fails, the function therefore discards the saved
+descriptor even though the corresponding original standard stream has not been
+successfully restored.
+
+For the persistent shell process, this can leave `STDIN_FILENO` or
+`STDOUT_FILENO` in an unexpected state after a failed parent builtin or
+redirection-only execution path.
+
+The parent callers also perform restoration after an `exe_redir_apply()`
+failure without currently using the restoration return value to override the
+existing command status.
+
+Follow-up:
+
+    #49 Harden parent redirection recovery on dup2 failures
+
+This defect shares the same parent-redirection ownership boundary as
+`Q48-R1`, so both are tracked through the same focused technical issue.
+
+### `Q48-R4`: Readline operations from the interactive signal handler
+
+Classification:
+
+    PLAUSIBLE_RISK
+
+The interactive `SIGINT` handler records the signal and also calls Readline
+functions directly:
+
+    rl_on_new_line()
+    rl_replace_line()
+    rl_redisplay()
+
+The heredoc handler follows a narrower signal-context pattern based on signal
+state, `write()` and descriptor closure.
+
+The audit has not demonstrated a runtime failure caused by the interactive
+handler, so this is not classified as a defect.
+
+Changing the signal and Readline integration would also alter interactive
+behaviour and requires focused validation beyond this implementation-quality
+audit.
+
+The current finding is therefore recorded for future investigation without a
+runtime change in #48.
+
+### Resource Ownership Summary
+
+The normal ownership model remains coherent across the audited execution
+paths.
+
+Redirection descriptors:
+
+- are initially owned by `t_redir` nodes after preparation;
+- transfer ownership when consumed by `exe_redir_one()`;
+- use `-1` as the no-owned-descriptor sentinel;
+- are closed by `grm_redir_clear()` if ownership remains with a node.
+
+Pipeline descriptors:
+
+- are divided between parent and child after `fork()`;
+- have unused ends closed in each process;
+- transfer the current read end into `prev_fd` in the parent;
+- are closed through `exe_pipe_close()` on pipeline failure.
+
+Heredoc descriptors:
+
+- are created as a pipe before `fork()`;
+- have separate inherited copies closed by parent and child;
+- transfer the successful read end back to the redirection owner;
+- are closed on failed heredoc completion.
+
+Standard-stream backups:
+
+- clean up partial `dup()` success during save;
+- attempt best-effort restoration of both streams;
+- require the dedicated #49 follow-up for failure-path ownership guarantees.
+
+The audit therefore found no justification for a broad execution refactor.
+The demonstrated defects are isolated to parent-process redirection recovery
+and are tracked separately.
+
 ## Finding Classification
 
 Quality findings use the following classifications:
@@ -379,7 +535,11 @@ The initial code-quality audit establishes the following baseline:
 - duplicated wait helpers: accepted duplication;
 - historical 42 banners: preserved uniformly;
 - broad include redistribution: not justified at this stage;
-- generated analyzer artefacts: not versioned.
+- generated analyzer artefacts: not versioned;
+- parent redirection failure-path defects: tracked in #49;
+- `wait()` / `waitpid()` interruption handling: accepted trade-off;
+- interactive Readline signal-handler behaviour: plausible risk requiring
+  focused future investigation.
 
 This baseline does not claim that the implementation is defect-free.
 
