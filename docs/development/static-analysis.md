@@ -248,6 +248,62 @@ been demonstrated.
 
 It is not part of the current baseline.
 
+## Investigative Tool Reproduction
+
+The investigative checks evaluated during issue #44 can also be reproduced
+locally.
+
+### Norminette
+
+The maintained C source and headers were checked with:
+
+    norminette include src libft
+
+The audited result reported all 71 files as `OK!` together with two
+`GLOBAL_VAR_DETECTED` notices for the deliberate signal-state global.
+
+Because those notices cause a non-zero command status, the raw exit code is
+not currently suitable as a hard CI gate.
+
+### GCC `-fanalyzer`
+
+The GCC analyzer discovery checked each C translation unit independently:
+
+    tmp_dir="$(mktemp -d)"
+
+    while IFS= read -r file; do
+        gcc -Wall -Wextra -Werror -fanalyzer             -Iinclude -Ilibft             -c "$file"             -o "$tmp_dir/$(basename "$file").o"
+    done < <(
+        find src libft -type f -name '*.c' -print | sort
+    )
+
+    rm -rf "$tmp_dir"
+
+The findings require domain-aware classification and are not currently used as
+a hard CI gate.
+
+### Clang Static Analyzer
+
+The Clang Static Analyzer discovery checked each C translation unit
+independently:
+
+    while IFS= read -r file; do
+        clang --analyze             -Wall -Wextra -Werror             -Iinclude -Ilibft             "$file"
+    done < <(
+        find src libft -type f -name '*.c' -print | sort
+    )
+
+The audited invocation can generate `.plist` analyzer artefacts in the working
+directory.
+
+Those generated files are not repository content and can be removed after the
+investigation with:
+
+    find . -maxdepth 1 -type f -name '*.plist' -delete
+
+Analyzer output and exit-status semantics must be handled deliberately before
+this check could become an automated CI gate.
+
 ## Failure Semantics
 
 `CI / quality` fails when:
