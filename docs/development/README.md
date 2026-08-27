@@ -19,6 +19,9 @@ For contributors and maintainers beginning from the repository root:
   maintained GitHub Actions baseline, its guarantees and its limitations;
 - [`static-analysis.md`](static-analysis.md) documents compiler-diversity
   quality checks, evaluated static-analysis tools and the tooling rationale.
+- [`code-quality.md`](code-quality.md) records the maintained implementation
+  quality baseline, analyzer findings, resource review and source-metadata
+  policy.
 - [`api-documentation.md`](api-documentation.md) defines the maintained
   API-documentation boundary, documentation conventions and Doxygen strategy.
 
