@@ -3,28 +3,57 @@ name: CI
 on:
   pull_request:
   push:
-    branches: [ main ]
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
-      - name: Install dependencies
-        shell: bash
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libreadline-dev
-
-      - name: Build (if Makefile exists)
+      - name: Install build dependencies
         shell: bash
         run: |
           set -euo pipefail
-          if [ -f Makefile ]; then
-            make
-          else
-            echo "No Makefile yet, skipping build."
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libreadline-dev
+
+      - name: Clean build
+        shell: bash
+        run: |
+          set -euo pipefail
+          make fclean
+          make
+
+      - name: Verify build artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -x ./minishell
+
+      - name: Verify no relink
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          before="$(stat -c '%y' ./minishell)"
+          make
+          after="$(stat -c '%y' ./minishell)"
+
+          if [ "$before" != "$after" ]; then
+            echo "minishell was unexpectedly relinked"
+            exit 1
           fi
