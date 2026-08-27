@@ -449,7 +449,11 @@ the authoritative description of the full repository workflow.
 
 ## 9. CI and Validation on GitHub
 
-The repository currently defines:
+The maintained continuous-integration baseline is documented in:
+
+[`continuous-integration.md`](continuous-integration.md)
+
+and implemented by:
 
 [`../../.github/workflows/ci.yml`](../../.github/workflows/ci.yml)
 
@@ -458,15 +462,23 @@ The workflow runs:
 - for pull requests;
 - for pushes to `main`.
 
-Its current job installs the readline development dependency and builds the
-project when a `Makefile` exists.
+The current `CI / build` job uses Ubuntu 24.04, installs the Readline
+development dependency and validates:
 
-A successful build is useful evidence that the pull request still compiles.
+- a clean `make fclean && make` build;
+- creation of the executable `./minishell`;
+- no unnecessary relink when `make` is immediately repeated.
 
-The current CI workflow should not be described as a complete quality gate.
+The workflow uses explicit read-only repository permissions, a job timeout and
+pull-request concurrency cancellation for superseded runs.
 
-Automated tests, static analysis and broader quality checks belong to separate
-modernization workstreams.
+A successful `CI / build` result is evidence that these build-integration
+requirements passed.
+
+It is not evidence of complete behavioural correctness.
+
+Automated regression tests, static analysis, Valgrind, FD checks and broader
+quality automation belong to separate modernization workstreams.
 
 Before merge, confirm that the available checks have completed successfully.
 

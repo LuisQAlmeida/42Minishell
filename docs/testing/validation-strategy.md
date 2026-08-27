@@ -184,18 +184,28 @@ The current GitHub Actions workflow is:
 
 [`../../.github/workflows/ci.yml`](../../.github/workflows/ci.yml)
 
+The detailed CI contract is documented in:
+
+[`../development/continuous-integration.md`](../development/continuous-integration.md)
+
 It runs for:
 
 - pull requests;
 - pushes to `main`.
 
-The current job:
+The current `CI / build` job:
 
 1. checks out the repository;
 2. installs `libreadline-dev`;
-3. runs `make` when the Makefile exists.
+3. performs `make fclean && make`;
+4. verifies that `./minishell` is executable;
+5. verifies that an unchanged second `make` does not relink the executable.
 
-Therefore, the current CI provides automated build validation only.
+The workflow also defines explicit read-only repository permissions, a
+10-minute job timeout and cancellation of superseded pull-request runs.
+
+Therefore, the current CI provides automated build-integration validation
+only.
 
 It does not currently run:
 
