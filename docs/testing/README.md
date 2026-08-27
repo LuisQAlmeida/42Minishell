@@ -35,10 +35,10 @@ The current validation model is documented in:
 
 - [`validation-strategy.md`](validation-strategy.md), which defines validation
   layers, expectations by change type, evidence standards, CI boundaries and
-  known testing gaps.
-
-A maintained manual-validation guide is developed separately within this
-testing workstream.
+  known testing gaps;
+- [`manual-validation.md`](manual-validation.md), which provides reproducible
+  operational checks for build, behaviour, signals, memory, file descriptors
+  and repository changes.
 
 ## Historical Validation Evidence
 
