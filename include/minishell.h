@@ -32,56 +32,91 @@
 /*                                  TYPES                                     */
 /* ************************************************************************** */
 
+/**
+ * @brief Token categories produced by the scanner.
+ *
+ * Operator tokens preserve the shell syntax required by the grammar and
+ * execution stages.
+ */
 typedef enum e_toktype
 {
-	TOK_WORD,
-	TOK_PIPE,
-	TOK_REDIR_IN,
-	TOK_REDIR_OUT,
-	TOK_HEREDOC,
-	TOK_APPEND
+	TOK_WORD,       /**< Command word or redirection operand. */
+	TOK_PIPE,       /**< Pipeline separator (`|`). */
+	TOK_REDIR_IN,   /**< Input redirection operator (`<`). */
+	TOK_REDIR_OUT,  /**< Truncating output redirection operator (`>`). */
+	TOK_HEREDOC,    /**< Here-document operator (`<<`). */
+	TOK_APPEND      /**< Appending output redirection operator (`>>`). */
 }	t_toktype;
 
+/**
+ * @brief Error state propagated through parsing-related operations.
+ */
 typedef enum e_err
 {
-	ERR_NONE,
-	ERR_MALLOC,
-	ERR_UNCLOSED_QUOTE,
-	ERR_SYNTAX
+	ERR_NONE,           /**< No error has been reported. */
+	ERR_MALLOC,         /**< Dynamic allocation failed. */
+	ERR_UNCLOSED_QUOTE, /**< Input contains an unterminated quote. */
+	ERR_SYNTAX          /**< Input violates the supported shell grammar. */
 }	t_err;
 
 /* ************************************************************************** */
 /*                               STRUCTURES                                   */
 /* ************************************************************************** */
 
+/**
+ * @brief Node in the scanner token stream.
+ *
+ * Token nodes are consumed by the grammar stage and released with
+ * scn_token_clear().
+ */
 typedef struct s_token
 {
-	t_toktype		type;
-	char			*value;
-	struct s_token	*next;
+	t_toktype		type;  /**< Token category. */
+	char			*value; /**< Owned token payload when present. */
+	struct s_token	*next;  /**< Next token in scanner order. */
 }	t_token;
 
+/**
+ * @brief Redirection attached to a parsed command.
+ *
+ * The grammar owns the duplicated target string. A prepared descriptor is
+ * owned by the node while fd is non-negative and may later be transferred to
+ * execution, which resets fd to -1.
+ */
 typedef struct s_redir
 {
-	t_toktype		type;
-	char			*target;
-	int				fd;
-	struct s_redir	*next;
+	t_toktype		type;   /**< Redirection operator category. */
+	char			*target; /**< Owned redirection target string. */
+	int				fd;     /**< Prepared descriptor, or -1 when absent. */
+	struct s_redir	*next;   /**< Next redirection for the command. */
 }	t_redir;
 
+/**
+ * @brief Parsed command node within a pipeline.
+ *
+ * Each node owns its argument vector and redirection list. Command nodes are
+ * chained in pipeline order and released with grm_clear().
+ */
 typedef struct s_cmd
 {
-	char			**argv;
-	int				argc;
-	t_redir			*redirs;
-	struct s_cmd	*next;
+	char			**argv;   /**< Owned NULL-terminated argument vector. */
+	int				argc;     /**< Number of command arguments. */
+	t_redir			*redirs;  /**< Owned redirection list. */
+	struct s_cmd	*next;     /**< Next command in pipeline order. */
 }	t_cmd;
 
+/**
+ * @brief Mutable state owned by an active shell session.
+ *
+ * The session owns a mutable copy of the environment for its lifetime.
+ * last_status represents the most recently established shell status and is
+ * also used by `$?` expansion and by `exit` when no explicit status is given.
+ */
 typedef struct s_shell
 {
-	char	**envp;
-	int		last_status;
-	int		should_exit;
+	char	**envp;       /**< Owned mutable environment array. */
+	int		last_status; /**< Most recently established shell exit status. */
+	int		should_exit; /**< Non-zero when the parent loop must terminate. */
 }	t_shell;
 
 typedef struct s_tokctx
@@ -219,6 +254,14 @@ int		sta_env_unset(t_shell *shell, const char *name);
 /*                                SIGNALS                                     */
 /* ************************************************************************** */
 
+/**
+ * @brief Signal number recorded by the active input signal handler.
+ *
+ * A value of 0 represents no currently recorded handled signal. Interactive
+ * and heredoc signal modes reset the value when installed. Session and
+ * heredoc control flow inspect the value to react to SIGINT outside the
+ * asynchronous handler itself.
+ */
 extern volatile sig_atomic_t	g_signal;
 
 void	sig_set_interactive(void);
