@@ -10,6 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file libft.h
+ * @brief Utility interfaces used by the Minishell implementation.
+ *
+ * Provides the maintained Libft subset bundled with this repository.
+ * Function-level contracts document allocation, ownership and basic
+ * behavioural guarantees where relevant.
+ */
+
 #ifndef LIBFT_H
 # define LIBFT_H
 

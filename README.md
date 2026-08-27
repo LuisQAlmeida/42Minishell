@@ -496,19 +496,25 @@ code as it exists rather than implying functionality that is not present.
 
 Additional project material lives under [`docs/`](docs/).
 
-The repository currently includes:
+The maintained documentation includes:
 
-- architecture and design notes;
-- development decisions;
-- planning material;
-- project-management conventions;
-- evaluation preparation;
+- architecture and engineering decision records;
+- testing and validation strategy;
+- contribution, CI and quality-tooling guidance;
+- API and resource-ownership documentation;
+- historical project and evaluation material;
 - the original project subject.
 
-Some architecture documents were created during development and describe the
-intended design rather than every detail of the final implementation. They are
-being reconciled with the final code as part of the repository modernization
-initiative.
+The maintained API-documentation strategy is defined in
+[`docs/development/api-documentation.md`](docs/development/api-documentation.md).
+
+A repository-controlled [`Doxyfile`](Doxyfile) generates a local HTML reference
+for the curated Minishell and Libft API boundary. Generated output remains
+under `build/` and is not versioned.
+
+Hand-written architecture documentation remains authoritative for system-level
+design. Doxygen supplements it with data-model, interface, ownership and
+side-effect contracts.
 
 ## Contributing
 
@@ -546,14 +552,15 @@ Repository modernization is tracked through
 
 ## Future Evolution
 
-The portfolio roadmap includes improving:
+Architecture documentation, continuous integration, quality-tooling guidance
+and the maintained API/resource-ownership baseline are now established as part
+of the repository modernization.
 
-- architecture documentation;
-- automated testing and CI;
-- deeper static-analysis and quality auditing;
-- API documentation;
-- resource-ownership documentation;
-- regression testing;
+The remaining portfolio roadmap includes:
+
+- deeper static-analysis and code-quality auditing;
+- broader automated regression testing;
+- evolution and release strategy for post-baseline work;
 - additional technical exploration beyond the original 42 scope.
 
 Future extensions will remain distinguishable from the original 42
