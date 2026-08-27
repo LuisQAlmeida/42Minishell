@@ -445,8 +445,14 @@ does not relink it.
 The CI baseline and its failure semantics are documented in
 [`docs/development/continuous-integration.md`](docs/development/continuous-integration.md).
 
+The workflow also provides an independent Clang compiler-diversity quality
+check through `CI / quality`.
+
+The quality-tool evaluation and rationale are documented in
+[`docs/development/static-analysis.md`](docs/development/static-analysis.md).
+
 The workflow does not currently provide an automated behavioural regression
-suite, resource checks, static analysis or coverage reporting.
+suite, resource checks, general static-analysis gates or coverage reporting.
 
 Original 42 evaluation preparation and project-era validation evidence remain
 preserved under
@@ -456,8 +462,8 @@ mandatory manual test matrix.
 Historical PASS results are evidence of the original project validation, not
 claims that the current baseline is automatically revalidated.
 
-Automated regression testing, static analysis and broader CI quality gates
-remain future modernization work.
+Automated regression testing, resource-oriented automation and any future
+general static-analysis gates remain separate modernization work.
 
 ## Current Scope and Limitations
 
@@ -544,7 +550,7 @@ The portfolio roadmap includes improving:
 
 - architecture documentation;
 - automated testing and CI;
-- static analysis and quality checks;
+- deeper static-analysis and quality auditing;
 - API documentation;
 - resource-ownership documentation;
 - regression testing;

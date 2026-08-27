@@ -201,11 +201,20 @@ The current `CI / build` job:
 4. verifies that `./minishell` is executable;
 5. verifies that an unchanged second `make` does not relink the executable.
 
-The workflow also defines explicit read-only repository permissions, a
-10-minute job timeout and cancellation of superseded pull-request runs.
+The current `CI / quality` job:
 
-Therefore, the current CI provides automated build-integration validation
-only.
+1. checks out the repository;
+2. installs Clang and `libreadline-dev`;
+3. performs `make fclean && make CC=clang`;
+4. verifies that `./minishell` is executable;
+5. verifies that an unchanged second `make CC=clang` does not relink the
+   executable.
+
+The workflow also defines explicit read-only repository permissions,
+10-minute job timeouts and cancellation of superseded pull-request runs.
+
+The current CI therefore provides both reference build integration and
+compiler-diversity validation.
 
 It does not currently run:
 
@@ -214,8 +223,15 @@ It does not currently run:
 - Valgrind;
 - file-descriptor checks;
 - signal-interaction tests;
-- static analysis;
+- GCC `-fanalyzer`;
+- the Clang Static Analyzer;
+- `cppcheck`;
+- `clang-tidy`;
 - coverage reporting.
+
+The compiler-quality and analyzer evaluation is documented in:
+
+[`../development/static-analysis.md`](../development/static-analysis.md)
 
 These limitations should remain visible until the corresponding automation is
 actually implemented.
@@ -310,8 +326,12 @@ Future testing work may consider:
 - automated resource checks where results can be interpreted reliably;
 - coverage reporting where it provides useful engineering information.
 
-Static analysis and broader CI quality gates are separate modernization
-workstreams.
+Compiler-diversity quality validation is now automated through
+`CI / quality`.
+
+General static-analysis gates remain separate from compiler diagnostics and
+should only be introduced where the analyzer provides demonstrated,
+maintainable signal.
 
 Testing automation should be added as executable infrastructure, not inferred
 from historical Markdown test matrices.

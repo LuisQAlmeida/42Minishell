@@ -16,7 +16,9 @@ For contributors and maintainers beginning from the repository root:
 - [`git-workflow.md`](git-workflow.md) documents the detailed Git and GitHub
   lifecycle;
 - [`continuous-integration.md`](continuous-integration.md) documents the
-  maintained GitHub Actions build baseline, its guarantees and its limitations.
+  maintained GitHub Actions baseline, its guarantees and its limitations;
+- [`static-analysis.md`](static-analysis.md) documents compiler-diversity
+  quality checks, evaluated static-analysis tools and the tooling rationale.
 
 ## Current Workflow
 
@@ -70,6 +72,10 @@ See:
 For the CI contract itself, see:
 
 [`continuous-integration.md`](continuous-integration.md)
+
+For compiler-quality and static-analysis decisions, see:
+
+[`static-analysis.md`](static-analysis.md)
 
 ## Repository Governance
 
