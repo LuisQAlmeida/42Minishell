@@ -1,8 +1,5 @@
 name: Maintenance
 description: Track documentation, testing, refactoring, CI or repository-maintenance work.
-title: ""
-labels: []
-assignees: []
 
 body:
   - type: markdown
