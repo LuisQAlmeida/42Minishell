@@ -437,10 +437,16 @@ See:
   for reproducible manual checks covering shell behaviour, signals, memory,
   file descriptors and repository changes.
 
-The current GitHub Actions workflow provides automated build validation on pull
-requests and pushes to `main`. It currently runs `make`; it does not provide an
-automated behavioural regression suite, resource checks, static analysis or
-coverage reporting.
+The current GitHub Actions workflow provides automated build-integration
+validation on pull requests and pushes to `main`. It performs a clean build,
+verifies the expected executable and checks that an unchanged second `make`
+does not relink it.
+
+The CI baseline and its failure semantics are documented in
+[`docs/development/continuous-integration.md`](docs/development/continuous-integration.md).
+
+The workflow does not currently provide an automated behavioural regression
+suite, resource checks, static analysis or coverage reporting.
 
 Original 42 evaluation preparation and project-era validation evidence remain
 preserved under

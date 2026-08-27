@@ -14,7 +14,9 @@ For contributors and maintainers beginning from the repository root:
 - [`../../CONTRIBUTING.md`](../../CONTRIBUTING.md) provides the public
   contribution entry point;
 - [`git-workflow.md`](git-workflow.md) documents the detailed Git and GitHub
-  lifecycle.
+  lifecycle;
+- [`continuous-integration.md`](continuous-integration.md) documents the
+  maintained GitHub Actions build baseline, its guarantees and its limitations.
 
 ## Current Workflow
 
@@ -54,6 +56,7 @@ The detailed workflow covers:
 - pull-request expectations;
 - maintained GitHub Issue Forms and pull-request templates;
 - CI and review;
+- the maintained continuous-integration baseline;
 - `CODEOWNERS`;
 - protected `main` behaviour;
 - squash merge;
@@ -63,6 +66,10 @@ The detailed workflow covers:
 See:
 
 [`git-workflow.md`](git-workflow.md)
+
+For the CI contract itself, see:
+
+[`continuous-integration.md`](continuous-integration.md)
 
 ## Repository Governance
 
