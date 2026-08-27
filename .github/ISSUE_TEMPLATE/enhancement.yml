@@ -1,8 +1,5 @@
 name: Enhancement
 description: Propose a new capability or deliberate improvement.
-title: ""
-labels: []
-assignees: []
 
 body:
   - type: markdown

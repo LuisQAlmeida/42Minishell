@@ -1,8 +1,5 @@
 name: Bug report
 description: Report incorrect or unexpected behaviour in the maintained repository.
-title: ""
-labels: []
-assignees: []
 
 body:
   - type: markdown
