@@ -208,19 +208,40 @@ The configuration should therefore:
 - remain lightweight enough for contributors to understand without a separate
   documentation build system.
 
-The initial documentation source boundary should focus on the maintained
-headers rather than presenting every implementation file as public API.
+The maintained documentation source boundary focuses on the repository's
+interface headers rather than presenting every implementation file as public
+API.
 
-## Existing Libft Documentation
+The generated API currently publishes:
 
-`libft/libft.h` already contains Doxygen-style documentation for its utility
-functions.
+- `include/minishell.h`, containing the curated Minishell data model and
+  selected cross-module contracts;
+- `libft/libft.h`, containing the documented utility API used by Minishell;
+- this document, used as the generated documentation main page.
 
-That documentation should be preserved and evaluated for consistency with the
-repository-wide convention.
+Both maintained headers include Doxygen `@file` documentation.
 
-The current workstream does not require rewriting correct Libft comments merely
-to make their wording uniform.
+With `EXTRACT_ALL = NO`, the audited Doxygen 1.9.8 configuration did not
+publish documented global functions, variables, enums and typedefs as file or
+global API pages until their containing headers were documented with `@file`.
+
+The `@file` declarations are therefore part of the maintained publication
+boundary rather than decorative file comments.
+
+## Libft Utility API
+
+`libft/libft.h` already contained useful Doxygen-style contracts for the
+bundled utility functions before the maintained documentation baseline was
+introduced.
+
+Those existing contracts are preserved rather than mechanically rewritten for
+wording consistency.
+
+The header is now an explicit documented Doxygen file and its documented
+functions are published alongside the Minishell API.
+
+This keeps useful Libft contracts discoverable while avoiding unnecessary
+documentation churn in working utility code.
 
 ## Historical 42 Headers
 
