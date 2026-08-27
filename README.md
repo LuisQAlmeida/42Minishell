@@ -423,29 +423,35 @@ different signal policies.
 This avoids treating asynchronous input as if every process were in the same
 execution state.
 
-## Testing
+## Testing and Validation
 
-The repository preserves the original mandatory manual test matrix used during
-project validation, covering:
-
-- prompt and history behaviour;
-- quoting;
-- expansion;
-- built-ins;
-- external command execution;
-- redirections;
-- heredocs;
-- multi-stage pipelines;
-- signals;
-- error handling and exit statuses.
+The maintained testing documentation defines how the current repository is
+validated and distinguishes current checks from historical project evidence.
 
 See:
 
-[`docs/history/validation/mandatory-test-matrix.md`](docs/history/validation/mandatory-test-matrix.md)
+- [`docs/testing/validation-strategy.md`](docs/testing/validation-strategy.md)
+  for validation layers, expectations by change type, CI boundaries and known
+  testing gaps;
+- [`docs/testing/manual-validation.md`](docs/testing/manual-validation.md)
+  for reproducible manual checks covering shell behaviour, signals, memory,
+  file descriptors and repository changes.
 
-The repository currently runs a CI build check on pull requests. Additional
-automated testing, static analysis and quality gates are planned as part of the
-repository modernization work.
+The current GitHub Actions workflow provides automated build validation on pull
+requests and pushes to `main`. It currently runs `make`; it does not provide an
+automated behavioural regression suite, resource checks, static analysis or
+coverage reporting.
+
+Original 42 evaluation preparation and project-era validation evidence remain
+preserved under
+[`docs/history/validation/`](docs/history/validation/), including the original
+mandatory manual test matrix.
+
+Historical PASS results are evidence of the original project validation, not
+claims that the current baseline is automatically revalidated.
+
+Automated regression testing, static analysis and broader CI quality gates
+remain future modernization work.
 
 ## Current Scope and Limitations
 

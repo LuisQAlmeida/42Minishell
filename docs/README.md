@@ -13,7 +13,7 @@ artifacts.
 | [Architecture](architecture/) | Current system structure, runtime flows and subsystem relationships | Active documentation domain |
 | [Engineering Decisions](decisions/) | Significant technical decisions and Architecture Decision Records | Active documentation domain |
 | [Development](development/) | Current contribution, maintenance and repository workflow | Active documentation domain |
-| [Testing and Validation](testing/) | Current verification strategy and maintained test documentation | Active documentation domain |
+| [Testing and Validation](testing/) | Maintained validation strategy and reproducible manual validation guidance | Active documentation domain |
 | [Project History](history/) | Original requirements, design history, planning, validation evidence and previous team workflow | Historical |
 
 The active documentation domains currently establish the repository
@@ -29,7 +29,7 @@ docs/
 ├── architecture/   current system design
 ├── decisions/      accepted engineering decisions
 ├── development/    current development workflow
-├── testing/        current verification strategy
+├── testing/        maintained testing and validation
 └── history/        original and superseded project artifacts
 ```
 
@@ -114,12 +114,13 @@ The maintained repository now includes:
 
 - current architecture and runtime-flow documentation;
 - engineering decision records;
-- contribution and Git workflow documentation.
+- contribution and Git workflow documentation;
+- maintained testing strategy and manual validation guidance.
 
 Further work is tracked separately for areas including:
 
-- maintained testing and validation strategy;
-- automated quality and CI documentation;
+- automated regression testing and broader CI quality gates;
+- static-analysis automation;
 - API documentation where it adds value.
 
 Historical material remains available under [`history/`](history/) as evidence
