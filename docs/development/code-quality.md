@@ -701,9 +701,193 @@ maintenance benefit.
 Deliberate or low-risk duplication whose removal would introduce more
 complexity or coupling than the duplication itself.
 
+## Implementation Hygiene and Final Validation
+
+The final audit pass reviewed implementation hygiene and reproduced the
+maintained quality checks after the resource and memory ownership reviews.
+
+### Source Change Boundary
+
+The code-quality audit introduces no runtime implementation change.
+
+Compared with the `main` baseline, the workstream changes only:
+
+- `docs/development/README.md`;
+- `docs/development/code-quality.md`.
+
+No C source, maintained header or Libft implementation file is modified by
+this audit.
+
+This is intentional.
+
+The audit identified demonstrated runtime defects, but those defects are
+tracked through focused follow-up issues rather than mixed into the audit
+branch:
+
+- #49 for parent-process redirection recovery;
+- #50 for literal-dollar allocation failure propagation.
+
+### Historical Metadata
+
+The maintained tree still contains:
+
+- 69 C source files;
+- 2 maintained headers;
+- 71 maintained C/header files in total;
+- 71 historical 42 banners.
+
+The historical source metadata therefore remains completely uniform across the
+maintained tree.
+
+No banner was selectively rewritten or removed.
+
+### Comment and Maintenance-Marker Hygiene
+
+The 69 maintained C implementation files contain no `//` comment lines and no
+additional block-comment markers after their historical file banners.
+
+The maintained C/header tree also contains no:
+
+- `TODO`;
+- `FIXME`;
+- `XXX`;
+
+maintenance markers.
+
+This does not mean that technical debt is absent. The findings documented in
+this audit were established through control-flow, ownership and analyzer review
+rather than source annotations.
+
+Maintained API documentation in the headers remains intentionally separate
+from this implementation-comment audit.
+
+### Duplicate Helper Review
+
+The only duplicated static helper names found repository-wide remain:
+
+    print_signal_msg
+    status_from_wait
+
+Both occur in the standalone-child and pipeline waiting implementations.
+
+Their behavioural difference was reviewed earlier in this audit and remains
+classified as:
+
+    ACCEPTED_DUPLICATION
+
+No refactor is justified solely to remove these small local helpers.
+
+### Include Model
+
+The final include inventory remains consistent with the previously documented
+historical umbrella-header model.
+
+Most Minishell implementation files include `minishell.h`, while direct
+Readline includes are limited to the implementation units that require them.
+
+No broad include redistribution was performed because the audit did not
+demonstrate a correctness or maintenance problem sufficient to justify the
+repository-wide source churn.
+
+### Reference Build
+
+The final reference build succeeds through the historical Makefile interface:
+
+    make
+
+Result:
+
+- exit status: 0;
+- warnings: 0;
+- errors: 0;
+- Minishell executable generated successfully.
+
+### Compiler-Diversity Build
+
+The final supplemental build also succeeds with:
+
+    make CC=clang
+
+Result:
+
+- exit status: 0;
+- warnings: 0;
+- errors: 0;
+- Minishell executable generated successfully.
+
+### GCC Analyzer Regression
+
+The final GCC 13.3.0 `-fanalyzer` reproduction reports the same six findings
+documented by the initial audit:
+
+- two pipeline `dup2()` descriptor warnings;
+- one redirection `dup2()` descriptor warning;
+- one apparent heredoc double close;
+- two standard-stream restoration `dup2()` descriptor warnings.
+
+No new GCC analyzer finding appeared.
+
+The six warnings retain their documented classification as analyzer
+limitations and do not justify source changes in this workstream.
+
+### Clang Static Analyzer Regression
+
+The final Clang 18.1.3 analysis covers all 69 C translation units.
+
+Result:
+
+- 69 translation units analyzed;
+- 0 non-zero analyzer runs;
+- 1 warning.
+
+The remaining warning is the previously documented theoretical
+`ft_memcpy()` null-pointer path.
+
+No new Clang Static Analyzer finding appeared.
+
+### Documentation Validation
+
+Doxygen generation succeeds from the maintained repository configuration.
+
+Result:
+
+- Doxygen exit status: 0;
+- Doxygen warnings: 0;
+- HTML index generated successfully.
+
+Generated documentation remains under the ignored `build/` tree and is not
+versioned.
+
+No `.pch`, `.plist` or `.sarif` analyzer artefacts remain in the maintained
+source tree.
+
+### Repository Validation
+
+Final repository checks confirm:
+
+- `git diff --check` passes;
+- no runtime source file differs from `main`;
+- no generated analysis artefact is versioned;
+- the worktree is clean after generated build products are ignored;
+- static-analysis output is stable against the documented baseline.
+
+### Implementation-Cleanup Decision
+
+No non-functional source cleanup is performed as part of #48.
+
+The audit did not identify an implementation-only change whose demonstrated
+maintenance benefit clearly outweighs the churn and regression risk of
+modifying otherwise stable source code.
+
+This is a deliberate audit result rather than an incomplete cleanup.
+
+Demonstrated behavioural defects remain isolated in focused follow-up issues,
+while accepted risks, trade-offs and analyzer limitations remain documented
+for future maintainers.
+
 ## Current Baseline
 
-The initial code-quality audit establishes the following baseline:
+The completed code-quality audit establishes the following baseline:
 
 - reference `cc` build: pass;
 - Clang compiler-diversity build: pass;
@@ -726,7 +910,13 @@ The initial code-quality audit establishes the following baseline:
 - partial `cd` state after post-`chdir()` failure: plausible risk;
 - transient dangling pointers during failure unwind: accepted trade-off;
 - token, grammar, environment and child-process memory ownership: no
-  demonstrated correctness defect.
+  demonstrated correctness defect;
+- runtime implementation changes introduced by #48: none;
+- reference and Clang builds: pass with zero warnings;
+- GCC and Clang analyzer results: stable against the documented baseline;
+- Doxygen generation: pass with zero warnings;
+- generated documentation and analyzer artefacts: not versioned;
+- implementation-only cleanup: not justified by the audit evidence.
 
 This baseline does not claim that the implementation is defect-free.
 
