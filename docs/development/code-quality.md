@@ -487,6 +487,188 @@ The audit therefore found no justification for a broad execution refactor.
 The demonstrated defects are isolated to parent-process redirection recovery
 and are tracked separately.
 
+## Memory Ownership and Allocation Findings
+
+A focused review of token construction, grammar ownership, variable expansion,
+environment replacement, persistent shell state and child cleanup found a
+generally coherent memory-ownership model.
+
+### `Q48-M1`: literal-dollar allocation failure is not propagated
+
+Classification:
+
+    DEFECT
+
+`expand_dollar_value()` handles a dollar sign that is not followed by a valid
+variable-name start by allocating a literal dollar string:
+
+    if (!exp_name_start(str[*i]))
+        return (ft_strdup("$"));
+
+Unlike the other allocation paths in the expansion subsystem, failure of this
+allocation does not set:
+
+    ERR_MALLOC
+
+If `ft_strdup()` fails, the function therefore returns `NULL` while the error
+state remains `ERR_NONE`.
+
+`exp_variables()` can then interpret this as normal expansion progress rather
+than as an allocation failure.
+
+For a literal `$`, the allocation failure can therefore be converted into an
+empty expansion. For input such as `$-`, the dollar can be silently dropped
+while processing continues.
+
+Follow-up:
+
+    #50 Propagate allocation failures during literal-dollar expansion
+
+No behaviour-changing fix is included in this audit workstream.
+
+### `Q48-M2`: partial `cd` state update after successful `chdir()`
+
+Classification:
+
+    PLAUSIBLE_RISK
+
+`blt_cd()` changes the process working directory before updating the maintained
+`OLDPWD` and `PWD` environment entries.
+
+After a successful `chdir()`, later operations can still fail, including:
+
+- `getcwd()`;
+- environment-entry allocation;
+- `OLDPWD` replacement;
+- `PWD` replacement.
+
+A failure can therefore leave the real process working directory changed while
+one or both maintained environment entries remain stale or only partially
+updated.
+
+The audit did not demonstrate this under normal execution, and making `cd`
+fully transactional would require a broader behavioural design decision.
+
+The finding is therefore recorded without a runtime change in #48.
+
+### `Q48-M3`: transient dangling pointers during failure unwind
+
+Classification:
+
+    ACCEPTED_TRADEOFF
+
+Some failure paths free owned memory before the containing structure itself is
+abandoned without immediately resetting every pointer to `NULL`.
+
+Examples include scanner token-list cleanup and partially constructed command
+argument arrays.
+
+Under the current control flow:
+
+- the owning operation immediately returns after cleanup;
+- the containing structure is not reused;
+- no second free or subsequent dereference was identified.
+
+Resetting these transient pointers could make future refactoring more
+defensive, but no current use-after-free or double-free defect was demonstrated.
+
+### Token Ownership
+
+Token values are transferred into `t_token` nodes when token construction
+succeeds.
+
+On failure:
+
+- a newly allocated word is freed if its token node cannot be allocated;
+- already-built token lists are released through `scn_token_clear()`;
+- token cleanup releases both the owned value and the node.
+
+No token-memory leak or double free was identified in the audited paths.
+
+### Grammar and Command Ownership
+
+Parsed commands own:
+
+- their allocated `argv` array;
+- duplicated argument strings;
+- redirection nodes;
+- duplicated redirection targets.
+
+Partial construction is unwound through the corresponding array and
+redirection cleanup functions.
+
+`grm_clear()` remains the final owner cleanup for successfully constructed
+command chains.
+
+No unowned command allocation was identified.
+
+### Variable-Expansion Ownership
+
+Expansion builds an owned result buffer from temporary allocated parts.
+
+`sup_join_free_left()` consistently consumes its first argument on both
+success and allocation failure.
+
+Temporary expansion parts are freed by the expansion loop after append
+attempts.
+
+Apart from `Q48-M1`, allocation failures are propagated through `ERR_MALLOC`
+and the accumulated result is released before failure is returned.
+
+### Environment Ownership
+
+The shell owns its mutable `envp` copy for the duration of the session.
+
+Environment extension uses a new pointer array while retaining ownership of
+the existing strings.
+
+If allocation of the new entry fails, only the new pointer array is released
+and the old environment remains valid.
+
+On successful extension:
+
+- existing string ownership transfers to the new pointer array;
+- the old pointer array is freed;
+- `shell->envp` is replaced only after successful construction.
+
+Environment removal similarly constructs the replacement pointer array before
+freeing the removed entry and old array.
+
+Existing-entry replacement allocates the replacement string before releasing
+the previous value.
+
+The audit therefore found the `sta_env_copy()`, `sta_env_set()` and
+`sta_env_unset()` ownership transitions coherent under allocation failure.
+
+### Child-Process Cleanup
+
+`exe_child_exit()` releases the child process copies of:
+
+- tokens;
+- parsed commands and redirections;
+- the shell environment.
+
+Because these allocations exist in the child address space after `fork()`,
+their cleanup does not release or invalidate the parent's corresponding
+memory.
+
+No cross-process memory-ownership defect was identified.
+
+### Memory Ownership Summary
+
+The audited memory model is generally explicit and stable:
+
+- token nodes own their token values;
+- command structures own their duplicated arguments and redirections;
+- shell state owns its mutable environment copy;
+- expansion temporaries have short, identifiable lifetimes;
+- environment replacement preserves the previous valid state until replacement
+  allocation succeeds;
+- child cleanup operates only on the child's post-`fork()` address space.
+
+The demonstrated allocation-propagation defect is isolated to the
+literal-dollar expansion path and is tracked separately in #50.
+
 ## Finding Classification
 
 Quality findings use the following classifications:
@@ -539,7 +721,12 @@ The initial code-quality audit establishes the following baseline:
 - parent redirection failure-path defects: tracked in #49;
 - `wait()` / `waitpid()` interruption handling: accepted trade-off;
 - interactive Readline signal-handler behaviour: plausible risk requiring
-  focused future investigation.
+  focused future investigation;
+- literal-dollar allocation propagation defect: tracked in #50;
+- partial `cd` state after post-`chdir()` failure: plausible risk;
+- transient dangling pointers during failure unwind: accepted trade-off;
+- token, grammar, environment and child-process memory ownership: no
+  demonstrated correctness defect.
 
 This baseline does not claim that the implementation is defect-free.
 
