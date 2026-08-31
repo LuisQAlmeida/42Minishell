@@ -684,8 +684,8 @@ The audited memory model is generally explicit and stable:
   allocation succeeds;
 - child cleanup operates only on the child's post-`fork()` address space.
 
-The demonstrated allocation-propagation defect is isolated to the
-literal-dollar expansion path and is tracked separately in #50.
+The demonstrated allocation-propagation defect was isolated to the
+literal-dollar expansion path and has been resolved by #50.
 
 ## Finding Classification
 
