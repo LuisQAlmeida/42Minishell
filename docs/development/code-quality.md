@@ -378,11 +378,12 @@ This is especially relevant in persistent parent-process execution through:
 A child-process descriptor leak would disappear when that child exits, while a
 descriptor leaked by the shell process can survive subsequent commands.
 
-Follow-up:
+Resolution:
 
     #49 Harden parent redirection recovery on dup2 failures
 
-No behaviour-changing fix is included in this audit workstream.
+Issue #49 closes the transferred-descriptor ownership gap by explicitly
+closing any still-pending output descriptor when input `dup2()` fails.
 
 ### `Q48-R2`: `wait()` / `waitpid()` interruption handling
 
@@ -426,12 +427,16 @@ The parent callers also perform restoration after an `exe_redir_apply()`
 failure without currently using the restoration return value to override the
 existing command status.
 
-Follow-up:
+Resolution:
 
     #49 Harden parent redirection recovery on dup2 failures
 
+Issue #49 retries interrupted standard-stream restoration, still attempts both
+streams when one restore fails and treats unrecoverable restoration failure as
+fatal to the persistent shell session.
+
 This defect shares the same parent-redirection ownership boundary as
-`Q48-R1`, so both are tracked through the same focused technical issue.
+`Q48-R1`, so both are resolved through the same focused technical issue.
 
 ### `Q48-R4`: Readline operations from the interactive signal handler
 
@@ -488,8 +493,11 @@ Heredoc descriptors:
 Standard-stream backups:
 
 - clean up partial `dup()` success during save;
-- attempt best-effort restoration of both streams;
-- require the dedicated #49 follow-up for failure-path ownership guarantees.
+- retry interrupted restoration attempts;
+- attempt restoration of both streams even if one fails;
+- consume saved descriptors exactly once;
+- terminate the persistent session when restoration can no longer be
+  guaranteed.
 
 The audit therefore found no justification for a broad execution refactor.
 The demonstrated defects are isolated to parent-process redirection recovery
@@ -913,7 +921,7 @@ The completed code-quality audit establishes the following baseline:
 - legacy 42 banners: removed uniformly after historical preservation and attribution were verified;
 - broad include redistribution: not justified at this stage;
 - generated analyzer artefacts: not versioned;
-- parent redirection failure-path defects: tracked in #49;
+- parent redirection failure-path defects: resolved by #49;
 - `wait()` / `waitpid()` interruption handling: accepted trade-off;
 - interactive Readline signal-handler behaviour: plausible risk requiring
   focused future investigation;

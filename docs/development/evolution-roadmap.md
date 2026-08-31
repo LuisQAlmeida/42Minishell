@@ -94,7 +94,7 @@ They should:
 - include appropriate validation;
 - update documentation when a maintained contract changes.
 
-Known examples are tracked in #49 and #50.
+Known correctness work includes the resolved #49 follow-up and the remaining #50 follow-up.
 
 ### Maintenance and Reliability
 
@@ -262,7 +262,7 @@ Examples include:
 - missing allocation-error propagation;
 - incorrect status or state handling.
 
-Current issues #49 and #50 belong to this correctness queue.
+Issue #49 has been resolved from this correctness queue; #50 remains current P1 work.
 
 Their exact implementation order may be chosen independently, but they should
 normally precede optional post-42 feature work.
@@ -300,21 +300,27 @@ The code-quality audit identified two focused runtime defects.
 
 ### #49: Parent Redirection Recovery
 
-Issue #49 tracks failure-path defects around parent-process redirection
+Issue #49 addressed failure-path defects around parent-process redirection
 handling and `dup2()` recovery.
 
-The affected area includes:
+The affected area included:
 
 - pending redirection descriptor ownership;
 - standard-stream restoration;
 - persistent parent-process state.
 
-This is correctness work, not a post-42 feature.
+The fix closes pending descriptor ownership on failed redirection application,
+retries interrupted standard-stream restoration and terminates the persistent
+session if restoration can no longer be guaranteed.
 
 Roadmap classification:
 
     Correctness Fix
     Priority: P1
+    Status: Resolved
+
+This remains post-baseline correctness work rather than an original 42
+feature.
 
 ### #50: Literal-Dollar Allocation Failure
 
@@ -475,7 +481,8 @@ At the time this roadmap was established:
 - the professional repository baseline is documented and maintained;
 - the historical 42 state remains preserved;
 - source metadata has been normalized without rewriting history;
-- #49 and #50 are the current focused correctness follow-ups;
+- #49 has resolved the parent-redirection P1 finding;
+- #50 remains the current focused P1 correctness follow-up;
 - automated behavioural regression testing remains a useful future engineering
   direction;
 - optional post-42 capabilities remain non-committed;

@@ -303,6 +303,9 @@ int		exe_heredocs_prepare(t_cmd *cmd, t_child_ctx *ctx, int *status);
  * @param status Output status updated when a redirection operation fails.
  * @return 0 on success, 1 on failure.
  *
+ * Redirection descriptors transferred from t_redir nodes are consumed before
+ * return, including pending descriptors on failure paths.
+ *
  * On success, STDIN_FILENO and/or STDOUT_FILENO may have been replaced.
  */
 int		exe_redir_apply(t_cmd *cmd, int *status);
@@ -332,8 +335,11 @@ int		exe_stdio_save(int *stdin_save, int *stdout_save);
 /**
  * @brief Restore standard input and output from saved descriptors.
  *
- * Both saved descriptors are closed before the function returns, including
- * when a dup2() operation fails. This function therefore consumes them.
+ * Interrupted dup2() operations are retried. Restoration of both streams is
+ * attempted even when one restore fails.
+ *
+ * Both saved descriptors are closed before the function returns, so this
+ * function consumes them on every path.
  *
  * @param stdin_save Saved standard-input descriptor.
  * @param stdout_save Saved standard-output descriptor.
