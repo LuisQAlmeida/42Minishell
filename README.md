@@ -579,10 +579,14 @@ These fixes remain distinguishable from documentation-only modernization work.
 The maintained release strategy is now defined separately from the historical
 baseline.
 
-The first maintained `v1.0.0` release is intentionally not created yet.
-Issues #49 and #50 have resolved the identified P1 correctness gates, and the
-final portfolio audit has established readiness to proceed to release-candidate
-validation.
+The final portfolio audit and subsequent release-candidate validation have
+completed successfully.
+
+The first maintained `v1.0.0` release has not yet been published. Release
+preparation is tracked through
+[issue #62](https://github.com/LuisQAlmeida/42Minishell/issues/62), and the exact
+final `main` state must still be validated after those preparation changes are
+integrated and before the release tag is created.
 
 The audit evidence and verdict are recorded in
 [`docs/development/final-portfolio-audit.md`](docs/development/final-portfolio-audit.md).

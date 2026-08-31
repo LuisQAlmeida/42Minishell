@@ -466,11 +466,12 @@ such as:
 The P1 correctness work identified by the implementation audit has been
 resolved through #49 and #50.
 
-The final portfolio audit has established readiness to proceed to the
-release-candidate validation defined by the release strategy.
+The final portfolio audit and subsequent release-candidate validation have
+completed successfully.
 
-The first maintained release remains gated by successful completion of that
-validation.
+The first maintained release is now in publication preparation under #62. The
+exact final `main` state must still be validated after release-state
+documentation is integrated and before the annotated `v1.0.0` tag is created.
 
 This roadmap determines how future work is categorized and prioritized.
 
@@ -504,7 +505,8 @@ At the current maintained state:
   direction;
 - optional post-42 capabilities remain non-committed;
 - maintained release strategy is defined in `release-strategy.md`;
-- final portfolio review remains a separate closing workstream.
+- final portfolio audit and release-candidate validation are complete;
+- first maintained release publication is tracked separately through #62.
 
 The roadmap should be updated when the evolution policy itself changes, not
 merely whenever an individual issue is opened or closed.
