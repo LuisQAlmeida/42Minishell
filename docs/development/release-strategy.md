@@ -514,22 +514,21 @@ This release strategy does not:
 
 ## Current Release State
 
-At the current maintained state:
+The maintained release state is defined by the following invariants:
 
-- `portfolio-baseline-2026-08` is the only existing tag;
-- it is an annotated historical tag;
-- no semantic-version maintained release exists;
-- `main` is the current maintained development baseline;
-- #49 has resolved its P1 correctness gate;
-- #50 has resolved its P1 correctness gate;
+- `portfolio-baseline-2026-08` remains the immutable annotated historical
+  reference;
+- `main` is the maintained integration branch;
+- #49 and #50 have resolved the identified P1 correctness gates;
 - no identified P1 correctness release gate remains open;
 - the final portfolio audit has been completed;
 - release-candidate validation completed successfully against maintained
   `main` commit `4c036f5`;
-- release publication preparation is tracked through #62;
-- `v1.0.0` has not yet been created;
-- the exact final `main` state must still be validated after the release
-  preparation changes are integrated and before the tag is created.
+- `v1.0.0` is defined as the first maintained semantic-version release;
+- publication of `v1.0.0` is tracked through #62;
+- the annotated release tag must point to the exact final `main` state validated
+  immediately before publication;
+- the matching GitHub Release must resolve to that same tag and source state.
 
-The first maintained portfolio release becomes eligible only after its
-documented readiness gates pass against the exact state selected for tagging.
+A maintained portfolio release is eligible only after its documented readiness
+gates pass against the exact state selected for tagging.
