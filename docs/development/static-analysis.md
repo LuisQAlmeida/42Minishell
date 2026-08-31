@@ -122,11 +122,14 @@ Compiler warnings are valuable but do not provide complete static analysis.
 
 ### Norminette
 
-Norminette remains relevant because Minishell originated as a 42 project and
-the historical source follows 42-style constraints.
+Norminette was relevant to the original 42 project and to the issue #44
+discovery audit.
 
-The discovery audit used Norminette 3.3.59 across the maintained C source and
-headers.
+That audit was performed before the later source-metadata cleanup removed the
+legacy 42 file banners from the maintained C/header tree.
+
+The discovery audit used Norminette 3.3.59 across the then-maintained C source
+and headers.
 
 Observed result:
 
@@ -144,10 +147,13 @@ This is a deliberate signal-handling design choice.
 Despite all files reporting `OK!`, the command returned exit status 1 because
 of the notices.
 
-For that reason, raw Norminette exit status is not currently used as an
-automated hard CI gate.
+The current maintained tree intentionally no longer contains the mandatory 42
+file banners. A repository-wide Norminette run therefore reports header
+validation failures and is not a meaningful current acceptance gate.
 
-Norminette remains useful as 42-specific manual validation where appropriate.
+The recorded issue #44 result remains evidence of the pre-cleanup 42-style
+source state. Norminette may still be useful when inspecting the historical
+baseline or when explicitly validating 42-specific constraints.
 
 ### GCC `-fanalyzer`
 
@@ -250,20 +256,26 @@ It is not part of the current baseline.
 
 ## Investigative Tool Reproduction
 
-The investigative checks evaluated during issue #44 can also be reproduced
-locally.
+The investigative commands evaluated during issue #44 are preserved below for
+traceability.
+
+Re-running them against the current maintained tree may produce different
+results where later repository work intentionally changed the audited
+conditions.
 
 ### Norminette
 
-The maintained C source and headers were checked with:
+During issue #44, the then-maintained C source and headers were checked with:
 
     norminette include src libft
 
-The audited result reported all 71 files as `OK!` together with two
+The recorded result reported all 71 files as `OK!` together with two
 `GLOBAL_VAR_DETECTED` notices for the deliberate signal-state global.
 
-Because those notices cause a non-zero command status, the raw exit code is
-not currently suitable as a hard CI gate.
+Later source-metadata cleanup deliberately removed the legacy 42 file banners.
+Running the same command against the current maintained tree therefore produces
+header-validation failures and should not be treated as a current repository
+acceptance gate.
 
 ### GCC `-fanalyzer`
 
