@@ -22,6 +22,9 @@ For contributors and maintainers beginning from the repository root:
 - [`code-quality.md`](code-quality.md) records the maintained implementation
   quality baseline, analyzer findings, resource review and source-metadata
   policy.
+- [`evolution-roadmap.md`](evolution-roadmap.md) defines how correctness,
+  maintenance, optional post-42 work and experiments should evolve beyond the
+  preserved historical baseline.
 - [`api-documentation.md`](api-documentation.md) defines the maintained
   API-documentation boundary, documentation conventions and Doxygen strategy.
 
