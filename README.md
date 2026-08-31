@@ -502,11 +502,15 @@ The maintained documentation includes:
 - testing and validation strategy;
 - contribution, CI and quality-tooling guidance;
 - API and resource-ownership documentation;
+- post-baseline evolution guidance;
 - historical project and evaluation material;
 - the original project subject.
 
 The maintained API-documentation strategy is defined in
 [`docs/development/api-documentation.md`](docs/development/api-documentation.md).
+
+The maintained post-baseline evolution policy is defined in
+[`docs/development/evolution-roadmap.md`](docs/development/evolution-roadmap.md).
 
 A repository-controlled [`Doxyfile`](Doxyfile) generates a local HTML reference
 for the curated Minishell and Libft API boundary. Generated output remains
@@ -552,19 +556,28 @@ Repository modernization is tracked through
 
 ## Future Evolution
 
-Architecture documentation, continuous integration, quality-tooling guidance
-and the maintained API/resource-ownership baseline are now established as part
-of the repository modernization.
+The repository now distinguishes explicitly between the preserved historical
+42 project and later maintained development.
 
-The remaining portfolio roadmap includes:
+The post-baseline evolution policy is defined in
+[`docs/development/evolution-roadmap.md`](docs/development/evolution-roadmap.md).
 
-- deeper static-analysis and code-quality auditing;
-- broader automated regression testing;
-- evolution and release strategy for post-baseline work;
-- additional technical exploration beyond the original 42 scope.
+Current focused correctness follow-ups include:
 
-Future extensions will remain distinguishable from the original 42
-implementation.
+- issue #49 for parent-process redirection recovery;
+- issue #50 for literal-dollar allocation-error propagation.
+
+These fixes are tracked separately from documentation-only modernization work.
+
+The remaining portfolio-modernization work focuses on historical
+baseline/release strategy and the final portfolio audit.
+
+Broader automated regression testing, further maintenance improvements and
+optional post-42 technical exploration remain possible future directions rather
+than committed requirements.
+
+Future runtime changes should remain issue-driven, validated and clearly
+distinguishable from the original 42 implementation.
 
 ## License
 
