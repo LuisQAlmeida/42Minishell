@@ -245,16 +245,33 @@ documentation churn in working utility code.
 
 ## Historical 42 Headers
 
-All 71 maintained C and header files currently contain the historical 42 file
-banner with `jpedro-g` recorded in the Created and Updated metadata.
+The maintained C/header tree originally contained the legacy 42 file banner in
+all 71 maintained source and header files.
 
-Those banners are historical file metadata, not API documentation.
+Those banners recorded `jpedro-g` in their per-file author, creation and update
+metadata. They were preserved during the initial modernization and API
+documentation audits while repository attribution and historical preservation
+were reviewed.
 
-They are not used by Doxygen as part of the maintained documentation model.
+The repository now preserves the original development context through:
 
-Their repository-wide cleanup belongs to the later code-quality audit so that
-historical attribution is handled consistently rather than selectively
-rewritten during API-documentation work.
+- Git history;
+- collaborative attribution in repository documentation;
+- historical project documentation;
+- the immutable pre-modernization tag `portfolio-baseline-2026-08`.
+
+After that historical record was verified, the legacy banners were removed
+uniformly from the current maintained tree.
+
+The removal does not rewrite historical commits or the preserved baseline and
+does not replace the banners with new per-file ownership claims.
+
+No SPDX identifier was introduced as part of the banner cleanup. Any future
+SPDX or copyright normalization remains a separate licensing and attribution
+decision.
+
+Historical source metadata is therefore not part of the maintained API
+documentation boundary.
 
 ## Generated Documentation
 
