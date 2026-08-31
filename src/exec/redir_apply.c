@@ -46,7 +46,10 @@ int	exe_redir_apply(t_cmd *cmd, int *status)
 	if (apply_all_redirs(cmd->redirs, &in_fd, &out_fd, status))
 		return (1);
 	if (in_fd != -1 && exe_redir_dup(in_fd, STDIN_FILENO, status))
+	{
+		exe_redir_close(-1, out_fd);
 		return (1);
+	}
 	if (out_fd != -1
 		&& exe_redir_dup(out_fd, STDOUT_FILENO, status))
 		return (1);

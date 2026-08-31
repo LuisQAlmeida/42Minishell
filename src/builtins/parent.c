@@ -13,11 +13,15 @@ int	blt_execute_parent(t_cmd *cmd, t_shell *shell)
 		return (1);
 	if (exe_redir_apply(cmd, &status))
 	{
-		exe_stdio_restore(stdin_save, stdout_save);
+		if (exe_stdio_restore(stdin_save, stdout_save))
+			shell->should_exit = 1;
 		return (status);
 	}
 	status = blt_execute(cmd, shell);
 	if (exe_stdio_restore(stdin_save, stdout_save))
+	{
+		shell->should_exit = 1;
 		return (1);
+	}
 	return (status);
 }

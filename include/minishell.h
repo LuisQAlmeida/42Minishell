@@ -310,7 +310,7 @@ int		exe_redir_one(t_redir *r, int *in_fd,
 			int *out_fd, int *status);
 int		exe_redir_dup(int fd, int std_fd, int *status);
 void	exe_redir_close(int in_fd, int out_fd);
-int		exe_redir_only(t_cmd *cmd);
+int		exe_redir_only(t_cmd *cmd, t_shell *shell);
 int		exe_heredoc_setup(const char *delim, int *fd,
 			t_child_ctx *ctx, int *status);
 int		exe_heredoc_read(int write_fd, const char *delim);
