@@ -539,7 +539,10 @@ history.
 ## Project History
 
 This project was originally developed collaboratively by a two-person team
-during the 42 Porto Common Core.
+during the 42 Porto Common Core:
+
+- Luís Quental Almeida;
+- João da Silva (`@xSilverWasHere`).
 
 The Git history and original contributor attribution are intentionally
 preserved.
