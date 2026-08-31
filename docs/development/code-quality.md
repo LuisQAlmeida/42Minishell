@@ -284,42 +284,50 @@ to narrow header exposure.
 
 ## Historical 42 File Banners
 
-All 71 maintained C/header files contain the historical 42 banner.
+The initial code-quality audit confirmed that all 71 maintained C/header files
+contained the same historical 42 file banner.
 
-All currently record:
+Those banners recorded:
 
     By: jpedro-g <jpedro-g@student.42porto.com>
 
-The banners are uniform historical metadata rather than maintained ownership
-or API documentation.
+They were preserved during that audit while the repository's attribution and
+historical record were verified.
 
-Git history, the historical baseline tag and repository documentation preserve
-the collaborative origin of the project and show contributions from both
-original developers.
+Git history demonstrates substantial original contribution from both Luís
+Quental Almeida and João da Silva, while the README documents the original
+two-person development context.
 
-The repository license currently contains a copyright notice for Luís Quental
-Almeida, while Git history also demonstrates substantial original contribution
-from João da Silva.
+The exact pre-modernization repository state is also preserved by:
 
-Because SPDX license identifiers do not replace attribution or copyright
-metadata, this workstream does not mechanically replace the historical banners
-with SPDX comments.
+    portfolio-baseline-2026-08
 
-Maintained policy:
+After those historical references were confirmed, issue #53 removed the legacy
+42 banners uniformly from all 71 maintained C/header files.
 
-- preserve the 71 historical banners unchanged in the current modernization
-  baseline;
-- do not selectively rewrite banners according to the contributor named in
-  them;
-- do not replace them with new per-file ownership claims;
-- preserve actual authorship through Git history and repository history
-  documentation;
-- treat any future SPDX/copyright migration as a separate licensing and
-  attribution decision.
+The cleanup:
+
+- removed the same 11-line banner and following blank line from every maintained
+  C/header file;
+- did not selectively alter files according to the contributor named in them;
+- did not introduce replacement per-file author or ownership claims;
+- did not modify historical commits or the preserved baseline tag;
+- did not introduce SPDX identifiers;
+- did not change runtime logic or maintained API behaviour.
+
+The current maintained source tree therefore no longer attempts to represent
+authorship through decorative per-file metadata.
+
+Authorship and development history remain represented by Git history,
+repository documentation and the preserved historical baseline.
+
+Any future SPDX or copyright normalization remains a separate licensing and
+attribution decision.
 
 ## Technical Comments
 
-Historical file banners are distinct from technical documentation.
+The removed historical file banners were distinct from technical
+documentation.
 
 Comments that explain non-obvious behaviour, ownership, resource lifecycle,
 signals, error handling or interface contracts remain useful engineering
@@ -729,22 +737,25 @@ branch:
 
 ### Historical Metadata
 
-The maintained tree still contains:
+The maintained tree contains:
 
 - 69 C source files;
 - 2 maintained headers;
 - 71 maintained C/header files in total;
-- 71 historical 42 banners.
+- 0 legacy 42 file banners.
 
-The historical source metadata therefore remains completely uniform across the
-maintained tree.
+Issue #53 removed the previously uniform banners from all 71 maintained files
+after historical attribution and preservation were verified.
 
-No banner was selectively rewritten or removed.
+The transformation was mechanical and repository-wide: each maintained file
+lost only its 11-line legacy banner and the following blank line.
+
+No replacement per-file ownership metadata or SPDX identifier was introduced.
 
 ### Comment and Maintenance-Marker Hygiene
 
 The 69 maintained C implementation files contain no `//` comment lines and no
-additional block-comment markers after their historical file banners.
+block-comment markers.
 
 The maintained C/header tree also contains no:
 
@@ -899,7 +910,7 @@ The completed code-quality audit establishes the following baseline:
 - Clang `ft_memcpy()` finding: accepted trade-off under the maintained call
   contract;
 - duplicated wait helpers: accepted duplication;
-- historical 42 banners: preserved uniformly;
+- legacy 42 banners: removed uniformly after historical preservation and attribution were verified;
 - broad include redistribution: not justified at this stage;
 - generated analyzer artefacts: not versioned;
 - parent redirection failure-path defects: tracked in #49;
