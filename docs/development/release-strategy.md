@@ -296,11 +296,13 @@ Release policy:
     RESOLVED FOR v1.0.0
 
 Both identified P1 correctness gates have now been satisfied. The final
-portfolio audit remains a prerequisite for the first maintained release.
+portfolio audit prerequisite has also been completed.
 
 ## Final Portfolio Audit Gate
 
 The final portfolio audit is also a prerequisite for `v1.0.0`.
+
+That prerequisite has now been satisfied.
 
 Its purpose is different from the correctness gates.
 
@@ -325,6 +327,15 @@ Therefore the first maintained release sequence is:
             |
             v
     validate release candidate on main
+            |
+            v
+    reconcile release-state documentation
+            |
+            v
+    integrate release preparation through PR + CI
+            |
+            v
+    validate exact final main state
             |
             v
     create annotated v1.0.0 tag
@@ -512,10 +523,13 @@ At the current maintained state:
 - #49 has resolved its P1 correctness gate;
 - #50 has resolved its P1 correctness gate;
 - no identified P1 correctness release gate remains open;
-- the final portfolio audit has established readiness to proceed to
-  release-candidate validation;
-- `v1.0.0` has not yet been created and remains gated by successful completion
-  of that validation.
+- the final portfolio audit has been completed;
+- release-candidate validation completed successfully against maintained
+  `main` commit `4c036f5`;
+- release publication preparation is tracked through #62;
+- `v1.0.0` has not yet been created;
+- the exact final `main` state must still be validated after the release
+  preparation changes are integrated and before the tag is created.
 
 The first maintained portfolio release becomes eligible only after its
-documented readiness gates pass.
+documented readiness gates pass against the exact state selected for tagging.
