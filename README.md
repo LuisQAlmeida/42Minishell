@@ -565,10 +565,11 @@ The repository now distinguishes explicitly between the preserved historical
 The post-baseline evolution policy is defined in
 [`docs/development/evolution-roadmap.md`](docs/development/evolution-roadmap.md).
 
-Post-baseline correctness work currently includes:
+Post-baseline P1 correctness work identified by the implementation audit has
+been resolved through:
 
-- resolved issue #49 for parent-process redirection recovery;
-- open issue #50 for literal-dollar allocation-error propagation.
+- issue #49 for parent-process redirection recovery;
+- issue #50 for literal-dollar allocation-error propagation.
 
 These fixes remain distinguishable from documentation-only modernization work.
 
@@ -576,8 +577,8 @@ The maintained release strategy is now defined separately from the historical
 baseline.
 
 The first maintained `v1.0.0` release is intentionally not created yet.
-Issue #49 has resolved one P1 correctness gate. Issue #50 remains open, and the
-final portfolio audit must still establish release readiness.
+Issues #49 and #50 have resolved the identified P1 correctness gates. The final
+portfolio audit must still establish release readiness.
 
 Broader automated regression testing, further maintenance improvements and
 optional post-42 technical exploration remain possible future directions rather

@@ -94,7 +94,8 @@ They should:
 - include appropriate validation;
 - update documentation when a maintained contract changes.
 
-Known correctness work includes the resolved #49 follow-up and the remaining #50 follow-up.
+Known P1 correctness work identified by the audit has now been resolved through
+#49 and #50.
 
 ### Maintenance and Reliability
 
@@ -262,7 +263,7 @@ Examples include:
 - missing allocation-error propagation;
 - incorrect status or state handling.
 
-Issue #49 has been resolved from this correctness queue; #50 remains current P1 work.
+Issues #49 and #50 have both been resolved from this P1 correctness queue.
 
 Their exact implementation order may be chosen independently, but they should
 normally precede optional post-42 feature work.
@@ -324,17 +325,21 @@ feature.
 
 ### #50: Literal-Dollar Allocation Failure
 
-Issue #50 tracks missing `ERR_MALLOC` propagation when allocation of a literal
-dollar expansion fails.
+Issue #50 addressed missing `ERR_MALLOC` propagation when allocation of a
+literal dollar expansion fails.
 
-This is a narrow error-propagation defect.
+The fix aligns this path with the existing expansion allocation contract:
+allocation failure now sets `ERR_MALLOC`, causes variable expansion to fail and
+propagates through the scanner instead of silently dropping the literal dollar.
 
 Roadmap classification:
 
     Correctness Fix
     Priority: P1
+    Status: Resolved
 
-Neither fix is implemented by this roadmap workstream.
+Neither #49 nor #50 was implemented by this roadmap workstream itself. Both
+were resolved later through focused technical issues.
 
 ## Known Risks That Are Not Current Commitments
 
@@ -482,7 +487,8 @@ At the current maintained state:
 - the historical 42 state remains preserved;
 - source metadata has been normalized without rewriting history;
 - #49 has resolved the parent-redirection P1 finding;
-- #50 remains the current focused P1 correctness follow-up;
+- #50 has resolved the literal-dollar allocation P1 finding;
+- no demonstrated P1 correctness finding from the audit remains open;
 - automated behavioural regression testing remains a useful future engineering
   direction;
 - optional post-42 capabilities remain non-committed;

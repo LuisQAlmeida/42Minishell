@@ -536,11 +536,13 @@ For a literal `$`, the allocation failure can therefore be converted into an
 empty expansion. For input such as `$-`, the dollar can be silently dropped
 while processing continues.
 
-Follow-up:
+Resolution:
 
     #50 Propagate allocation failures during literal-dollar expansion
 
-No behaviour-changing fix is included in this audit workstream.
+Issue #50 aligns the literal-dollar allocation path with the rest of the
+expansion subsystem by setting `ERR_MALLOC` when allocation of the literal
+dollar string fails.
 
 ### `Q48-M2`: partial `cd` state update after successful `chdir()`
 
@@ -925,7 +927,7 @@ The completed code-quality audit establishes the following baseline:
 - `wait()` / `waitpid()` interruption handling: accepted trade-off;
 - interactive Readline signal-handler behaviour: plausible risk requiring
   focused future investigation;
-- literal-dollar allocation propagation defect: tracked in #50;
+- literal-dollar allocation propagation defect: resolved by #50;
 - partial `cd` state after post-`chdir()` failure: plausible risk;
 - transient dangling pointers during failure unwind: accepted trade-off;
 - token, grammar, environment and child-process memory ownership: no
