@@ -469,9 +469,11 @@ resolved through #49 and #50.
 The final portfolio audit and subsequent release-candidate validation have
 completed successfully.
 
-The first maintained release is now in publication preparation under #62. The
-exact final `main` state must still be validated after release-state
-documentation is integrated and before the annotated `v1.0.0` tag is created.
+`v1.0.0` is defined as the first maintained semantic-version release, with
+publication tracked through #62.
+
+The release workflow requires validation of the exact final `main` state before
+the annotated tag and matching GitHub Release are created.
 
 This roadmap determines how future work is categorized and prioritized.
 

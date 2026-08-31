@@ -582,11 +582,12 @@ baseline.
 The final portfolio audit and subsequent release-candidate validation have
 completed successfully.
 
-The first maintained `v1.0.0` release has not yet been published. Release
-preparation is tracked through
-[issue #62](https://github.com/LuisQAlmeida/42Minishell/issues/62), and the exact
-final `main` state must still be validated after those preparation changes are
-integrated and before the release tag is created.
+`v1.0.0` is defined as the first maintained semantic-version release.
+Its publication workflow is tracked through
+[issue #62](https://github.com/LuisQAlmeida/42Minishell/issues/62).
+
+The release workflow requires the exact final `main` state to pass validation
+immediately before the annotated tag and matching GitHub Release are created.
 
 The audit evidence and verdict are recorded in
 [`docs/development/final-portfolio-audit.md`](docs/development/final-portfolio-audit.md).
