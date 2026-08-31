@@ -15,7 +15,7 @@ int	exe_simple(t_cmd *cmd, t_shell *shell, t_token *tokens)
 	if (exe_redir_prepare(cmd, &ctx, &status))
 		return (status);
 	if (cmd->argc == 0)
-		return (exe_redir_only(cmd));
+		return (exe_redir_only(cmd, shell));
 	if (blt_is_builtin(cmd->argv[0]))
 		return (blt_execute_parent(cmd, shell));
 	pid = fork();

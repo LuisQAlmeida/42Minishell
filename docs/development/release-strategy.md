@@ -274,16 +274,17 @@ There is no exception to that rule for the first maintained release.
 
 ## Current P1 Release Gates
 
-The current evolution roadmap identifies two P1 correctness issues.
+The evolution roadmap identified two P1 correctness issues. One has now been
+resolved and one remains open.
 
 ### #49 Parent Redirection Recovery
 
-Issue #49 covers demonstrated parent-process redirection failure-path defects,
-including descriptor ownership and standard-stream restoration.
+Issue #49 resolves the demonstrated parent-process redirection failure-path
+defects involving descriptor ownership and standard-stream restoration.
 
 Release policy:
 
-    BLOCKS v1.0.0
+    RESOLVED FOR v1.0.0
 
 ### #50 Literal-Dollar Allocation Failure
 
@@ -294,8 +295,8 @@ Release policy:
 
     BLOCKS v1.0.0
 
-Both issues should be resolved and validated before the first maintained
-release is created.
+Issue #49 has satisfied its correctness gate. Issue #50 must still be resolved
+and validated before the first maintained release is created.
 
 ## Final Portfolio Audit Gate
 
@@ -502,13 +503,13 @@ This release strategy does not:
 
 ## Current Release State
 
-At the time this strategy was established:
+At the current maintained state:
 
 - `portfolio-baseline-2026-08` is the only existing tag;
 - it is an annotated historical tag;
 - no semantic-version maintained release exists;
 - `main` is the current maintained development baseline;
-- #49 remains an open P1 correctness gate;
+- #49 has resolved its P1 correctness gate;
 - #50 remains an open P1 correctness gate;
 - the final portfolio audit has not yet established release readiness;
 - `v1.0.0` must therefore not be created yet.
