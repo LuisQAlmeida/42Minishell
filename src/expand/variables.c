@@ -26,7 +26,12 @@ static char	*expand_dollar_value(const char *str, size_t *i,
 	if (part || *err != ERR_NONE)
 		return (part);
 	if (!exp_name_start(str[*i]))
-		return (ft_strdup("$"));
+	{
+		part = ft_strdup("$");
+		if (!part)
+			*err = ERR_MALLOC;
+		return (part);
+	}
 	start = *i;
 	while (exp_name_char(str[*i]))
 		(*i)++;
