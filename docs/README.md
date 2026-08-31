@@ -115,13 +115,16 @@ The maintained repository now includes:
 - current architecture and runtime-flow documentation;
 - engineering decision records;
 - contribution and Git workflow documentation;
-- maintained testing strategy and manual validation guidance.
+- maintained testing strategy and manual validation guidance;
+- continuous-integration and compiler-diversity quality documentation;
+- static-analysis evaluation and implementation-quality audit records;
+- Doxygen and maintained API-documentation guidance;
+- post-baseline evolution policy and maintained release strategy.
 
-Further work is tracked separately for areas including:
+Further work may include:
 
-- automated regression testing and broader CI quality gates;
-- static-analysis automation;
-- API documentation where it adds value.
+- automated behavioural regression testing and broader quality automation;
+- additional static-analysis automation where future evidence justifies it.
 
 Historical material remains available under [`history/`](history/) as evidence
 and context while current documentation evolves independently.

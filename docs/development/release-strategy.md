@@ -512,8 +512,10 @@ At the current maintained state:
 - #49 has resolved its P1 correctness gate;
 - #50 has resolved its P1 correctness gate;
 - no identified P1 correctness release gate remains open;
-- the final portfolio audit has not yet established release readiness;
-- `v1.0.0` must therefore not be created yet.
+- the final portfolio audit has established readiness to proceed to
+  release-candidate validation;
+- `v1.0.0` has not yet been created and remains gated by successful completion
+  of that validation.
 
 The first maintained portfolio release becomes eligible only after its
 documented readiness gates pass.
