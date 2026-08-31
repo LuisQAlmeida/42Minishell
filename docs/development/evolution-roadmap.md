@@ -466,8 +466,11 @@ such as:
 The P1 correctness work identified by the implementation audit has been
 resolved through #49 and #50.
 
-The first maintained release is now gated by the final portfolio audit and the
-subsequent release-candidate validation defined by the release strategy.
+The final portfolio audit has established readiness to proceed to the
+release-candidate validation defined by the release strategy.
+
+The first maintained release remains gated by successful completion of that
+validation.
 
 This roadmap determines how future work is categorized and prioritized.
 

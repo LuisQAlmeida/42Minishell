@@ -27,6 +27,8 @@ For contributors and maintainers beginning from the repository root:
   preserved historical baseline.
 - [`release-strategy.md`](release-strategy.md) defines historical-reference,
   maintained-version and portfolio-release policy.
+- [`final-portfolio-audit.md`](final-portfolio-audit.md) records the final
+  repository-wide portfolio-readiness evidence and verdict.
 - [`api-documentation.md`](api-documentation.md) defines the maintained
   API-documentation boundary, documentation conventions and Doxygen strategy.
 

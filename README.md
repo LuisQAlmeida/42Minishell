@@ -580,8 +580,12 @@ The maintained release strategy is now defined separately from the historical
 baseline.
 
 The first maintained `v1.0.0` release is intentionally not created yet.
-Issues #49 and #50 have resolved the identified P1 correctness gates. The final
-portfolio audit must still establish release readiness.
+Issues #49 and #50 have resolved the identified P1 correctness gates, and the
+final portfolio audit has established readiness to proceed to release-candidate
+validation.
+
+The audit evidence and verdict are recorded in
+[`docs/development/final-portfolio-audit.md`](docs/development/final-portfolio-audit.md).
 
 Broader automated regression testing, further maintenance improvements and
 optional post-42 technical exploration remain possible future directions rather
