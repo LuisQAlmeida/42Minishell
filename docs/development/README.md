@@ -25,6 +25,8 @@ For contributors and maintainers beginning from the repository root:
 - [`evolution-roadmap.md`](evolution-roadmap.md) defines how correctness,
   maintenance, optional post-42 work and experiments should evolve beyond the
   preserved historical baseline.
+- [`release-strategy.md`](release-strategy.md) defines historical-reference,
+  maintained-version and portfolio-release policy.
 - [`api-documentation.md`](api-documentation.md) defines the maintained
   API-documentation boundary, documentation conventions and Doxygen strategy.
 

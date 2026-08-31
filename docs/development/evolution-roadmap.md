@@ -434,15 +434,26 @@ The repository intentionally preserves both stories:
 
 ## Release Relationship
 
-This roadmap does not define the final release or tag strategy.
+The maintained historical-baseline and release policy is defined in:
 
-The dedicated historical-baseline and release-strategy workstream should define
-how maintained release references coexist with:
+[`release-strategy.md`](release-strategy.md)
+
+The release strategy preserves the distinction between:
 
     portfolio-baseline-2026-08
 
-That work should preserve the distinction between historical provenance and a
-later portfolio-ready maintained release.
+as an immutable historical reference and semantic-version maintained releases
+such as:
+
+    v1.0.0
+
+The first maintained release is intentionally gated by unresolved P1
+correctness work and the final portfolio audit.
+
+This roadmap determines how future work is categorized and prioritized.
+
+The release strategy determines when a maintained repository state is ready to
+be published as a versioned release.
 
 ## Non-Commitment Principle
 
@@ -468,7 +479,7 @@ At the time this roadmap was established:
 - automated behavioural regression testing remains a useful future engineering
   direction;
 - optional post-42 capabilities remain non-committed;
-- release strategy is intentionally handled by a separate workstream;
+- maintained release strategy is defined in `release-strategy.md`;
 - final portfolio review remains a separate closing workstream.
 
 The roadmap should be updated when the evolution policy itself changes, not

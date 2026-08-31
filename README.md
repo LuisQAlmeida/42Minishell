@@ -512,6 +512,9 @@ The maintained API-documentation strategy is defined in
 The maintained post-baseline evolution policy is defined in
 [`docs/development/evolution-roadmap.md`](docs/development/evolution-roadmap.md).
 
+Historical-baseline and maintained-release policy is defined in
+[`docs/development/release-strategy.md`](docs/development/release-strategy.md).
+
 A repository-controlled [`Doxyfile`](Doxyfile) generates a local HTML reference
 for the curated Minishell and Libft API boundary. Generated output remains
 under `build/` and is not versioned.
@@ -569,8 +572,12 @@ Current focused correctness follow-ups include:
 
 These fixes are tracked separately from documentation-only modernization work.
 
-The remaining portfolio-modernization work focuses on historical
-baseline/release strategy and the final portfolio audit.
+The maintained release strategy is now defined separately from the historical
+baseline.
+
+The first maintained `v1.0.0` release is intentionally not created yet.
+Current P1 correctness issues #49 and #50 must be resolved, and the final
+portfolio audit must establish release readiness first.
 
 Broader automated regression testing, further maintenance improvements and
 optional post-42 technical exploration remain possible future directions rather
