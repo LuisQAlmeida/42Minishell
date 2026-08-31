@@ -326,7 +326,8 @@ attribution decision.
 
 ## Technical Comments
 
-Historical file banners are distinct from technical documentation.
+The removed historical file banners were distinct from technical
+documentation.
 
 Comments that explain non-obvious behaviour, ownership, resource lifecycle,
 signals, error handling or interface contracts remain useful engineering
@@ -754,7 +755,7 @@ No replacement per-file ownership metadata or SPDX identifier was introduced.
 ### Comment and Maintenance-Marker Hygiene
 
 The 69 maintained C implementation files contain no `//` comment lines and no
-additional block-comment markers after their historical file banners.
+block-comment markers.
 
 The maintained C/header tree also contains no:
 
