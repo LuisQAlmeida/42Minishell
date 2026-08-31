@@ -274,8 +274,8 @@ There is no exception to that rule for the first maintained release.
 
 ## Current P1 Release Gates
 
-The evolution roadmap identified two P1 correctness issues. One has now been
-resolved and one remains open.
+The evolution roadmap identified two P1 correctness issues. Both have now been
+resolved.
 
 ### #49 Parent Redirection Recovery
 
@@ -288,15 +288,15 @@ Release policy:
 
 ### #50 Literal-Dollar Allocation Failure
 
-Issue #50 covers missing allocation-error propagation in the literal-dollar
+Issue #50 resolves missing allocation-error propagation in the literal-dollar
 expansion path.
 
 Release policy:
 
-    BLOCKS v1.0.0
+    RESOLVED FOR v1.0.0
 
-Issue #49 has satisfied its correctness gate. Issue #50 must still be resolved
-and validated before the first maintained release is created.
+Both identified P1 correctness gates have now been satisfied. The final
+portfolio audit remains a prerequisite for the first maintained release.
 
 ## Final Portfolio Audit Gate
 
@@ -510,7 +510,8 @@ At the current maintained state:
 - no semantic-version maintained release exists;
 - `main` is the current maintained development baseline;
 - #49 has resolved its P1 correctness gate;
-- #50 remains an open P1 correctness gate;
+- #50 has resolved its P1 correctness gate;
+- no identified P1 correctness release gate remains open;
 - the final portfolio audit has not yet established release readiness;
 - `v1.0.0` must therefore not be created yet.
 
