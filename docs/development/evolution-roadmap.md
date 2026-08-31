@@ -367,10 +367,15 @@ value justifies work.
 The maintained README and architecture documentation explicitly describe
 features that are not present in the current implementation.
 
-Examples include optional shell grammar and heredoc-body variable expansion.
+Examples include optional shell grammar and the documented heredoc-body
+variable-expansion limitation.
 
-Documenting a missing capability does not create a requirement to implement
-it.
+The preserved v10.0 subject requires heredoc input, environment-variable
+expansion and `$?` expansion, but does not explicitly define expansion
+semantics for heredoc body lines or quoted heredoc delimiters.
+
+The current audit therefore does not classify the missing heredoc-body
+expansion behaviour as a demonstrated P0 or P1 correctness defect.
 
 If such functionality is added later, it should be identified explicitly as
 post-baseline development and validated independently from the historical 42
@@ -458,8 +463,11 @@ such as:
 
     v1.0.0
 
-The first maintained release is intentionally gated by unresolved P1
-correctness work and the final portfolio audit.
+The P1 correctness work identified by the implementation audit has been
+resolved through #49 and #50.
+
+The first maintained release is now gated by the final portfolio audit and the
+subsequent release-candidate validation defined by the release strategy.
 
 This roadmap determines how future work is categorized and prioritized.
 
