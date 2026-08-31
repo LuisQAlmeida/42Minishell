@@ -503,7 +503,7 @@ This release strategy does not:
 
 ## Current Release State
 
-At the time this strategy was established:
+At the current maintained state:
 
 - `portfolio-baseline-2026-08` is the only existing tag;
 - it is an annotated historical tag;

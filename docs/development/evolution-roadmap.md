@@ -476,7 +476,7 @@ from turning into indefinite feature expansion.
 
 ## Current Direction
 
-At the time this roadmap was established:
+At the current maintained state:
 
 - the professional repository baseline is documented and maintained;
 - the historical 42 state remains preserved;
