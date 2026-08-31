@@ -479,7 +479,7 @@ At the time this roadmap was established:
 - automated behavioural regression testing remains a useful future engineering
   direction;
 - optional post-42 capabilities remain non-committed;
-- release strategy is intentionally handled by a separate workstream;
+- maintained release strategy is defined in `release-strategy.md`;
 - final portfolio review remains a separate closing workstream.
 
 The roadmap should be updated when the evolution policy itself changes, not
