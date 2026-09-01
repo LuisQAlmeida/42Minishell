@@ -21,18 +21,19 @@ Doxygen provides a navigable reference for selected interfaces.
 The maintained Doxygen boundary is primarily defined by:
 
     include/minishell.h
-    libft/libft.h
+    external/libft/libft/libft.h
 
 The central Minishell header contains interfaces shared between the program's
 session, scanner, grammar, expansion, execution, builtin, state, signal and
 support subsystems.
 
-The Libft header already contains Doxygen-style documentation for its utility
-interface.
+The canonical Libft header contains Doxygen-style documentation for its
+utility interface.
 
-Implementation files under `src/` and `libft/` remain the source of function
-definitions, but implementation-local helpers are not part of the documented
-API by default.
+Implementation files under `src/` remain the Minishell-owned source of
+function definitions. Libft implementation files are maintained separately in
+the pinned dependency under `external/libft/`; implementation-local helpers
+from either codebase are not part of the documented API by default.
 
 ## Core Data Model
 
@@ -216,7 +217,8 @@ The generated API currently publishes:
 
 - `include/minishell.h`, containing the curated Minishell data model and
   selected cross-module contracts;
-- `libft/libft.h`, containing the documented utility API used by Minishell;
+- `external/libft/libft/libft.h`, containing the documented utility API used
+  by Minishell;
 - this document, used as the generated documentation main page.
 
 Both maintained headers include Doxygen `@file` documentation.
@@ -230,18 +232,20 @@ boundary rather than decorative file comments.
 
 ## Libft Utility API
 
-`libft/libft.h` already contained useful Doxygen-style contracts for the
-bundled utility functions before the maintained documentation baseline was
-introduced.
+`external/libft/libft/libft.h` contains the Doxygen-style contracts provided
+by the canonical Libft dependency.
 
-Those existing contracts are preserved rather than mechanically rewritten for
-wording consistency.
+Before the post-`v1.0.0` dependency externalization, the maintained Minishell
+tree carried an equivalent bundled Libft subset under `libft/`. That duplicate
+implementation was removed after direct source comparison and external-build
+validation demonstrated that Minishell could consume the canonical dependency
+without changing its intended runtime behaviour.
 
-The header is now an explicit documented Doxygen file and its documented
+The canonical header remains an explicit Doxygen input and its documented
 functions are published alongside the Minishell API.
 
-This keeps useful Libft contracts discoverable while avoiding unnecessary
-documentation churn in working utility code.
+This keeps the Libft contracts discoverable while maintaining a clear ownership
+boundary between the Minishell superproject and its external dependency.
 
 ## Historical 42 Headers
 

@@ -263,6 +263,13 @@ Re-running them against the current maintained tree may produce different
 results where later repository work intentionally changed the audited
 conditions.
 
+The command examples below intentionally retain their historical `libft/`
+paths because they record the repository layout used during issue #44. After
+the post-`v1.0.0` dependency externalization, the current maintained Libft
+implementation resides under `external/libft/libft/`. The historical commands
+therefore remain traceability evidence rather than current acceptance
+instructions.
+
 ### Norminette
 
 During issue #44, the then-maintained C source and headers were checked with:

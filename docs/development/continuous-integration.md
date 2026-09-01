@@ -97,11 +97,17 @@ The checkout step also uses:
 
 ```yaml
 persist-credentials: false
+submodules: recursive
 ```
 
-because the job does not push commits, create tags or modify repository state.
+because the job does not push commits, create tags or modify repository state,
+while the maintained build requires the pinned Libft Git submodule.
 
-These settings keep the build workflow read-only at the repository level.
+The checkout action itself is pinned to an immutable reviewed revision rather
+than a moving major-version reference.
+
+These settings keep the build workflow read-only at the repository level while
+making dependency initialization reproducible.
 
 ## Build Dependency
 
@@ -119,8 +125,21 @@ with `--no-install-recommends`.
 
 The project links against Readline through the existing Makefile.
 
-The local `libft` is built from repository source and is not installed as an
-external package.
+Libft is maintained as a separate Git repository and is consumed through the
+submodule at:
+
+    external/libft
+
+The superproject Gitlink pins the exact dependency revision. Both CI jobs
+verify that the checked-out Libft commit matches that Gitlink and that the
+dependency exposes the expected Makefile and public header.
+
+The maintained tree must not contain a second bundled root-level `libft/`
+directory. CI rejects that state explicitly.
+
+Libft is then built through its own Makefile and linked as:
+
+    external/libft/libft/libft.a
 
 ## Build Pipeline
 
@@ -130,13 +149,19 @@ The workflow contains two independent jobs.
 
 `CI / build`:
 
-1. checks out the repository without persisting credentials;
-2. installs `libreadline-dev`;
-3. runs `make fclean`;
-4. runs the normal `make` reference build;
-5. verifies that `./minishell` exists and is executable;
-6. runs `make` again and verifies that the executable timestamp does not
-   change.
+1. checks out the repository without persisting credentials and initializes
+   submodules recursively;
+2. verifies the Libft checkout against the superproject Gitlink;
+3. verifies the expected Libft build interface and rejects a bundled root-level
+   `libft/` directory;
+4. installs `libreadline-dev`;
+5. runs `make fclean`;
+6. runs the normal `make` reference build;
+7. verifies that `./minishell` exists and is executable;
+8. runs `make` again and verifies that the executable timestamp does not
+   change;
+9. verifies that both the superproject and Libft submodule remain clean after
+   the build.
 
 The normal Makefile remains authoritative for the reference build.
 
@@ -144,13 +169,19 @@ The normal Makefile remains authoritative for the reference build.
 
 `CI / quality`:
 
-1. checks out the repository without persisting credentials;
-2. installs Clang and `libreadline-dev`;
-3. runs `make fclean`;
-4. runs `make CC=clang`;
-5. verifies that `./minishell` exists and is executable;
-6. runs `make CC=clang` again and verifies that the executable timestamp does
-   not change.
+1. checks out the repository without persisting credentials and initializes
+   submodules recursively;
+2. verifies the Libft checkout against the superproject Gitlink;
+3. verifies the expected Libft build interface and rejects a bundled root-level
+   `libft/` directory;
+4. installs Clang and `libreadline-dev`;
+5. runs `make fclean`;
+6. runs `make CC=clang`;
+7. verifies that `./minishell` exists and is executable;
+8. runs `make CC=clang` again and verifies that the executable timestamp does
+   not change;
+9. verifies that both the superproject and Libft submodule remain clean after
+   the build.
 
 The `CC=clang` value is a command-line Make override.
 

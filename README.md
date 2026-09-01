@@ -272,7 +272,8 @@ command state.
 .
 ├── include/
 │   └── minishell.h
-├── libft/
+├── external/
+│   └── libft/          # pinned Git submodule
 ├── src/
 │   ├── builtins/
 │   ├── exec/
@@ -300,7 +301,7 @@ command state.
 | `state` | Persistent environment management |
 | `signals` | Context-specific signal policies |
 | `support` | Shared low-level helpers |
-| `libft` | Supporting C utility library |
+| `external/libft` | Pinned external Libft dependency |
 
 ## Build
 
@@ -308,18 +309,45 @@ command state.
 
 The project requires:
 
+- Git;
 - a C compiler;
 - `make`;
 - GNU Readline development headers and library;
 - a Unix-like environment.
 
-Clone the repository and build:
+Clone the repository recursively so that the pinned Libft dependency is
+initialized together with the superproject:
 
 ```bash
-git clone https://github.com/LuisQAlmeida/42Minishell.git
+git clone --recurse-submodules https://github.com/LuisQAlmeida/42Minishell.git
 cd 42Minishell
 make
 ```
+
+For an existing clone created without submodules, initialize the dependency
+before building:
+
+```bash
+git submodule update --init --recursive
+```
+
+Libft is maintained separately in `LuisQAlmeida/42Libft` and is consumed
+through the Git submodule at `external/libft`.
+
+The superproject Gitlink pins the dependency revision used by this maintained
+state. The initial externalized dependency revision is:
+
+```text
+890089c0d12a29874e3a92facd92f9f455d1ff1c
+```
+
+The Makefile builds `external/libft/libft/libft.a` through Libft's own
+Makefile. If the submodule has not been initialized, the build stops with an
+explicit initialization instruction instead of silently falling back to a
+bundled copy.
+
+The historical bundled Libft remains recoverable through Git history and the
+published `v1.0.0` release, but it is not part of the current maintained tree.
 
 Run the shell:
 
@@ -438,9 +466,13 @@ See:
   file descriptors and repository changes.
 
 The current GitHub Actions workflow provides automated build-integration
-validation on pull requests and pushes to `main`. It performs a clean build,
-verifies the expected executable and checks that an unchanged second `make`
-does not relink it.
+validation on pull requests and pushes to `main`. Both jobs initialize Git
+submodules recursively, verify that the checked-out Libft revision matches the
+superproject Gitlink, reject reintroduction of a bundled root-level `libft/`
+directory and verify repository cleanliness after building.
+
+The reference job performs a clean build, verifies the expected executable and
+checks that an unchanged second `make` does not relink it.
 
 The CI baseline and its failure semantics are documented in
 [`docs/development/continuous-integration.md`](docs/development/continuous-integration.md).
@@ -516,8 +548,8 @@ Historical-baseline and maintained-release policy is defined in
 [`docs/development/release-strategy.md`](docs/development/release-strategy.md).
 
 A repository-controlled [`Doxyfile`](Doxyfile) generates a local HTML reference
-for the curated Minishell and Libft API boundary. Generated output remains
-under `build/` and is not versioned.
+for the curated Minishell API and the public API exposed by the pinned Libft
+dependency. Generated output remains under `build/` and is not versioned.
 
 Hand-written architecture documentation remains authoritative for system-level
 design. Doxygen supplements it with data-model, interface, ownership and

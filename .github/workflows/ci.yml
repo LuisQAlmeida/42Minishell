@@ -20,9 +20,34 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+          submodules: recursive
+
+      - name: Verify Libft dependency
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          expected="$(git ls-tree HEAD external/libft | awk '{print $3}')"
+          actual="$(git -C external/libft rev-parse HEAD)"
+
+          echo "Gitlink:  $expected"
+          echo "Checkout: $actual"
+
+          if [ "$expected" != "$actual" ]; then
+            echo "Libft checkout does not match the superproject Gitlink."
+            exit 1
+          fi
+
+          test -f external/libft/libft/Makefile
+          test -f external/libft/libft/libft.h
+
+          if [ -d libft ]; then
+            echo "Bundled Libft directory must not exist in the maintained tree."
+            exit 1
+          fi
 
       - name: Install build dependencies
         shell: bash
@@ -58,15 +83,60 @@ jobs:
             exit 1
           fi
 
+      - name: Verify repository cleanliness
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          super_status="$(git status --porcelain)"
+          libft_status="$(git -C external/libft status --porcelain)"
+
+          if [ -n "$super_status" ]; then
+            echo "Superproject is dirty after build:"
+            printf '%s\n' "$super_status"
+            exit 1
+          fi
+
+          if [ -n "$libft_status" ]; then
+            echo "Libft submodule is dirty after build:"
+            printf '%s\n' "$libft_status"
+            exit 1
+          fi
+
   quality:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+          submodules: recursive
+
+      - name: Verify Libft dependency
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          expected="$(git ls-tree HEAD external/libft | awk '{print $3}')"
+          actual="$(git -C external/libft rev-parse HEAD)"
+
+          echo "Gitlink:  $expected"
+          echo "Checkout: $actual"
+
+          if [ "$expected" != "$actual" ]; then
+            echo "Libft checkout does not match the superproject Gitlink."
+            exit 1
+          fi
+
+          test -f external/libft/libft/Makefile
+          test -f external/libft/libft/libft.h
+
+          if [ -d libft ]; then
+            echo "Bundled Libft directory must not exist in the maintained tree."
+            exit 1
+          fi
 
       - name: Install quality dependencies
         shell: bash
@@ -101,5 +171,25 @@ jobs:
 
           if [ "$before" != "$after" ]; then
             echo "Clang build unexpectedly relinked minishell"
+            exit 1
+          fi
+
+      - name: Verify repository cleanliness
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          super_status="$(git status --porcelain)"
+          libft_status="$(git -C external/libft status --porcelain)"
+
+          if [ -n "$super_status" ]; then
+            echo "Superproject is dirty after build:"
+            printf '%s\n' "$super_status"
+            exit 1
+          fi
+
+          if [ -n "$libft_status" ]; then
+            echo "Libft submodule is dirty after build:"
+            printf '%s\n' "$libft_status"
             exit 1
           fi
