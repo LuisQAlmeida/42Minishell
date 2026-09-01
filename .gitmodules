@@ -1,0 +1,3 @@
+[submodule "external/libft"]
+	path = external/libft
+	url = https://github.com/LuisQAlmeida/42Libft.git
