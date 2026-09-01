@@ -44,6 +44,11 @@ jobs:
           test -f external/libft/libft/Makefile
           test -f external/libft/libft/libft.h
 
+          if [ -d libft ]; then
+            echo "Bundled Libft directory must not exist in the maintained tree."
+            exit 1
+          fi
+
       - name: Install build dependencies
         shell: bash
         run: |
@@ -107,6 +112,11 @@ jobs:
 
           test -f external/libft/libft/Makefile
           test -f external/libft/libft/libft.h
+
+          if [ -d libft ]; then
+            echo "Bundled Libft directory must not exist in the maintained tree."
+            exit 1
+          fi
 
       - name: Install quality dependencies
         shell: bash
