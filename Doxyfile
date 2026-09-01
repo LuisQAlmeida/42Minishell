@@ -10,7 +10,7 @@ OPTIMIZE_OUTPUT_FOR_C  = YES
 TYPEDEF_HIDES_STRUCT   = YES
 
 INPUT                  = include/minishell.h \
-                         libft/libft.h \
+                         external/libft/libft/libft.h \
                          docs/development/api-documentation.md
 
 FILE_PATTERNS          = *.h \
