@@ -11,9 +11,12 @@ RM = rm -f
 SRC_DIR = src
 OBJ_DIR = obj
 INC_DIR = include
-LIBFT_DIR = libft
 
+LIBFT_ROOT = external/libft
+LIBFT_DIR = $(LIBFT_ROOT)/libft
 LIBFT = $(LIBFT_DIR)/libft.a
+LIBFT_HEADER = $(LIBFT_DIR)/libft.h
+
 INCLUDES = -I$(INC_DIR) -I$(LIBFT_DIR)
 
 SESSION_DIR = $(SRC_DIR)/session
@@ -113,8 +116,21 @@ OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 all: $(NAME)
 
-$(LIBFT):
+check-libft:
+	@if [ ! -f "$(LIBFT_DIR)/Makefile" ] || [ ! -f "$(LIBFT_HEADER)" ]; then \
+		echo "Error: Libft submodule is not initialized."; \
+		echo "Run: git submodule update --init --recursive"; \
+		exit 1; \
+	fi
+
+libft-build: check-libft
 	$(MAKE) -C $(LIBFT_DIR)
+	@test -f "$(LIBFT)" || { \
+		echo "Error: Libft build did not produce $(LIBFT)."; \
+		exit 1; \
+	}
+
+$(LIBFT): | libft-build
 
 $(NAME): $(LIBFT) $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
@@ -124,13 +140,17 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
-	$(MAKE) -C $(LIBFT_DIR) clean
+	@if [ -f "$(LIBFT_DIR)/Makefile" ]; then \
+		$(MAKE) -C $(LIBFT_DIR) clean; \
+	fi
 	$(RM) -rf $(OBJ_DIR)
 
 fclean: clean
-	$(MAKE) -C $(LIBFT_DIR) fclean
+	@if [ -f "$(LIBFT_DIR)/Makefile" ]; then \
+		$(MAKE) -C $(LIBFT_DIR) fclean; \
+	fi
 	$(RM) $(NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re check-libft libft-build
