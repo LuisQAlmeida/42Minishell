@@ -83,6 +83,26 @@ jobs:
             exit 1
           fi
 
+      - name: Verify repository cleanliness
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          super_status="$(git status --porcelain)"
+          libft_status="$(git -C external/libft status --porcelain)"
+
+          if [ -n "$super_status" ]; then
+            echo "Superproject is dirty after build:"
+            printf '%s\n' "$super_status"
+            exit 1
+          fi
+
+          if [ -n "$libft_status" ]; then
+            echo "Libft submodule is dirty after build:"
+            printf '%s\n' "$libft_status"
+            exit 1
+          fi
+
   quality:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
@@ -151,5 +171,25 @@ jobs:
 
           if [ "$before" != "$after" ]; then
             echo "Clang build unexpectedly relinked minishell"
+            exit 1
+          fi
+
+      - name: Verify repository cleanliness
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          super_status="$(git status --porcelain)"
+          libft_status="$(git -C external/libft status --porcelain)"
+
+          if [ -n "$super_status" ]; then
+            echo "Superproject is dirty after build:"
+            printf '%s\n' "$super_status"
+            exit 1
+          fi
+
+          if [ -n "$libft_status" ]; then
+            echo "Libft submodule is dirty after build:"
+            printf '%s\n' "$libft_status"
             exit 1
           fi
