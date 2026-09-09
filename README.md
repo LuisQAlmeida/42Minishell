@@ -549,7 +549,27 @@ Historical-baseline and maintained-release policy is defined in
 
 A repository-controlled [`Doxyfile`](Doxyfile) generates a local HTML reference
 for the curated Minishell API and the public API exposed by the pinned Libft
-dependency. Generated output remains under `build/` and is not versioned.
+dependency.
+
+Generate the documentation directly from a clean repository state with:
+
+```sh
+doxygen Doxyfile
+```
+
+No output-directory preparation is required. Generated HTML is written to:
+
+```text
+build/doxygen/index.html
+```
+
+The generated `build/` tree remains ignored by Git and is not versioned.
+
+Doxygen warnings are treated as validation failures. A dedicated GitHub Actions
+documentation job generates the reference from a clean checkout, verifies
+representative Minishell and Libft API entities, removes generated output, and
+checks both the superproject and pinned Libft submodule for repository
+cleanliness.
 
 Hand-written architecture documentation remains authoritative for system-level
 design. Doxygen supplements it with data-model, interface, ownership and

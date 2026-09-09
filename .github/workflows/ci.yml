@@ -193,3 +193,108 @@ jobs:
             printf '%s\n' "$libft_status"
             exit 1
           fi
+
+  documentation:
+    name: documentation
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          submodules: recursive
+          persist-credentials: false
+
+      - name: Install documentation dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          sudo apt-get update
+          sudo apt-get install --yes doxygen
+
+      - name: Validate generated documentation
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          rm -rf build
+
+          doxygen Doxyfile
+
+          test -f build/doxygen/index.html
+
+          for symbol in \
+            t_toktype \
+            t_err \
+            t_token \
+            t_redir \
+            t_cmd \
+            t_shell \
+            ses_loop \
+            scn_line \
+            grm_pipeline \
+            exp_variables \
+            exe_pipeline \
+            blt_execute \
+            sta_env_set \
+            sig_set_interactive
+          do
+            if ! grep -RFl "$symbol" build/doxygen >/dev/null 2>&1; then
+              echo "Generated Minishell documentation is missing: $symbol"
+              exit 1
+            fi
+          done
+
+          for symbol in \
+            ft_printf \
+            ft_strlen \
+            ft_strdup \
+            ft_calloc
+          do
+            if ! grep -RFl "$symbol" build/doxygen >/dev/null 2>&1; then
+              echo "Generated Libft documentation is missing: $symbol"
+              exit 1
+            fi
+          done
+
+          rm -rf build
+
+          if [ -e build ]; then
+            echo "ERROR: generated documentation remains"
+            exit 1
+          fi
+
+      - name: Verify repository cleanliness
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          status_output="$(git status --porcelain --untracked-files=all)"
+
+          if [ -n "$status_output" ]; then
+            echo "ERROR: documentation validation modified the repository:"
+            printf '%s\n' "$status_output"
+            exit 1
+          fi
+
+          submodule_status="$(
+            git -C external/libft status --porcelain --untracked-files=all
+          )"
+
+          if [ -n "$submodule_status" ]; then
+            echo "ERROR: Libft submodule is not clean:"
+            printf '%s\n' "$submodule_status"
+            exit 1
+          fi
+
+          ignored_output="$(git clean -ndX)"
+
+          if [ -n "$ignored_output" ]; then
+            echo "ERROR: ignored generated files remain:"
+            printf '%s\n' "$ignored_output"
+            exit 1
+          fi
+
+          echo "PASS: repository and Libft submodule remain clean"
