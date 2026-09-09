@@ -1,5 +1,9 @@
 # minishell
 
+[![CI](https://github.com/LuisQAlmeida/42Minishell/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/LuisQAlmeida/42Minishell/actions/workflows/ci.yml)
+
+> Part of my [42 Common Core portfolio](https://github.com/LuisQAlmeida/42Portfolio).
+
 > An interactive Unix shell written in C, exploring command processing,
 > process orchestration, pipelines, redirections, environment state and signals.
 
