@@ -338,11 +338,12 @@ git submodule update --init --recursive
 Libft is maintained separately in `LuisQAlmeida/42Libft` and is consumed
 through the Git submodule at `external/libft`.
 
-The superproject Gitlink pins the dependency revision used by this maintained
-state. The initial externalized dependency revision is:
+The superproject Gitlink pins the exact dependency revision used by the
+maintained branch. It is currently aligned with the maintained `42Libft v1.0.0`
+release:
 
 ```text
-890089c0d12a29874e3a92facd92f9f455d1ff1c
+0227823923ca15b580a481c3fb929d7f1382f545
 ```
 
 The Makefile builds `external/libft/libft/libft.a` through Libft's own
