@@ -497,18 +497,15 @@ remain separate concerns.
 
 Before merge, confirm that the available checks have completed successfully.
 
-## 10. Review and `CODEOWNERS`
+## 10. Review and Repository Ownership
 
-The repository currently defines:
+The maintained repository does not use `CODEOWNERS` as an active ownership
+policy.
 
-[`../../.github/CODEOWNERS`](../../.github/CODEOWNERS)
-
-with repository-wide ownership entries for the original collaborators.
-
-This preserves ownership context and can cause GitHub to request appropriate
-reviewers.
-
-`CODEOWNERS` should not be confused with the current approval requirement.
+The original project was developed by Luís Quental Almeida and João da Silva.
+That collaboration remains preserved through Git history, the project README
+and historical documentation rather than through current repository ownership
+configuration.
 
 The repository currently permits pull-request merge without requiring a
 positive approval count, although unresolved review conversations must be

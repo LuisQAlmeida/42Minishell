@@ -112,10 +112,13 @@ The audit found:
 - no tracked symbolic links;
 - no remaining legacy 42 source banners in the maintained C/header tree.
 
-Historical `.agents` and related BMAD/project tooling were verified as
-pre-existing project material rather than portfolio-modernization debris.
+Generic `.agents` and related BMAD/project tooling originated in the
+project workflow rather than in the later portfolio-modernization work.
 
-They remain preserved as historical project tooling.
+The maintained portfolio tree does not need to retain the generic framework
+installation. Its historical presence remains recoverable through Git history
+and the immutable pre-modernization baseline, while project-specific evidence
+and tooling provenance remain documented separately.
 
 ## Phase C: Documentation Consistency
 

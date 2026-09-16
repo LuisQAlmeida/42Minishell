@@ -604,6 +604,12 @@ during the 42 Porto Common Core:
 The Git history and original contributor attribution are intentionally
 preserved.
 
+The original collaborative workflow used Jira and Agile practices, with
+BMAD-assisted planning and documentation during parts of the project. Generic
+BMAD framework scaffolding is not retained as maintained portfolio
+infrastructure; its historical presence remains recoverable through Git history
+and the pre-modernization baseline.
+
 The repository state immediately before its professional portfolio
 modernization is preserved by the annotated tag:
 

@@ -71,7 +71,6 @@ The detailed workflow covers:
 - maintained GitHub Issue Forms and pull-request templates;
 - CI and review;
 - the maintained continuous-integration baseline;
-- `CODEOWNERS`;
 - protected `main` behaviour;
 - squash merge;
 - post-merge branch cleanup;
@@ -104,8 +103,8 @@ repository-enforced policy.
 Where a practice is maintained by convention rather than enforcement, it is
 documented separately as maintained workflow.
 
-This distinction is important for rules such as review expectations,
-`CODEOWNERS` behaviour and approval requirements.
+This distinction is important for rules such as review expectations and
+approval requirements.
 
 ## Historical Workflow
 
