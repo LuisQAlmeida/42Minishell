@@ -85,7 +85,7 @@ historical document contains tests for that category.
 
 ## Related Documentation
 
-- [`../development/git-workflow.md`](../development/git-workflow.md) defines
+- [`CONTRIBUTING.md`](../../CONTRIBUTING.md) defines
   where validation fits into the issue-to-merge workflow.
 - [`../architecture/resource-ownership.md`](../architecture/resource-ownership.md)
   documents memory and file-descriptor ownership.

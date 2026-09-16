@@ -350,9 +350,8 @@ Keeping the workflow name `CI` and the existing `build` job identifier
 preserves the reference build identity while allowing quality checks to remain
 a distinct concern.
 
-Repository-governance details are documented in:
-
-[`git-workflow.md`](git-workflow.md)
+Repository-maintenance and contribution guidance is documented in
+[`CONTRIBUTING.md`](../../CONTRIBUTING.md).
 
 ## Local Equivalent
 

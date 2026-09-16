@@ -1,140 +1,89 @@
 # Development
 
-This directory documents the current contribution, maintenance and repository
-workflow for Minishell.
+This directory contains maintained technical documentation for the
+post-academic Minishell repository.
 
-It describes how the repository is maintained after the original 42 project
-baseline and should not be confused with the historical two-person team
-workflow.
+It complements the project architecture, decision records and testing
+documentation without reproducing the complete repository-maintenance process.
 
-## Start Here
+For contribution workflow and repository-maintenance conventions, see
+[`CONTRIBUTING.md`](../../CONTRIBUTING.md).
 
-For contributors and maintainers beginning from the repository root:
+## Maintained Documentation
 
-- [`../../CONTRIBUTING.md`](../../CONTRIBUTING.md) provides the public
-  contribution entry point;
-- [`git-workflow.md`](git-workflow.md) documents the detailed Git and GitHub
-  lifecycle;
-- [`continuous-integration.md`](continuous-integration.md) documents the
-  maintained GitHub Actions baseline, its guarantees and its limitations;
-- [`static-analysis.md`](static-analysis.md) documents compiler-diversity
-  quality checks, evaluated static-analysis tools and the tooling rationale.
-- [`code-quality.md`](code-quality.md) records the maintained implementation
-  quality baseline, analyzer findings, resource review and source-metadata
-  policy.
-- [`evolution-roadmap.md`](evolution-roadmap.md) defines how correctness,
-  maintenance, optional post-42 work and experiments should evolve beyond the
-  preserved historical baseline.
-- [`release-strategy.md`](release-strategy.md) defines historical-reference,
-  maintained-version and portfolio-release policy.
-- [`final-portfolio-audit.md`](final-portfolio-audit.md) records the final
-  repository-wide portfolio-readiness evidence and verdict.
-- [`api-documentation.md`](api-documentation.md) defines the maintained
-  API-documentation boundary, documentation conventions and Doxygen strategy.
+### API Documentation
 
-## Current Workflow
+[`api-documentation.md`](api-documentation.md) defines the maintained
+API-documentation boundary, documentation conventions and Doxygen strategy.
 
-The maintained development model is:
+It explains which shared Minishell interfaces are documented and how generated
+API documentation relates to the hand-written architecture documentation.
 
-```text
-GitHub issue
-      |
-      v
-short-lived branch
-      |
-      v
-focused commits
-      |
-      v
-local validation
-      |
-      v
-pull request
-      |
-      v
-CI + review
-      |
-      v
-squash merge
-      |
-      v
-branch cleanup
-```
+### Code Quality
 
-The detailed workflow covers:
+[`code-quality.md`](code-quality.md) records the implementation-quality review,
+including resource ownership, error paths, memory ownership, analyzer findings,
+accepted trade-offs and known risks.
 
-- GitHub Issues as the current work-tracking mechanism;
-- branch naming and issue traceability;
-- commit-message conventions;
-- local validation;
-- pull-request expectations;
-- maintained GitHub Issue Forms and pull-request templates;
-- CI and review;
-- the maintained continuous-integration baseline;
-- protected `main` behaviour;
-- squash merge;
-- post-merge branch cleanup;
-- synchronization of the local repository after merge.
+It is an engineering record of the maintained implementation rather than a
+claim that the code is defect-free.
 
-See:
+### Continuous Integration
 
-[`git-workflow.md`](git-workflow.md)
+[`continuous-integration.md`](continuous-integration.md) documents the
+maintained GitHub Actions baseline, including reference and compiler-diversity
+builds, dependency checks, no-relink validation, guarantees and limitations.
 
-For the CI contract itself, see:
+### Static Analysis and Quality Checks
 
-[`continuous-integration.md`](continuous-integration.md)
+[`static-analysis.md`](static-analysis.md) documents the quality tools evaluated
+for this codebase and why compiler diversity is automated while broader static
+analysis remains investigative.
 
-For compiler-quality and static-analysis decisions, see:
+## Repository State Model
 
-[`static-analysis.md`](static-analysis.md)
+The repository distinguishes three states:
 
-## Repository Governance
+| State | Meaning |
+| --- | --- |
+| `portfolio-baseline-2026-08` | Immutable repository state immediately before professional portfolio modernization |
+| `main` | Current maintained repository state |
+| `vMAJOR.MINOR.PATCH` | Deliberately selected immutable maintained release |
 
-The maintained repository uses a protected `main` branch and short-lived
-working branches.
+The historical baseline is not presented as the exact evaluated 42 commit
+unless that relationship can be independently established.
 
-Current governance and workflow policy are documented from the repository's
-maintained configuration rather than inferred from historical project
-agreements.
+Changes made after the baseline remain distinguishable from the original
+academic project through Git history, documentation and release history.
 
-Where GitHub technically enforces a rule, the workflow identifies it as
-repository-enforced policy.
+Historical tags and published releases are immutable references and must not be
+moved to follow later development.
 
-Where a practice is maintained by convention rather than enforcement, it is
-documented separately as maintained workflow.
+## Contribution Workflow
 
-This distinction is important for rules such as review expectations and
-approval requirements.
+The maintained workflow is documented at the repository root in
+[`CONTRIBUTING.md`](../../CONTRIBUTING.md).
 
-## Historical Workflow
+GitHub Issue Forms and the pull-request template under `.github/` provide the
+structured entry points for current work.
 
-The original Minishell project was developed by a two-person team using
-additional Jira-based conventions and collaboration agreements.
+The original two-person Jira-based workflow is historical material and remains
+separate from current maintenance policy.
 
-Those records are preserved under:
+## Historical Project Material
 
-[`../history/team-workflow/`](../history/team-workflow/)
+Original and superseded project-era material is preserved under
+[`../history/`](../history/).
 
-Historical material includes:
-
-- Jira-key policies;
-- original branch and commit conventions;
-- working agreements;
-- definitions of ready and done;
-- Git command references;
-- original repository-governance notes.
-
-These documents preserve project provenance.
-
-They are not automatically authoritative for current portfolio maintenance.
+That material records the original collaborative workflow, design artifacts,
+planning and validation evidence without treating those practices as current
+repository policy.
 
 ## Related Documentation
 
-- [`../README.md`](../README.md) defines the repository-wide documentation
-  model.
 - [`../architecture/`](../architecture/) documents the maintained system
   architecture.
 - [`../decisions/`](../decisions/) records significant engineering decisions.
-- [`../testing/`](../testing/) is the maintained testing and validation domain.
-- [`../history/`](../history/) preserves original and superseded project
-  material.
+- [`../testing/`](../testing/) documents current testing and validation.
+- [`../history/`](../history/) preserves project-era historical material.
+- [`../README.md`](../README.md) is the repository-wide documentation index.

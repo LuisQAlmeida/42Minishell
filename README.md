@@ -539,18 +539,11 @@ The maintained documentation includes:
 - testing and validation strategy;
 - contribution, CI and quality-tooling guidance;
 - API and resource-ownership documentation;
-- post-baseline evolution guidance;
 - historical project and evaluation material;
 - the original project subject.
 
 The maintained API-documentation strategy is defined in
 [`docs/development/api-documentation.md`](docs/development/api-documentation.md).
-
-The maintained post-baseline evolution policy is defined in
-[`docs/development/evolution-roadmap.md`](docs/development/evolution-roadmap.md).
-
-Historical-baseline and maintained-release policy is defined in
-[`docs/development/release-strategy.md`](docs/development/release-strategy.md).
 
 A repository-controlled [`Doxyfile`](Doxyfile) generates a local HTML reference
 for the curated Minishell API and the public API exposed by the pinned Libft
@@ -584,10 +577,6 @@ side-effect contracts.
 
 Current contribution and repository-maintenance guidance is available in
 [`CONTRIBUTING.md`](CONTRIBUTING.md).
-
-The detailed issue, branch, commit, validation, pull-request, squash-merge and
-cleanup workflow is documented in
-[`docs/development/git-workflow.md`](docs/development/git-workflow.md).
 
 The maintained workflow uses GitHub Issues for current work tracking while
 preserving the original Jira-based team workflow separately as project
@@ -625,35 +614,15 @@ Repository modernization is tracked through
 
 ## Future Evolution
 
-The repository now distinguishes explicitly between the preserved historical
-42 project and later maintained development.
+The repository distinguishes explicitly between the preserved historical 42
+project and later maintained development.
 
-The post-baseline evolution policy is defined in
-[`docs/development/evolution-roadmap.md`](docs/development/evolution-roadmap.md).
-
-Post-baseline P1 correctness work identified by the implementation audit has
-been resolved through:
+Post-baseline correctness work identified by the implementation review includes:
 
 - issue #49 for parent-process redirection recovery;
 - issue #50 for literal-dollar allocation-error propagation.
 
-These fixes remain distinguishable from documentation-only modernization work.
-
-The maintained release strategy is now defined separately from the historical
-baseline.
-
-The final portfolio audit and subsequent release-candidate validation have
-completed successfully.
-
-`v1.0.0` is defined as the first maintained semantic-version release.
-Its publication workflow is tracked through
-[issue #62](https://github.com/LuisQAlmeida/42Minishell/issues/62).
-
-The release workflow requires the exact final `main` state to pass validation
-immediately before the annotated tag and matching GitHub Release are created.
-
-The audit evidence and verdict are recorded in
-[`docs/development/final-portfolio-audit.md`](docs/development/final-portfolio-audit.md).
+These fixes remain distinguishable from the original academic implementation.
 
 Broader automated regression testing, further maintenance improvements and
 optional post-42 technical exploration remain possible future directions rather
