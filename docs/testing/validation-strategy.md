@@ -340,7 +340,7 @@ from historical Markdown test matrices.
 
 Validation is part of the maintained contribution lifecycle documented in:
 
-[`../development/git-workflow.md`](../development/git-workflow.md)
+[`CONTRIBUTING.md`](../../CONTRIBUTING.md)
 
 The pull request should report validation actually performed.
 

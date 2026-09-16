@@ -51,10 +51,8 @@ squash merge
 branch cleanup
 ```
 
-Detailed branch, commit, validation, pull-request and merge conventions are
-documented in:
-
-[`docs/development/git-workflow.md`](docs/development/git-workflow.md)
+The conventions below define the maintained contribution workflow for this
+repository.
 
 ## Branches
 
@@ -133,9 +131,8 @@ ensure that applicable validation passes before merge.
 The repository provides maintained GitHub Issue Forms and a pull-request
 template under `.github/`.
 
-These templates support the current GitHub Issues workflow while the detailed
-development guide remains the authoritative description of repository
-maintenance practice.
+These templates support the current GitHub Issues workflow and keep recurring
+maintenance work structured without requiring historical Jira conventions.
 
 ## Merge Policy
 

@@ -119,7 +119,7 @@ The maintained repository now includes:
 - continuous-integration and compiler-diversity quality documentation;
 - static-analysis evaluation and implementation-quality audit records;
 - Doxygen and maintained API-documentation guidance;
-- post-baseline evolution policy and maintained release strategy.
+- maintained development, quality and repository-state documentation.
 
 Further work may include:
 
