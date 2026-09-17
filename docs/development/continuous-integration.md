@@ -280,7 +280,7 @@ or general static analysis.
 
 The current workflow does not run:
 
-- behavioural regression tests;
+- the maintained behavioural regression suite;
 - interactive shell tests;
 - signal-behaviour tests;
 - Norminette;
@@ -309,7 +309,9 @@ In particular:
 - [`../testing/validation-strategy.md`](../testing/validation-strategy.md)
   defines current validation layers and testing gaps;
 - [`../testing/manual-validation.md`](../testing/manual-validation.md)
-  defines reproducible manual validation procedures.
+  defines reproducible manual validation procedures;
+- [`../../tests/README.md`](../../tests/README.md)
+  documents the maintained local behavioural regression suite.
 
 ## Relationship to Quality Automation
 
@@ -330,9 +332,9 @@ The tooling evaluation and selection rationale are documented in:
 
 [`static-analysis.md`](static-analysis.md)
 
-Separate modernization work can still introduce automated regression testing,
-resource-oriented checks or additional analyzer gates where they provide
-demonstrated value.
+Separate modernization work can still introduce CI integration for the
+maintained regression suite, resource-oriented checks or additional analyzer
+gates where they provide demonstrated value.
 
 ## Relationship to Branch Protection
 

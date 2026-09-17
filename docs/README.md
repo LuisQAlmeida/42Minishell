@@ -115,7 +115,8 @@ The maintained repository now includes:
 - current architecture and runtime-flow documentation;
 - engineering decision records;
 - contribution and Git workflow documentation;
-- maintained testing strategy and manual validation guidance;
+- maintained testing strategy, automated behavioural regression coverage and
+  manual validation guidance;
 - continuous-integration and compiler-diversity quality documentation;
 - static-analysis evaluation and implementation-quality audit records;
 - Doxygen and maintained API-documentation guidance;
@@ -123,7 +124,8 @@ The maintained repository now includes:
 
 Further work may include:
 
-- automated behavioural regression testing and broader quality automation;
+- CI integration for the maintained behavioural regression suite and broader
+  quality automation;
 - additional static-analysis automation where future evidence justifies it.
 
 Historical material remains available under [`history/`](history/) as evidence

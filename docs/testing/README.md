@@ -21,7 +21,7 @@ The maintained repository currently has:
 | Manual behavioural validation | Maintained practice |
 | Memory validation | Manual, using Valgrind where relevant |
 | File-descriptor validation | Manual, using Valgrind `--track-fds=yes` where relevant |
-| Automated regression tests | Not implemented |
+| Automated regression tests | Available locally through `make test` |
 | Automated behavioural tests in CI | Not implemented |
 | Static-analysis automation | Not implemented |
 | Coverage reporting | Not implemented |
@@ -40,7 +40,9 @@ The current validation model is documented in:
   known testing gaps;
 - [`manual-validation.md`](manual-validation.md), which provides reproducible
   operational checks for build, behaviour, signals, memory, file descriptors
-  and repository changes.
+  and repository changes;
+- [`../../tests/README.md`](../../tests/README.md), which documents the maintained
+  non-interactive behavioural regression suite and its automation boundaries.
 
 ## Historical Validation Evidence
 

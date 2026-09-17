@@ -488,7 +488,17 @@ check through `CI / quality`.
 The quality-tool evaluation and rationale are documented in
 [`docs/development/static-analysis.md`](docs/development/static-analysis.md).
 
-The workflow does not currently provide an automated behavioural regression
+The repository also provides a maintained local non-interactive behavioural
+regression suite through:
+
+```bash
+make test
+```
+
+The suite and its automation boundaries are documented in
+[`tests/README.md`](tests/README.md).
+
+The GitHub Actions workflow does not currently run that behavioural regression
 suite, resource checks, general static-analysis gates or coverage reporting.
 
 Original 42 evaluation preparation and project-era validation evidence remain
@@ -499,8 +509,9 @@ mandatory manual test matrix.
 Historical PASS results are evidence of the original project validation, not
 claims that the current baseline is automatically revalidated.
 
-Automated regression testing, resource-oriented automation and any future
-general static-analysis gates remain separate modernization work.
+CI integration for the maintained regression suite, resource-oriented
+automation and any future general static-analysis gates remain separate
+modernization work.
 
 ## Current Scope and Limitations
 
