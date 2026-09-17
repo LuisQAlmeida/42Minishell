@@ -139,6 +139,9 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
+test: $(NAME)
+	@bash tests/regression.sh
+
 clean:
 	@if [ -f "$(LIBFT_DIR)/Makefile" ]; then \
 		$(MAKE) -C $(LIBFT_DIR) clean; \
@@ -153,4 +156,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re check-libft libft-build
+.PHONY: all test clean fclean re check-libft libft-build

@@ -14,6 +14,17 @@ Historical project-era results remain preserved separately under
 
 ## How to Use This Guide
 
+For source changes affecting deterministic shell behaviour, run the maintained
+non-interactive regression suite first:
+
+```bash
+make test
+```
+
+Use the manual checks below for interactive behaviour, signals, resource
+inspection and focused validation that is not represented in the automated
+suite.
+
 Choose validation proportional to the change.
 
 A documentation-only pull request does not require an interactive Minishell

@@ -73,7 +73,9 @@ The current Makefile does not define a `test` target.
 
 ### 3. Behavioural Validation
 
-Shell behaviour currently requires manual validation.
+Shell behaviour is validated through a combination of maintained
+non-interactive regression tests and manual validation for behaviours that
+depend on a real terminal or resource inspection.
 
 Relevant areas include:
 
@@ -92,11 +94,13 @@ Relevant areas include:
 - signals;
 - shell-state persistence.
 
-The maintained strategy does not describe these behaviours as automatically
-covered.
+The maintained strategy does not describe all of these behaviours as
+automatically covered.
 
-Representative manual checks should be selected according to the subsystem
-changed and recorded as validation evidence.
+The regression suite under `tests/` covers a deterministic non-interactive
+subset. Representative manual checks should still be selected for interactive,
+signal-sensitive or otherwise uncovered behaviour and recorded as validation
+evidence.
 
 Historical test matrices may be consulted for useful scenarios, but executing
 a current check is distinct from citing a historical result.
@@ -142,21 +146,28 @@ For the maintained ownership model, see:
 
 ### 5. Automated Regression Validation
 
-A maintained automated regression suite is not currently implemented.
+The repository includes a maintained local non-interactive behavioural
+regression suite under `tests/`.
+
+The suite is executed with:
+
+```bash
+make test
+```
+
+It verifies deterministic shell behaviour by comparing normalized stdout,
+stderr and process status in an isolated temporary environment.
+
+Interactive terminal behaviour remains manual.
 
 There is currently:
 
-- no repository `tests/` directory;
-- no executable Minishell test script;
-- no Makefile `test` target;
-- no automated behavioural regression job;
+- no behavioural regression job in CI;
 - no automated Valgrind or file-descriptor job;
 - no coverage reporting.
 
-These are testing gaps, not implicit capabilities.
-
-Automation can be introduced through later dedicated workstreams without
-rewriting historical evidence as if it were executable coverage.
+Historical validation evidence remains separate from executable regression
+coverage.
 
 ## Validation by Change Type
 
@@ -314,15 +325,13 @@ validated.
 
 ## Known Gaps and Future Automation
 
-The current repository still lacks automated regression coverage.
+The repository now has maintained local non-interactive behavioural regression
+coverage.
 
 Future testing work may consider:
 
-- executable behavioural regression tests;
-- reusable fixtures and expected-output comparisons;
-- non-interactive cases where shell semantics allow reliable automation;
 - dedicated interactive testing where terminal behaviour matters;
-- CI integration for maintained regression tests;
+- CI integration for the maintained regression suite;
 - automated resource checks where results can be interpreted reliably;
 - coverage reporting where it provides useful engineering information.
 
