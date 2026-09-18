@@ -22,7 +22,7 @@ The maintained repository currently has:
 | Memory validation | Manual, using Valgrind where relevant |
 | File-descriptor validation | Manual, using Valgrind `--track-fds=yes` where relevant |
 | Automated regression tests | Available locally through `make test` |
-| Automated behavioural tests in CI | Not implemented |
+| Automated behavioural tests in CI | Automated through `CI / regression` |
 | Static-analysis automation | Not implemented |
 | Coverage reporting | Not implemented |
 

@@ -124,8 +124,7 @@ The maintained repository now includes:
 
 Further work may include:
 
-- CI integration for the maintained behavioural regression suite and broader
-  quality automation;
+- resource-oriented and broader quality automation;
 - additional static-analysis automation where future evidence justifies it.
 
 Historical material remains available under [`history/`](history/) as evidence

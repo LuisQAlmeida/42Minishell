@@ -160,9 +160,11 @@ stderr and process status in an isolated temporary environment.
 
 Interactive terminal behaviour remains manual.
 
+The same maintained suite is executed automatically through
+`CI / regression` on pull requests and pushes to `main`.
+
 There is currently:
 
-- no behavioural regression job in CI;
 - no automated Valgrind or file-descriptor job;
 - no coverage reporting.
 
@@ -229,7 +231,6 @@ compiler-diversity validation.
 
 It does not currently run:
 
-- behavioural regression tests;
 - Norminette;
 - Valgrind;
 - file-descriptor checks;
@@ -331,7 +332,6 @@ coverage.
 Future testing work may consider:
 
 - dedicated interactive testing where terminal behaviour matters;
-- CI integration for the maintained regression suite;
 - automated resource checks where results can be interpreted reliably;
 - coverage reporting where it provides useful engineering information.
 

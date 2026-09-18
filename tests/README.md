@@ -40,6 +40,15 @@ The suite uses a controlled environment and a temporary working directory so
 tests do not depend on the developer's HOME, PATH contents or repository-local
 fixtures.
 
+## Continuous Integration
+
+GitHub Actions executes the same maintained suite through the dedicated
+`CI / regression` job on pull requests and pushes to `main`.
+
+The CI job keeps behavioural regression results separate from reference-build,
+compiler-diversity and documentation checks so failures remain easy to
+interpret.
+
 ## Output Normalization
 
 Readline prints the Minishell prompt and echoes redirected input even when the
