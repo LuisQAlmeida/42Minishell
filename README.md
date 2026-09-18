@@ -720,3 +720,7 @@ conflated with authorship of the original collaborative implementation.
 
 This repository is distributed under the terms of the
 [MIT License](LICENSE).
+
+Original project authorship and collaboration are documented in the
+[academic project record](docs/academic/README.md) and preserved through the
+repository's Git history.
