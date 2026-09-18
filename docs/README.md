@@ -10,6 +10,7 @@ artifacts.
 
 | Area | Purpose | Status |
 | --- | --- | --- |
+| [Academic Record](academic/) | Evaluation record, subject provenance, collaboration context and AI-use history | Maintained provenance |
 | [Architecture](architecture/) | Current system structure, runtime flows and subsystem relationships | Active documentation domain |
 | [Engineering Decisions](decisions/) | Significant technical decisions and Architecture Decision Records | Active documentation domain |
 | [Development](development/) | Current contribution, maintenance and repository workflow | Active documentation domain |
@@ -26,6 +27,7 @@ The repository separates maintained documentation from historical material:
 
 ```text
 docs/
+├── academic/       maintained academic provenance
 ├── architecture/   current system design
 ├── decisions/      accepted engineering decisions
 ├── development/    current development workflow

@@ -7,6 +7,30 @@
 > An interactive Unix shell written in C, exploring command processing,
 > process orchestration, pipelines, redirections, environment state and signals.
 
+> **42 Common Core:** 100/100 · Subject v10.0 · [Academic record & evaluation](docs/academic/README.md)
+>
+> **Historical baseline:** [`portfolio-baseline-2026-08`](https://github.com/LuisQAlmeida/42Minishell/tree/portfolio-baseline-2026-08) · repository state before professional portfolio modernization
+
+## Table of Contents
+
+- [At a Glance](#at-a-glance)
+- [Overview](#overview)
+- [Architecture](#architecture)
+- [Core Data Model](#core-data-model)
+- [Features](#features)
+- [Project Structure](#project-structure)
+- [Build](#build)
+- [Example Session](#example-session)
+- [Engineering Highlights](#engineering-highlights)
+- [Testing and Validation](#testing-and-validation)
+- [Current Scope and Limitations](#current-scope-and-limitations)
+- [Documentation](#documentation)
+- [Contributing](#contributing)
+- [Project History](#project-history)
+- [Future Evolution](#future-evolution)
+- [AI Usage](#ai-usage)
+- [License](#license)
+
 ## At a Glance
 
 | | |
@@ -553,7 +577,7 @@ The maintained documentation includes:
 - contribution, CI and quality-tooling guidance;
 - API and resource-ownership documentation;
 - historical project and evaluation material;
-- the original project subject.
+- maintained academic provenance and the original subject reference.
 
 The maintained API-documentation strategy is defined in
 [`docs/development/api-documentation.md`](docs/development/api-documentation.md).
@@ -643,6 +667,54 @@ than committed requirements.
 
 Future runtime changes should remain issue-driven, validated and clearly
 distinguishable from the original 42 implementation.
+
+## AI Usage
+
+AI assistance was used transparently in two distinct phases of this project.
+
+### Original Academic Development
+
+Minishell was implemented collaboratively by Luís Quental Almeida and João da
+Silva as their 42 Common Core project.
+
+AI-assisted tooling was used during parts of that academic development as a
+support tool for learning, reasoning, planning, validation and debugging.
+
+Its documented role included:
+
+- understanding shell concepts and project requirements;
+- reasoning about architecture and implementation decisions;
+- BMAD-assisted planning and documentation;
+- designing and reviewing tests;
+- investigating expected behaviour and edge cases;
+- debugging implementation paths;
+- reviewing project documentation and organization.
+
+AI suggestions were treated as material to understand, review and validate, not
+as a replacement for implementation ownership or the ability to explain and
+defend the project.
+
+### Portfolio Modernization
+
+AI assistance was used more extensively during the later professional
+modernization of the repository.
+
+It supported work such as:
+
+- systematic code and repository audits;
+- maintainability and resource-ownership review;
+- regression-test design;
+- CI and GitHub workflow planning;
+- dependency-maintenance work;
+- Doxygen and technical-documentation review;
+- repository curation and provenance analysis;
+- portfolio-wide consistency work.
+
+The resulting changes were reviewed against the actual source and validated
+locally and, where applicable, through the maintained regression suite and CI.
+
+This distinction is intentional: later AI-assisted portfolio work should not be
+conflated with authorship of the original collaborative implementation.
 
 ## License
 
