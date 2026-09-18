@@ -22,8 +22,8 @@ The CI baseline answers a focused question:
 Both maintained jobs check one important Makefile invariant: rebuilding an
 unchanged tree must not relink the final executable.
 
-The workflow does not currently claim behavioural test coverage or a general
-static-analysis guarantee.
+The workflow now includes dedicated behavioural regression coverage while
+general static-analysis remains outside the CI baseline.
 
 ## When CI Runs
 
@@ -280,7 +280,6 @@ or general static analysis.
 
 The current workflow does not run:
 
-- the maintained behavioural regression suite;
 - interactive shell tests;
 - signal-behaviour tests;
 - Norminette;
@@ -315,10 +314,12 @@ In particular:
 
 ## Relationship to Quality Automation
 
-The CI baseline now contains two maintained jobs:
+The CI baseline now contains three maintained runtime and build-validation
+jobs:
 
     CI / build
     CI / quality
+    CI / regression
 
 `CI / build` preserves the reference Makefile build through `CC = cc`.
 
@@ -328,13 +329,16 @@ The CI baseline now contains two maintained jobs:
 The quality job provides compiler diversity. It is not the Clang Static
 Analyzer and must not be presented as general static-analysis coverage.
 
+`CI / regression` executes the maintained non-interactive behavioural suite
+through `make test`. A failing regression case therefore fails the dedicated
+status check independently from build and compiler-diversity validation.
+
 The tooling evaluation and selection rationale are documented in:
 
 [`static-analysis.md`](static-analysis.md)
 
-Separate modernization work can still introduce CI integration for the
-maintained regression suite, resource-oriented checks or additional analyzer
-gates where they provide demonstrated value.
+Separate modernization work can still introduce resource-oriented checks or
+additional analyzer gates where they provide demonstrated value.
 
 ## Relationship to Branch Protection
 

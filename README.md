@@ -471,10 +471,10 @@ See:
   file descriptors and repository changes.
 
 The current GitHub Actions workflow provides automated build-integration
-validation on pull requests and pushes to `main`. Both jobs initialize Git
-submodules recursively, verify that the checked-out Libft revision matches the
-superproject Gitlink, reject reintroduction of a bundled root-level `libft/`
-directory and verify repository cleanliness after building.
+validation on pull requests and pushes to `main`. The build and quality jobs initialize Git submodules recursively, verify that
+the checked-out Libft revision matches the superproject Gitlink, reject
+reintroduction of a bundled root-level `libft/` directory and verify repository
+cleanliness after building.
 
 The reference job performs a clean build, verifies the expected executable and
 checks that an unchanged second `make` does not relink it.
@@ -498,8 +498,11 @@ make test
 The suite and its automation boundaries are documented in
 [`tests/README.md`](tests/README.md).
 
-The GitHub Actions workflow does not currently run that behavioural regression
-suite, resource checks, general static-analysis gates or coverage reporting.
+GitHub Actions also runs the maintained behavioural regression suite through
+the dedicated `CI / regression` job.
+
+Interactive terminal behaviour, resource checks, general static-analysis gates
+and coverage reporting remain outside the automated CI coverage.
 
 Original 42 evaluation preparation and project-era validation evidence remain
 preserved under
@@ -509,9 +512,8 @@ mandatory manual test matrix.
 Historical PASS results are evidence of the original project validation, not
 claims that the current baseline is automatically revalidated.
 
-CI integration for the maintained regression suite, resource-oriented
-automation and any future general static-analysis gates remain separate
-modernization work.
+Resource-oriented automation and any future general static-analysis gates
+remain separate modernization work.
 
 ## Current Scope and Limitations
 
