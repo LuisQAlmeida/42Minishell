@@ -17,11 +17,15 @@ description of the current implementation or repository workflow.
 
 ### `original-requirements/`
 
-Project requirements and supporting material from the 42 Porto curriculum.
+Subject provenance for the original 42 Porto Minishell project.
 
-The tracked subject PDF is preserved here as historical project material for
-now. Subject provenance and long-term redistribution policy are handled
-separately from this documentation-curation work.
+The original project used **Minishell subject version 10.0**. The PDF that was
+tracked during the academic project is no longer redistributed from the
+maintained public tree, but remains recoverable through Git history and the
+immutable `portfolio-baseline-2026-08` tag.
+
+Maintained evaluation and subject metadata live under
+[`../academic/`](../academic/).
 
 ### `design/`
 
