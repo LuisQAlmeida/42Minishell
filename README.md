@@ -4,8 +4,8 @@
 
 > Part of my [42 Common Core portfolio](https://github.com/LuisQAlmeida/42Portfolio).
 
-> An interactive Unix shell written in C, exploring command processing,
-> process orchestration, pipelines, redirections, environment state and signals.
+An interactive Unix shell written in C, exploring command processing,
+process orchestration, pipelines, redirections, environment state and signals.
 
 > **42 Common Core:** 100/100 · Subject v10.0 · [Academic record & evaluation](docs/academic/README.md)
 >
@@ -298,10 +298,12 @@ command state.
 
 ```text
 .
-├── include/
-│   └── minishell.h
+├── .github/            # GitHub workflow and repository configuration
+├── docs/               # maintained and historical documentation
 ├── external/
 │   └── libft/          # pinned Git submodule
+├── include/
+│   └── minishell.h
 ├── src/
 │   ├── builtins/
 │   ├── exec/
@@ -312,9 +314,11 @@ command state.
 │   ├── signals/
 │   ├── state/
 │   └── support/
-├── docs/
-├── Makefile
+├── tests/              # maintained behavioural regression suite
+├── CONTRIBUTING.md
+├── Doxyfile
 ├── LICENSE
+├── Makefile
 └── README.md
 ```
 
@@ -329,6 +333,7 @@ command state.
 | `state` | Persistent environment management |
 | `signals` | Context-specific signal policies |
 | `support` | Shared low-level helpers |
+| `tests` | Maintained non-interactive behavioural regression suite |
 | `external/libft` | Pinned external Libft dependency |
 
 ## Build
@@ -388,6 +393,7 @@ Available Make targets:
 
 ```bash
 make
+make test
 make clean
 make fclean
 make re
@@ -534,7 +540,7 @@ preserved under
 mandatory manual test matrix.
 
 Historical PASS results are evidence of the original project validation, not
-claims that the current baseline is automatically revalidated.
+claims that the maintained implementation is automatically revalidated.
 
 Resource-oriented automation and any future general static-analysis gates
 remain separate modernization work.
@@ -544,7 +550,7 @@ remain separate modernization work.
 This implementation focuses on the mandatory 42 minishell scope and is not
 intended to be a complete POSIX shell.
 
-The current baseline does not implement optional syntax such as:
+The maintained implementation does not implement optional syntax such as:
 
 ```text
 &&
@@ -561,7 +567,7 @@ The current implementation writes heredoc body lines to its input pipe
 verbatim.
 
 Environment-variable and `$?` expansion inside heredoc bodies is therefore not
-implemented in this baseline.
+implemented in the maintained implementation.
 
 This behaviour is documented explicitly so that the portfolio describes the
 code as it exists rather than implying functionality that is not present.
@@ -651,19 +657,24 @@ Repository modernization is tracked through
 
 ## Future Evolution
 
-The repository distinguishes explicitly between the preserved historical 42
-project and later maintained development.
+The maintained repository already provides automated non-interactive
+behavioural regression testing locally and through CI.
 
-Post-baseline correctness work identified by the implementation review includes:
+Possible future work may include:
 
-- issue #49 for parent-process redirection recovery;
-- issue #50 for literal-dollar allocation-error propagation.
+- expanding deterministic regression coverage where additional cases provide
+  useful signal;
+- introducing maintainable automation for selected interactive or
+  terminal-dependent behaviour;
+- automating resource-oriented checks where results can be interpreted
+  reliably;
+- evaluating coverage tooling or additional static-analysis gates where they
+  provide demonstrated value;
+- exploring optional post-42 shell features separately from the original
+  mandatory implementation.
 
-These fixes remain distinguishable from the original academic implementation.
-
-Broader automated regression testing, further maintenance improvements and
-optional post-42 technical exploration remain possible future directions rather
-than committed requirements.
+These are possible engineering directions rather than committed project
+requirements.
 
 Future runtime changes should remain issue-driven, validated and clearly
 distinguishable from the original 42 implementation.
